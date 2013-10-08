@@ -4,13 +4,12 @@ var pictureFiles = new Array();
 
 // Wait for device API libraries to load
 //
-document.addEventListener("deviceready",onDeviceReady,false);
 
 // device APIs are available
 //
-function onDeviceReady() {
-    pictureSource=navigator.camera.PictureSourceType;
-    destinationType=navigator.camera.DestinationType;
+window.onload = function(){
+    pictureSource = navigator.camera.PictureSourceType;
+    destinationType = navigator.camera.DestinationType;
 }
 
 // get Photo from Album
