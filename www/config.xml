@@ -112,11 +112,11 @@
 	<!-- PhoneGap Plugins -->
     <gap:plugin name="org.apache.cordova.core.device" />
     <gap:plugin name="org.apache.cordova.core.camera" />
-	<gap:plugin name="org.apache.cordova.core.geolocation" />
+    <gap:plugin name="org.apache.cordova.core.geolocation" />
     <gap:plugin name="org.apache.cordova.core.file" />
     <gap:plugin name="org.apache.cordova.core.media-capture" />
-    <!--
     <gap:plugin name="org.apache.cordova.core.file-transfer" />
+    <!--
     <gap:plugin name="org.apache.cordova.core.contacts" />
     -->
     <gap:plugin name="org.apache.cordova.core.dialogs" />
