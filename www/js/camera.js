@@ -5,10 +5,12 @@ var pictureFiles = [];
 
 // device APIs are available
 //
+/*
 window.onload = function(){
     pictureSource = navigator.camera.PictureSourceType;
     destinationType = navigator.camera.DestinationType;
 }
+*/
 
 // get Photo from Album
 //
@@ -65,8 +67,6 @@ function captureImage() {
     // Launch device camera application,
     // allowing user to capture up to 2 images
     navigator.device.capture.captureImage(captureSuccess, captureError,{limit: 1});
-    alert(pictureSource);
-    alert(destinationType);
 }
 
 // Upload files to server
