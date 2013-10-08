@@ -4,11 +4,11 @@ var pictureFiles = new Array();
 
 // Wait for device API libraries to load
 //
-// document.addEventListener("deviceready",onDeviceReady,false);
+document.addEventListener("deviceready",onDeviceReady,false);
 
 // device APIs are available
 //
-window.onload = function onDeviceReady() {
+function onDeviceReady() {
     pictureSource=navigator.camera.PictureSourceType;
     destinationType=navigator.camera.DestinationType;
 }
@@ -68,7 +68,6 @@ function captureImage() {
     // Launch device camera application,
     // allowing user to capture up to 2 images
     navigator.device.capture.captureImage(captureSuccess, captureError,{limit: 1});
-    alert("captureImage");
 }
 
 // Upload files to server
