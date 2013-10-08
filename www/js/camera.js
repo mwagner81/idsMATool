@@ -1,7 +1,6 @@
 var pictureSource; // picture source
 var destinationType; // sets the format of returned value
-//var pictureFiles = new Array();
-var pictureFiles = [];
+var pictureFiles = new Array();
 
 // Wait for device API libraries to load
 //
@@ -26,28 +25,17 @@ function getPhoto(source) {
 }
 
 function onPhotoURISuccess(imageURI) {
+    jQuery("p#pics").prepend("<img src=\""+ imageURI +"\" />");
+    pictureFiles.push(imageURI);
 }
     
 function captureSuccess(mediaFiles) {
-    var i, len, pPath, pLs, pName;
-    
-    navigator.notification.alert('captureSuccess', null, 'Uh oh!');
-    
-    pLs = localStorage.getItem("pics");
-    
-    if (pLs == null) {
-        pLs = "";
-    }
-    
+    var i, len;
     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
         pPath = mediaFiles[i].fullPath;
-        pName = mediaFiles[i].name;
 
         pictureFiles.push(mediaFiles[i]);
         jQuery("p#pics").prepend("<img src=\""+ pPath +"\" />");
-        
-        localStorage.setItem("pics", pLs+","+pName);
-        
     }
 }
     
@@ -60,9 +48,7 @@ function uploadFiles() {
         uploadFile(pictureFiles[j]);
         jQuery("p#pics img:first-child").remove();
     }
-    
     pictureFiles = [];
-    
     
     if(mesLen>0) {
         setTimeout("alert(\"Es werden "+mesLen+" Bilder hochgeladen\")", 500);
@@ -81,10 +67,7 @@ function captureError(error) {
 function captureImage() {
     // Launch device camera application,
     // allowing user to capture up to 2 images
-    
-    navigator.notification.alert('captureImage', null, 'Uh oh!');
-    //navigator.device.capture.captureImage(captureSuccess, captureError,{limit: 1});
-    navigator.camera.getPicture( captureSuccess, captureError );
+    navigator.device.capture.captureImage(captureSuccess, captureError,{limit: 1});
 }
 
 // Upload files to server
