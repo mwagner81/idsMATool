@@ -966,16 +966,19 @@ jQuery(document).ready(function () {
 
 
 
-window.onload = function(){
-        var options = { timeout: 10000 };
+var watchID = null;
+
+document.addEventListener("deviceready", function(){
+        var options = { enableHighAccuracy: true };
         watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
-}
+}, false);
 
 function onSuccessWatch(position) {
     var element = document.getElementById('geoTest');
-    element.innerHTML = 'Zeit: '      + new Date().getTime()      + '<br />' +
+    element.innerHTML = 'Zeit: '      + position.timestamp      + '<br />' +
                         'Latitude: '  + position.coords.latitude      + '<br />' +
                         'Longitude: ' + position.coords.longitude     + '<br />' +
+                        'Accuracy: '  + position.coords.accuracy  + '<br />' +
                         '<hr />'      + element.innerHTML;
 }
 
