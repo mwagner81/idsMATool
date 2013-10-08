@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/styles.css" />
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.jsonp.js"></script>                
+        <title>Mungos Login</title>
+    </head>
+    <body id="bLogin">
+        <!-- Start of Login page -->
+        <div id="login" data-title="Login">    
+            <div data-role="content">
+                <img src="img/mungosButton.png" id="mungosButton" />
+                <div id="loginError"></div>
+                <form action="index.html" id="loginForm">
+                    <input type="text" placeholder="Name:" id="loginName" name="username" data-role="none" />
+                    <input type="password" placeholder="Passwort:" id="loginPassword" name="password" data-role="none" />
+                    <input type="submit" value="" id="loginSubmit" data-role="none" />
+                </form>
+            </div>
+        </div>       
+        <!-- /page -->
+        <script type="text/javascript" src="phonegap.js"></script>  
+        <script type="text/javascript" src="js/footerScript.js"></script>
+        <script type="text/javascript">
+        	function checkLogin(){
+                // Set key for userData
+                u_key = 'u_' + localStorage.getItem('fe_user');
+                
+                // Load userData
+                var uData = {};
+                
+                if(uData = JSON.parse(localStorage.getItem(u_key))){
+                    if(uData.logged_in == true){
+                        window.location.replace('content.html');
+                    }
+                }
+        	}
+        	checkLogin();
+        </script>   
+    </body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.3.2.css" />
+        <link rel="stylesheet" type="text/css" href="css/styles.css" />
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/jquery.mobile-1.3.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.jsonp.js"></script>                
+        <title>Mungos MA-Tool</title>
+    </head>
+    <body>
+        <!-- Start of Waechter page -->
+        <div id="waechter" data-role="page" data-title="W&auml;chter">   
+            <div data-role="content">
+                <div class="statusBox"> 
+                	<p class="mobility">
+                    	<span><b>Sie sind angemeldet.</b></span>
+                    </p>
+                	<p class="mobility">
+	                    <span><b></b></span>
+                    </p>
+                </div>    
+                <div class="gradientBorderTop"></div>
+                <div id="geolocation" class="blink"></div>
+                <div class="rundgangBox">
+                    <img id="rundgangButtons" src="img/buttons.png" border="0" alt="Startbutton" />
+                    <a href="#" id="start"></a>
+                    <a href="#" id="stop"></a>
+                </div>
+                <div id="formData"></div>
+                <div class="footer" data-role="none" id="fFooter">
+                    <div class="userBar"></div>
+                    <div class="gradientBorderTop"></div>
+                    <div id="progress">
+                        <span class="expand"></span>
+                    </div>
+                    <div id="navigation">
+                        <ul>
+                            <li id="waechterMe" class="wAct"><a href="#waechter" data-transition="fade"><span>Wachdienst</span></a><span class="navVertLineDark"></span></li>
+                            <li id="mobilitaetListMe"><span class="navVertLineBright"></span><a href="#mobilitaetList" data-transition="fade"><span>Mobilit&auml;t</span></a><span class="navVertLineDark"></span></li>
+                            <li id="meldungListMe"><span class="navVertLineBright"></span><a href="#meldungList" data-transition="fade"><span>Meldung</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>       
+        <!-- /page -->
+
+        <!-- Start of Mobilitaetsservice Liste page -->
+        <div id="mobilitaetList" data-role="page" data-title="Mobilit&auml;tsservice &Uuml;bersicht">    
+            <div data-role="content">
+                <div id="mobilitaetListBox">
+                    <div id="deviceTest"></div>
+                    <div id="onlineTest"></div>
+                    <div id="readyTest"></div>
+                    <div id="geoTest"></div>
+					<!--
+                    <p id="startTracking_status"></p>
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                      <label for="track_id">Track ID/Name:</label>
+                      <input type="text" name="track_id" id="track_id" placeholder="Workout ID/Name"/>
+                    </div>
+                    
+                    <button data-role="button" id="startTracking_start">Start Tracking</button>
+                    <button data-role="button" id="startTracking_stop">Stop Tracking</button>  
+                    
+                    <p id="startTracking_info"></p>
+                    <p id="track_info_email"></p>
+                    <p id="track_info_info"></p>                    
+                    -->
+                    
+                	<!--
+                    <a class="mobilitaetButton" href="#mobilitaetDetail" data-transition="slidefade">
+                        <span><b>17:31 Einstiegshilfe</b></span><br />
+                        <span>Zug RJ4547 Datum: 23. 7. 2013</span>
+                        <img src="img/mobilityListArrow.png" />
+                    </a>
+                    <a class="mobilitaetButton" href="#mobilitaetDetail" data-transition="slidefade">
+                        <span><b>19:31 Ausstiegshilfe</b></span><br />
+                        <span>Zug 1345478 Datum: 23. 7. 2013</span>
+                        <img src="img/mobilityListArrow.png" />
+                    </a>
+                    <a class="mobilitaetButton canceled" href="#mobilitaetDetail">
+                        <span><b>19:31 Ausstiegshilfe</b></span><br />
+                        <span>Zug 1345478 Datum: 23. 7. 2013</span>
+                        <img src="img/mBoxCanceled.png" />
+                    </a>
+                    <a class="mobilitaetButton canceled" href="#mobilitaetDetail">
+                        <span><b>21:31 Einstiegshilfe</b></span><br />
+                        <span>Zug AB45478 Datum: 23. 7. 2013</span>
+                        <img src="img/mBoxCanceled.png" />
+                    </a>
+                    <a class="mobilitaetButton" href="#mobilitaetDetail" data-transition="slidefade">
+                        <span><b>17:31 Einstiegshilfe</b></span><br />
+                        <span>Zug RJ45478 Datum: 23. 7. 2013</span>
+                        <img src="img/mobilityListArrow.png" />
+                    </a>
+                    <a class="mobilitaetButton" href="#mobilitaetDetail" data-transition="slidefade">
+                        <span><b>19:31 Ausstiegshilfe</b></span><br />
+                        <span>Zug 1345478 Datum: 23. 7. 2013</span>
+                        <img src="img/mobilityListArrow.png" />
+                    </a>
+                    -->
+                    <!--
+                    <a class="mobilitaetButton" href="#clearDialog" data-rel="dialog" data-transition="slidedown"></a>
+                    <a class="mobilitaetButton"></a>
+                    <a class="mobilitaetButton"></a>   
+                    <a class="mobilitaetButton"></a>   
+                    <a class="mobilitaetButton"></a>   
+                    <a class="mobilitaetButton"></a>   
+                    <a class="mobilitaetButton"></a>            
+                    <a class="mobilitaetButton"></a>   
+                    <a class="mobilitaetButton"></a>   
+                    -->
+                </div>
+            </div>
+            <div id="mobilitaetListBorderBottom"></div>
+        </div>         
+        <!-- /page -->
+
+        <!-- Start of Meldung page -->
+        <div id="meldungList" data-role="page" data-title="Meldung">    
+            <div style="padding: 5px;" data-role="content">
+                <div class="meldungLink">
+                <a id="vandalism" class="meldungButtonD showMeForm"><span class="meldung">Vandalismus</span><img src="img/meldungButtonPlus.png" id="vPlus" /></a> 
+                <div class="meForm" style="display:none" id="vandalismCamera">
+                    <img src="img/takePicButton.png" class="cameraButton" onclick="captureImage();" />
+                    <div id="aufnahmen">Aufnahmen</div>
+                    <p id="pics"></p>
+                    <div class="cameraButtons">
+                        <img src="img/cameraBreak.png" class="cameraBreak" onclick="deleteImage();" />
+                        
+                        <a href="#" class="meldungButtonPic">
+                            <img src="img/cameraSend.png" class="cameraSend" />
+                        </a>
+                    </div>
+                </div>  
+                </div>
+                <div class="meldungLink">
+                <a id="meLf" class="meldungButtonD showMeForm"><span class="meldung">Lost & Found</span><img src="img/meldungButtonPlus.png" id="vPlus2" /></a> 
+                <div class="meForm" style="display:none" id="lostFound">
+                    <p>
+                        <b>Fundgegenst&auml;nde</b>
+                    </p>
+                    <form>
+                        <div class="radioWrap">
+                            <div>
+                                <input type="radio" name="meRadio" class="meRadio" data-role="none" value="Intern" id="Intern" />
+                                <label for="Intern"><span>&Ouml;BB Intern</span></label>
+                            </div>
+                            <div>
+                                <input type="radio" name="meRadio" class="meRadio" data-role="none" value="Extern" id="Extern" />
+                                <label for="Extern"><span>&Ouml;BB Extern</span></label>
+                            </div>
+                        </div>
+                        <br />
+                        <a class="reportButton lF" href="#" data-role="none"></a>
+                        
+                    </form>
+                </div>
+                </div>
+                <div class="meldungLink">
+                <a id="meUe" class="meldungButtonD showMeForm meldungLink">
+                    <span class="meldung">Unangemeldete Einstiegshilfe</span><img src="img/meldungButtonPlus.png" id="vPlus3" />
+                </a>
+                <div class="meForm" style="display:none" id="uaEntryHelp">
+                    <form>
+                        <div class="uEinputWrap">
+                        <b>Zugnummer</b><br />
+                            <input type="text" id="uEzn" data-role="none" placeholder="Hier bitte die Zugnummer eingeben" /><br />
+                            <input type="text" id="uEAz" data-role="none" /> Anzahl Personen
+                        </div>
+                        <div class="uEcheckWrap">
+                            <div>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Hebelift" id="Hebelift" /> <label for="Hebelift"><span>Hebelift</span></label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Bahnrollstuhl" id="Bahnrollstuhl" /> <label for="Bahnrollstuhl"><span>Bahnrollstuhl</span></label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Begleitung" id="Begleitung" /> <label for="Begleitung"><span>Begleitung</span></label>
+                            </div>
+                        </div>
+                        <br />
+                        <a class="reportButton uE" href="#" data-role="none"></a>
+                    </form>
+                </div>  
+                </div>
+                <a id="meAB" class="meldungButton" href="#"><span class="meldung">Aufzugsbefreiung</span><img src="img/meldungButtonRight.png" /></a>   
+                <a id="meGM" class="meldungButton" href="#"><span class="meldung">Gewalt an Mitarbeiter</span><img src="img/meldungButtonRight.png" /></a>   
+                <a id="meED" class="meldungButton" href="#"><span class="meldung">Einbruch / Diebstahl</span><img src="img/meldungButtonRight.png" /></a>   
+                <a id="meBA" class="meldungButton" href="#"><span class="meldung">Beschwerden / Anfragen</span><img src="img/meldungButtonRight.png" /></a>   
+                <a id="meRG" class="meldungButton" href="#"><span class="meldung">Randgruppen</span><img src="img/meldungButtonRight.png" /></a>   
+                <a id="meR" class="meldungButton" href="#"><span class="meldung">Raucherstrafen</span><img src="img/meldungButtonRight.png" /></a>   
+                <a id="meVB" class="meldungButton" href="#"><span class="meldung">Verweise / Belehrung</span><img src="img/meldungButtonRight.png" /></a> 
+            </div>
+        </div>       
+        <!-- /page -->
+        <!-- Start of Meldung dialog -->
+        <div data-role="dialog" id="confirmDialog"  data-overlay-theme="c">
+		<div data-role="header">
+			<h1>Best&auml;tigung</h1>
+		</div>
+		<div data-role="content" class="confContent">
+			<h1>M&ouml;chten Sie die Meldung abschicken?</h1>
+			<a href="#meldungList" data-role="button" class="mConfirm">Abschicken</a>       
+			<a href="#meldungList" data-role="button" class="mBreak">L&ouml;schen</a>    
+		</div>
+	</div>
+        <!-- /dialog -->
+
+        <!-- Start of Mobilitaetsservice Detail page -->
+        <div id="mobilitaetDetail" data-role="page" data-title="Mobilit&auml;tsservice Detail">
+            <div data-role="content" style="padding:10px">
+                    <a class="mobilitaetButton" href="#mobilitaetList" data-transition="slidefade">
+                        <span><b>17:31 Einstiegshilfe</b></span><br />
+                        <span>Zug RJ4547 Datum: 23. 7. 2013</span>
+                    </a>
+                    <div class="mobilitaetDetail">
+                        <p>
+                            <b>Zug: RJ4547</b><br />
+                            von: Linz<br />
+                            nach: Wien<br />
+                            Abfahrtszeit: 17:31<br />
+                            Wagennummer: 32<br />
+                            Treffpunkt: Haupteingang<br />
+                            <br />
+                        </p>
+                        <p>
+                            <b>Personendaten</b><br />
+                            Herr Max Mustermann<br />
+                            0676 853657<br />
+                            Rollstuhlfahrer<br />
+                            Begleitperson<br />
+                            <br />
+                        </p>
+                        <form>
+                            <div class="checkWrap">
+                                <input type="checkbox" data-role="none" class="mLch" /> <span>Nicht durchfÃ¼hrbar</span><br />
+                            </div>
+                            <br />
+                            <a data-role="none" href="#mobilitaetList" data-transition="slidefade"><img src="img/done.png" width="139" /></a>
+                        </form>
+                    </div>
+            </div>
+        </div>         
+        <!-- /page -->
+
+        <!-- Start of Unangemeldeter Mobilitaetsservice Formular page -->
+        <div id="mobilitaetUaForm" data-role="page" data-title="Unangemeldete Einstiegshilfe">    
+            <div class="gradientBorderTop"></div>
+            <div data-role="content">
+                <form>
+                    <fieldset data-role="controlgroup">
+                        <legend>Unangemeldete Einstiegshilfe</legend>
+                    </fieldset>    
+                    <fieldset data-role="controlgroup">
+                        <div data-role="fieldcontain">
+                            <input data-role="none" type="text" name="name" placeholder="Name" id="name" />
+                        </div>
+                        <div data-role="fieldcontain">
+                            <input data-role="none" type="text" name="address" placeholder="Adresse" id="address" />
+                        </div>
+                        <div data-role="fieldcontain">
+                            <input data-role="none" type="text" name="phone" placeholder="Telefonnummer" id="phone" />
+                        </div>
+                    </fieldset>    
+
+                    <fieldset data-role="controlgroup">
+                        <div data-role="fieldcontain">
+                            <input data-role="none" type="text" name="trainNumber" placeholder="Zugnummer" id="trainNumber" />
+                        </div>
+                        <div data-role="fieldcontain">
+                            <select data-role="none">
+                                <option value="1">Wien Westbahnhof [20509]</option>
+                            </select>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <input data-role="none" type="text" name="foreignStation" placeholder="Auslandsbahnhof" id="foreignStation" />
+                        </div>
+                    </fieldset>
+
+                    <fieldset data-role="controlgroup" class="checks">
+                        <legend>Art der Hilfestellung</legend>
+                        <div data-role="fieldcontain">
+                            <label for="entranceHelp">Einstiegshilfe</label>
+                            <input data-role="none" type="checkbox" name="helpType" value="Einstiegshilfe" id="entranceHelp" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="lift">Hebelift</label>
+                            <input data-role="none" type="checkbox" name="helpType" value="Hebelift" id="lift" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="wheelchair">Bahnrollstuhl</label>
+                            <input data-role="none" type="checkbox" name="helpType" value="Bahnrollstuhl" id="wheelchair" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="escort">Begleitperson</label>
+                            <input data-role="none" type="checkbox" name="helpType" value="Begleitperson" id="escort" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="luggage">Reisegep&auml;ck</label>
+                            <input data-role="none" type="checkbox" name="helpType" value="Reisegep&auml;ck" id="luggage" />
+                            <div class="clear"></div>
+                        </div>
+                    </fieldset>   
+                    <fieldset data-role="controlgroup" class="checks">
+                        <legend>Behinderungsart</legend>
+                        <div data-role="fieldcontain">
+                            <label for="blind">Sehbehinderung</label>
+                            <input data-role="none" type="checkbox" name="handicap" value="Sehbehinderung" id="blind" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="limp">Gehbehinderung</label>
+                            <input data-role="none" type="checkbox" name="handicap" value="Gehbehinderung" id="limp" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="wheelchairDriver">Rollstuhlfahrer</label>
+                            <input data-role="none" type="checkbox" name="handicap" value="Rollstuhlfahrer" id="wheelchairDriver" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="eWheelchairDriver">E-Rollstuhlfahrer</label>
+                            <input data-role="none" type="checkbox" name="handicap" value="E-Rollstuhlfahrer" id="eWheelchairDriver" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="buggy">Kinderwagen</label>
+                            <input data-role="none" type="checkbox" name="handicap" value="Kinderwagen" id="buggy" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="invalid">Gebrechliche Person</label>
+                            <input data-role="none" type="checkbox" name="handicap" value="Gebrechliche Person" id="invalid" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="other">Sonstige Behinderung</label>
+                            <input data-role="none" type="checkbox" name="handicap" value="Reisegep&auml;ck" id="other" />
+                            <div class="clear"></div>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <select data-role="none">
+                                <option value="1">Personenanzahl</option>
+                            </select>
+                        </div>
+                    </fieldset>                           
+                    <fieldset data-role="controlgroup">
+                        <div data-role="fieldcontain">
+                            <select data-role="none">
+                                <option value="1">Von wem wurde man verst&auml;ndigt</option>
+                            </select>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <textarea data-role="none"> Anmerkung</textarea>
+                        </div>
+                    </fieldset>   
+                    <fieldset data-role="controlgroup">  
+                        <a name="reset" class="reset" data-rel="back">Abbrechen</a>
+                        <input data-role="none" type="submit" name="name" value="Fertigstellen" class="submit" />
+                    </fieldset>   
+                </form>
+            </div>
+        </div>         
+        <!-- /page --> 
+
+        <!-- Start of Medlung Formular page -->
+        <div id="meldungForm" data-role="page" data-title="Meldung Formular">    
+            <div data-role="header">
+                <h1>Meldung Formular</h1>
+            </div> 
+            <div data-role="content">
+                <p>
+                    <button id="showPermString">Permantent Check</button> 
+                    <button id="clearStorage">Storage l&ouml;schen</button> 
+                </p>
+            </div>
+        </div>       
+        <!-- /page -->
+        <!-- Start of Clear Storage dialog -->
+        <div data-role="dialog" id="clearDialog" data-overlay-theme="c">
+		<div data-role="header">
+			<h1>Best&auml;tigung</h1>
+		</div>
+		<div data-role="content">
+			<h1>M&ouml;chten Sie den Localstorage l&ouml;schen?</h1>    
+			<a href="#" data-role="button" data-rel="back" onclick="localStorage.clear();">L&ouml;schen</a>    
+		</div>
+	</div>
+        <!-- /dialog -->
+        <!-- Start of Logout dialog -->
+        <div data-role="dialog" id="logoutDialog"  data-overlay-theme="c">
+		<div data-role="header">
+			<h1>Best&auml;tigung</h1>
+		</div>
+		<div data-role="content">
+			<h1>M&ouml;chten Sie sich abmelden?</h1>
+			<a href="#" id="userLogout" data-role="button">Abmelden</a>       
+			<a href="#" data-role="button" data-rel="back">Abbrechen</a>    
+		</div>
+	</div>
+        <!-- /dialog -->
+        <!-- Start of Footernavigation page -->
+        <div class="footer" data-role="footer" data-position="fixed" data-id="footer">
+            <div id="userBar" class="userBar"><a href="#logoutDialog" data-rel="dialog" data-transition="slidedown" class="logoutLink"><img src="img/logoutRadio.png" /><span id="user_name">Max Mustermann</span></a></div>
+            <div class="gradientBorderTop"></div>
+            <div id="progress">
+                <span class="expand"></span>
+            </div>
+            <div id="navigation">
+                <ul>
+                    <li id="waechterMe"><a href="#waechter" data-transition="fade"><span>Wachdienst</span></a><span class="navVertLineDark"></span></li>
+                    <li id="mobilitaetListMe"><span class="navVertLineBright"></span><a href="#mobilitaetList" data-transition="fade"><span>Mobilit&auml;t</span></a><span class="navVertLineDark"></span></li>
+                    <li id="meldungListMe"><span class="navVertLineBright"></span><a href="#meldungList" data-transition="fade"><span>Meldung</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /navigation -->
+        <script type="text/javascript" src="phonegap.js"></script>        
+        <script type="text/javascript" src="js/handleCamera.js"></script>
+        <script type="text/javascript" src="js/footerScript.js"></script>
+        <script type="text/javascript" src="js/content.js"></script>
+
+        <!--
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>        
+        -->
+    </body>
+</html>
