@@ -963,3 +963,24 @@ jQuery(document).ready(function () {
         ));
     });
 });
+
+
+
+window.onload = function(){
+        var options = { timeout: 10000 };
+        watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
+}
+
+function onSuccessWatch(position) {
+    var element = document.getElementById('geoTest');
+    element.innerHTML = 'Zeit: '      + new Date().getTime()      + '<br />' +
+                        'Latitude: '  + position.coords.latitude      + '<br />' +
+                        'Longitude: ' + position.coords.longitude     + '<br />' +
+                        '<hr />'      + element.innerHTML;
+}
+
+function onErrorWatch(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+}
+
