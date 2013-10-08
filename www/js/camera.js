@@ -4,11 +4,11 @@ var pictureFiles = new Array();
 
 // Wait for device API libraries to load
 //
-document.addEventListener("deviceready",onDeviceReady,false);
+// document.addEventListener("deviceready",onDeviceReady,false);
 
 // device APIs are available
 //
-function onDeviceReady() {
+window.onload = function onDeviceReady() {
     pictureSource=navigator.camera.PictureSourceType;
     destinationType=navigator.camera.DestinationType;
 }
