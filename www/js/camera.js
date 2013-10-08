@@ -1,16 +1,15 @@
-var pictureSource; // picture source
+var pictureSource = navigator.camera.PictureSourceType; // picture source
 var destinationType; // sets the format of returned value
 var pictureFiles = [];
 
 
 // device APIs are available
 //
-/*
+
 window.onload = function(){
     pictureSource = navigator.camera.PictureSourceType;
     destinationType = navigator.camera.DestinationType;
 }
-*/
 
 // get Photo from Album
 //
