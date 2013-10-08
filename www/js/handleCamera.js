@@ -1,6 +1,5 @@
 var pictureSource; // picture source
 var destinationType; // sets the format of returned value
-//var pictureFiles = new Array();
 var pictureFiles = [];
 
 // Wait for device API libraries to load
@@ -82,9 +81,9 @@ function captureImage() {
     // Launch device camera application,
     // allowing user to capture up to 2 images
     
-    navigator.notification.alert('captureImage', null, 'Uh oh!');
-    //navigator.device.capture.captureImage(captureSuccess, captureError,{limit: 1});
-    navigator.camera.getPicture( captureSuccess, captureError );
+    //navigator.notification.alert('captureImage', null, 'Uh oh!');
+    navigator.device.capture.captureImage(captureSuccess, captureError,{limit: 1});
+    //navigator.camera.getPicture( captureSuccess, captureError );
 }
 
 // Upload files to server
