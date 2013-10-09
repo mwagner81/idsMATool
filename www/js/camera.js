@@ -33,9 +33,8 @@ function captureSuccess(mediaFiles) {
     var i, len, pPath;
     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
         pPath = mediaFiles[i].fullPath;
-        alert(pPath);
+        jQuery("p#pics").prepend(pPath +", ");
         pictureFiles.push(mediaFiles[i]);
-        jQuery("p#pics").prepend("<img src=\""+ pPath +"\" />");
     }
 }
     

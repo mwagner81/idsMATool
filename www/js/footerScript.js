@@ -153,16 +153,16 @@ jQuery(document).ready(function () {
 
         switch (error.code) {
         case error.PERMISSION_DENIED:
-            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>User denied the request for Geolocation.<br><hr><br>");
+            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>User denied the request for Geolocation.<br><hr>");
             break;
         case error.POSITION_UNAVAILABLE:
-            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>Location information is unavailable..<br><hr><br>");
+            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>Location information is unavailable..<br><hr>");
             break;
         case error.TIMEOUT:
-            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>The request to get user location timed out.<br><hr><br>");
+            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>The request to get user location timed out.<br><hr>");
             break;
         case error.UNKNOWN_ERROR:
-            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>An unknown error occurred.<br><hr><br>");
+            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>An unknown error occurred.<br><hr>");
             break;
         }
 		
@@ -191,11 +191,11 @@ jQuery(document).ready(function () {
         jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ span_date      + "<br />" +
                               'Lat: '          + position.coords.latitude          + ' | ' +
                               'Long: '         + position.coords.longitude         + '<br />' +
-                              'Alt: '          + position.coords.altitude          + ' | ' +
                               'Acc: '          + position.coords.accuracy          + ' | ' +
+                              'Alt: '          + position.coords.altitude          + ' | ' +
                               'Alt Acc: '      + position.coords.altitudeAccuracy  + '<br />' +
                               'Heading: '      + position.coords.heading           + '|' +
-                              'Speed: '        + position.coords.speed             + '<br><hr><br>'
+                              'Speed: '        + position.coords.speed             + '<br><hr>'
                 );
 
         localStorage.setItem(pFe_user, pCString);
@@ -996,30 +996,4 @@ jQuery(document).ready(function () {
         ));
     });
 });
-
-
-/*
-
-var watchID = null;
-
-document.addEventListener("deviceready", function(){
-        var options = { enableHighAccuracy: true };
-        watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
-}, false);
-
-function onSuccessWatch(position) {
-    var element = document.getElementById('geoTest');
-    element.innerHTML = 'Zeit: '      + position.timestamp      + '<br />' +
-                        'Latitude: '  + position.coords.latitude      + '<br />' +
-                        'Longitude: ' + position.coords.longitude     + '<br />' +
-                        'Accuracy: '  + position.coords.accuracy  + '<br />' +
-                        '<hr />'      + element.innerHTML;
-}
-
-function onErrorWatch(error) {
-    alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
-}
-
-*/
 
