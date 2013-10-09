@@ -37,11 +37,11 @@ function captureSuccess(mediaFiles) {
         pictureFiles.push(mediaFiles[i]);
     }
 }
+
+var mesLen = pictureFiles.length;
     
 function uploadFiles() {
-    var j, leng;
-    
-    mesLen = pictureFiles.length;
+    var j;
     
     alert("uploadFiles");
  

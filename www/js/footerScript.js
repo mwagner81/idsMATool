@@ -550,8 +550,6 @@ jQuery(document).ready(function () {
     }
 
     function newMeldung(feUser,mString){
-        
-        alert("newMeldung");
     
         consoleLog('debug', "Create new Stoerungsmeldung / Start");
         
@@ -931,10 +929,9 @@ jQuery(document).ready(function () {
     
     jQuery(".mConfirm").on('click',function () {
         
-            uploadFiles();
-            
-            alert("mConfirm");
-        
+            if(mesLen>0) {
+                uploadFiles();
+            }
             // Set key for Meldung
             m_key = 'm_' + localStorage.getItem("fe_user");   
 
