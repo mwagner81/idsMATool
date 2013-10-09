@@ -827,7 +827,7 @@ jQuery(document).ready(function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         
-        var options = { enableHighAccuracy: true };
+        var options = { enableHighAccuracy: true, maximumAge:10000 };
         
         navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError, options);
 
