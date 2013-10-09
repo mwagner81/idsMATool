@@ -1,6 +1,6 @@
-var pictureSource = navigator.camera.PictureSourceType; // picture source
+var pictureSource; // picture source
 var destinationType; // sets the format of returned value
-var pictureFiles = [];
+var pictureFiles = new Array();
 
 // Wait for device API libraries to load
 //
@@ -30,20 +30,19 @@ function onPhotoURISuccess(imageURI) {
 }
     
 function captureSuccess(mediaFiles) {
-    var i, len, pPath;
+    var i, len;
     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
         pPath = mediaFiles[i].fullPath;
-        jQuery("p#pics").prepend("<img style='border:1px solid #444; width: 60px; height: 60px' src='" + pPath +"' />");
+
         pictureFiles.push(mediaFiles[i]);
+        jQuery("p#pics").prepend("<img src=\""+ pPath +"\" />");
     }
 }
-
-var mesLen = pictureFiles.length;
     
 function uploadFiles() {
-    var j;
+    var j, leng;
     
-    alert("uploadFiles");
+    mesLen = pictureFiles.length;
  
     for (j = 0, leng = pictureFiles.length; j < leng; j += 1) {
         uploadFile(pictureFiles[j]);
@@ -68,13 +67,11 @@ function captureError(error) {
 function captureImage() {
     // Launch device camera application,
     // allowing user to capture up to 2 images
-    navigator.device.capture.captureImage(captureSuccess, captureError,{limit:1});
+    navigator.device.capture.captureImage(captureSuccess, captureError,{limit: 1});
 }
 
 // Upload files to server
 function uploadFile(mediaFile) {
-    
-    alert("uploadFile");
     
     var ft = new FileTransfer(),
     path = mediaFile.fullPath,

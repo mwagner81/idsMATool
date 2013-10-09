@@ -929,9 +929,8 @@ jQuery(document).ready(function () {
     
     jQuery(".mConfirm").on('click',function () {
         
-            if(mesLen>0) {
-                uploadFiles();
-            }
+            uploadFiles();
+            
             // Set key for Meldung
             m_key = 'm_' + localStorage.getItem("fe_user");   
 
