@@ -179,7 +179,14 @@ jQuery(document).ready(function () {
 
 	consoleLog('debug', 'permstring =>' + pCString);
         
-        jQuery("#permaCheck").append(pCString+"<br><hr><br>");
+        var d = new Date();
+        //console.log(getTime() + " setGeoData r_key => " + r_key);
+
+        var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();        
+        
+        jQuery("#permaCheck").append("Zeit:"+ span_date      + "<br />" +
+                        "Latitude: "  + position.coords.latitude      + "<br />" +
+                        "Longitude: " + position.coords.longitude     + "<br />");
 
         localStorage.setItem(pFe_user, pCString);
     }
