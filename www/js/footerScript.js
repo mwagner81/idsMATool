@@ -138,12 +138,21 @@ jQuery(document).ready(function () {
         }
     }
 
+
     function onGeoError(error) {
         
         var d, m, msg;
         
         d = new Date();
         m = d.getMonth() + 1;
+        
+
+        //console.log(getTime() + " setGeoData r_key => " + r_key);
+
+        var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>';        
+
+        jQuery("#permaCheck").append("<h3>Error</h3>"+ span_date      + "<br />"
+            );
         
 		/*
         switch (error.code) {
@@ -182,11 +191,12 @@ jQuery(document).ready(function () {
         var d = new Date();
         //console.log(getTime() + " setGeoData r_key => " + r_key);
 
-        var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();        
+        var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
         
-        jQuery("#permaCheck").append("Zeit:"+ span_date      + "<br />" +
+        jQuery("#permaCheck").append("<h3>Success</h3>"+ span_date      + "<br />" +
                         "Latitude: "  + position.coords.latitude      + "<br />" +
-                        "Longitude: " + position.coords.longitude     + "<br />");
+                        "Longitude: " + position.coords.longitude     + "<br />"
+                );
 
         localStorage.setItem(pFe_user, pCString);
     }
