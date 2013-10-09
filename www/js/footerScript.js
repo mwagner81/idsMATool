@@ -80,11 +80,11 @@ jQuery(document).ready(function () {
     var u_key, r_key, pFe_user, pCString, nr, rg, oRundgang, r_uid, m_key, x, permCheck, debug, timer;
 
 	// Options for Geocoding
-    var gOptions = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
+//    var gOptions = {
+//        enableHighAccuracy: true,
+//        timeout: 5000,
+//        maximumAge: 0
+//    };
 
     if (localStorage.getItem("fe_user")) {
         // Set key for userData
@@ -205,7 +205,7 @@ jQuery(document).ready(function () {
     
     function getPCurGeoData() {
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:0 };        
+        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:120000 };        
 
         pWatchId = navigator.geolocation.watchPosition(onPermGeoDataSuccess, onGeoError, options);
         
@@ -849,7 +849,7 @@ jQuery(document).ready(function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:0 };
+        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:120000 };
         
         watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
         
