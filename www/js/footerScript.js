@@ -166,6 +166,7 @@ jQuery(document).ready(function () {
     }
     
     function onPermGeoDataSuccess(position) {
+        
         permCheck = '{ "datetime" : ' + new Date().getTime() + ', "lat" : ' + position.coords.latitude + ', "lng" : ' + position.coords.longitude + ' }, ';
 		
         pCString = localStorage.getItem(pFe_user);
@@ -176,13 +177,19 @@ jQuery(document).ready(function () {
         
         pCString = pCString + permCheck;
 
-	    consoleLog('debug', 'permstring =>' + pCString);
+	consoleLog('debug', 'permstring =>' + pCString);
+        
+        jQuery("#permaCheck").append(pCString+"<br><hr><br>");
 
         localStorage.setItem(pFe_user, pCString);
     }
     
     function getPCurGeoData() {
-        navigator.geolocation.getCurrentPosition(onPermGeoDataSuccess, onGeoError);
+        
+        var options = { enableHighAccuracy: true };        
+
+        navigator.geolocation.getCurrentPosition(onPermGeoDataSuccess, onGeoError, options);
+        
         timer = window.setTimeout(getPCurGeoData, 300000);
         //timer = window.setTimeout(getPCurGeoData, 10000);		
     }
