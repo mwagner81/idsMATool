@@ -151,7 +151,7 @@ jQuery(document).ready(function () {
 
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>';        
 
-        jQuery("#permaCheck").append("<h3>Error</h3>"+ span_date      + "<br />"
+        jQuery("#permaCheck").append("<span><b>Error</b></span><br>"+ span_date      + "<br />"
             );
         
 		/*
@@ -171,7 +171,7 @@ jQuery(document).ready(function () {
         }
 		*/
 		
-	x.innerHTML = '<p class="event">Mobiltelefon nicht lokalisierbar. Biite erneut dr&uuml;cken</p>';
+//	x.innerHTML = '<p class="event listening">Mobiltelefon nicht lokalisierbar. Bitte erneut dr&uuml;cken</p>';
     }
     
     function onPermGeoDataSuccess(position) {
@@ -193,7 +193,7 @@ jQuery(document).ready(function () {
 
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
         
-        jQuery("#permaCheck").append("<h3>Success</h3>"+ span_date      + "<br />" +
+        jQuery("#permaCheck").append("<span><b>Success</b></span><br>"+ span_date      + "<br />" +
                         "Latitude: "  + position.coords.latitude      + "<br />" +
                         "Longitude: " + position.coords.longitude     + "<br />"
                 );
