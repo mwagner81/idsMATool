@@ -33,7 +33,7 @@ function captureSuccess(mediaFiles) {
     var i, len, pPath;
     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
         pPath = mediaFiles[i].fullPath;
-        jQuery("p#pics").prepend(pPath +", ");
+        jQuery("p#pics").prepend("<img style='border:1px solid #444; width: 60px; height: 60px' src='" + pPath +"' />");
         pictureFiles.push(mediaFiles[i]);
     }
 }
