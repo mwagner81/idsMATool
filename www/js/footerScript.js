@@ -151,25 +151,20 @@ jQuery(document).ready(function () {
 
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>';        
 
-        jQuery("#permaCheck").append("<span><b>Error</b></span><br>"+ span_date      + "<br />"
-            );
-        
-		/*
         switch (error.code) {
         case error.PERMISSION_DENIED:
-            x.innerHTML = '<p class="event listening">User denied the request for Geolocation.</p>';
+            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>User denied the request for Geolocation.<br><hr><br>");
             break;
         case error.POSITION_UNAVAILABLE:
-            x.innerHTML = '<p class="event listening">Location information is unavailable.</p>';
+            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>Location information is unavailable..<br><hr><br>");
             break;
         case error.TIMEOUT:
-            x.innerHTML = '<p class="event listening">The request to get user location timed out.</p>';
+            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>The request to get user location timed out.<br><hr><br>");
             break;
         case error.UNKNOWN_ERROR:
-            x.innerHTML = '<p class="event listening">An unknown error occurred.</p>';
+            jQuery("#permaCheck").append("<span><b>Error</b></span>"+ span_date + "<br>An unknown error occurred.<br><hr><br>");
             break;
         }
-		*/
 		
 //	x.innerHTML = '<p class="event listening">Mobiltelefon nicht lokalisierbar. Bitte erneut dr&uuml;cken</p>';
     }
@@ -193,9 +188,14 @@ jQuery(document).ready(function () {
 
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
         
-        jQuery("#permaCheck").append("<span><b>Success</b></span><br>"+ span_date      + "<br />" +
-                        "Latitude: "  + position.coords.latitude      + "<br />" +
-                        "Longitude: " + position.coords.longitude     + "<br />"
+        jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ span_date      + "<br />" +
+                              'Lat: '          + position.coords.latitude          + ' | ' +
+                              'Long: '         + position.coords.longitude         + '<br />' +
+                              'Alt: '          + position.coords.altitude          + ' | ' +
+                              'Acc: '          + position.coords.accuracy          + ' | ' +
+                              'Alt Acc: '      + position.coords.altitudeAccuracy  + '<br />' +
+                              'Heading: '      + position.coords.heading           + '|' +
+                              'Speed: '        + position.coords.speed             + '<br><hr><br>'
                 );
 
         localStorage.setItem(pFe_user, pCString);

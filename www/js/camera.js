@@ -30,10 +30,10 @@ function onPhotoURISuccess(imageURI) {
 }
     
 function captureSuccess(mediaFiles) {
-    var i, len;
+    var i, len, pPath;
     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
         pPath = mediaFiles[i].fullPath;
-
+        alert(pPath);
         pictureFiles.push(mediaFiles[i]);
         jQuery("p#pics").prepend("<img src=\""+ pPath +"\" />");
     }
