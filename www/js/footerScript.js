@@ -827,9 +827,9 @@ jQuery(document).ready(function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         
-        var options = { enableHighAccuracy: true, maximumAge:10000 };
+        var options = { enableHighAccuracy: true, timeout: 5000, maximumAge:10000 };
         
-        navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError, options);
+        navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
 
         //consoleLog('debug', "a#start r_key => " + r_key);
         
