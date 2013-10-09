@@ -236,7 +236,7 @@ jQuery(document).ready(function () {
             Rundgang.id = rg;
             Rundgang.checkString = [];
             Rundgang.checkString.push(check);
-			Rundgang.permString = localStorage.getItem(pFe_user);
+            Rundgang.permString = localStorage.getItem(pFe_user);
             Rundgang.start = new Date().getTime();
             Rundgang.ende = 0;
             
@@ -826,7 +826,10 @@ jQuery(document).ready(function () {
     jQuery("a#start").on('click', function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
-        navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError);
+        
+        var options = { enableHighAccuracy: true };
+        
+        navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError, options);
 
         //consoleLog('debug', "a#start r_key => " + r_key);
         
@@ -972,6 +975,7 @@ jQuery(document).ready(function () {
 });
 
 
+/*
 
 var watchID = null;
 
@@ -993,4 +997,6 @@ function onErrorWatch(error) {
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
 }
+
+*/
 
