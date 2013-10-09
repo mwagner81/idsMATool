@@ -42,6 +42,8 @@ function uploadFiles() {
     var j, leng;
     
     mesLen = pictureFiles.length;
+    
+    alert("uploadFiles");
  
     for (j = 0, leng = pictureFiles.length; j < leng; j += 1) {
         uploadFile(pictureFiles[j]);
@@ -71,6 +73,8 @@ function captureImage() {
 
 // Upload files to server
 function uploadFile(mediaFile) {
+    
+    alert("uploadFile");
     
     var ft = new FileTransfer(),
     path = mediaFile.fullPath,
