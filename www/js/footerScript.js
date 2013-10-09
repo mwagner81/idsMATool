@@ -162,7 +162,7 @@ jQuery(document).ready(function () {
         }
 		*/
 		
-		alert('geoError' + error);
+	x.innerHTML = '<p class="event">Mobiltelefon nicht lokalisierbar. Biite erneut dr&uuml;cken</p>';
     }
     
     function onPermGeoDataSuccess(position) {
@@ -186,11 +186,12 @@ jQuery(document).ready(function () {
     
     function getPCurGeoData() {
         
-        var options = { enableHighAccuracy: true };        
+        var options = { enableHighAccuracy: true, timeout: 60000, maximumAge:10000 };        
 
-        navigator.geolocation.getCurrentPosition(onPermGeoDataSuccess, onGeoError, options);
+        navigator.geolocation.watchPosition(onPermGeoDataSuccess, onGeoError, options);
         
         timer = window.setTimeout(getPCurGeoData, 300000);
+        
         //timer = window.setTimeout(getPCurGeoData, 10000);		
     }
     
@@ -827,9 +828,10 @@ jQuery(document).ready(function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         
-        var options = { enableHighAccuracy: true, timeout: 50000, maximumAge:10000 };
+        var options = { enableHighAccuracy: true, timeout: 120000, maximumAge:10000 };
         
-        navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
+        navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError, options);
+        
 
         //consoleLog('debug', "a#start r_key => " + r_key);
         
