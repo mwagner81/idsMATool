@@ -203,11 +203,11 @@ jQuery(document).ready(function () {
     
     function getPCurGeoData() {
         
-        var options = { enableHighAccuracy: true, timeout: 60000, maximumAge:10000 };        
+        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:10000 };        
 
         navigator.geolocation.watchPosition(onPermGeoDataSuccess, onGeoError, options);
         
-        timer = window.setTimeout(getPCurGeoData, 300000);
+        // timer = window.setTimeout(getPCurGeoData, 300000);
         
         //timer = window.setTimeout(getPCurGeoData, 10000);		
     }
@@ -246,8 +246,8 @@ jQuery(document).ready(function () {
         
         if (nr == 0) {
 
-			/* Start auto geocoding */
-			getPCurGeoData();
+            /* Start auto geocoding */
+            getPCurGeoData();
 		
             /* Create new Rundgang */
             Rundgang = {};
