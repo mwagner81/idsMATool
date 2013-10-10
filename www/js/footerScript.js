@@ -237,6 +237,8 @@ jQuery(document).ready(function () {
     // Wachdienst/Rundgang Start
     function onStartSuccess(position) {
         
+        clearInterval(activeRundgang);
+        
         //        navigator.geolocation.clearWatch(watchId);
 
         var d, m, patrol, check, span_text, span_date, json, Rundgang;
@@ -883,7 +885,12 @@ jQuery(document).ready(function () {
             getPCurGeoData()
         }, 5000);
         
-    // watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
+        var activeRundgang = setInterval(function() {
+            navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError, options);
+            x.innerHTML = '<p class="event listening">Suche gestartet</p>';
+        }, 5000);        
+        
+     
         
 
     //consoleLog('debug', "a#start r_key => " + r_key);
