@@ -565,6 +565,8 @@ jQuery(document).ready(function () {
     }
 
     function newMeldung(feUser,mString){
+        
+        alert("newMeldung: "+mString);
     
         consoleLog('debug', "Create new Stoerungsmeldung / Start");
         
@@ -957,6 +959,8 @@ jQuery(document).ready(function () {
         
         function saveMeldung() {
                 
+            alert("saveMeldung: "+localStorage.getItem(m_key));    
+                
             uploadFiles();
 
             // Set key for Meldung
@@ -967,9 +971,7 @@ jQuery(document).ready(function () {
             jQuery(".meForm").each(function(){
                 jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
             });
-            
         }
-        
     });
     
     jQuery(".mBreak").on('click', function () {
@@ -1031,5 +1033,5 @@ jQuery(document).ready(function () {
 
 jQuery("#shlc").click(function(){
     var m_key = 'm_' + localStorage.getItem("fe_user");
-    alert(localStorage.getItem(m_key));
+    alert("Localstorage: "+localStorage.getItem(m_key));
 });
