@@ -1028,3 +1028,8 @@ jQuery(document).ready(function () {
     });
 });
 
+
+jQuery("#shlc").click(function(){
+    var m_key = 'm_' + localStorage.getItem("fe_user");
+    alert(localStorage.getItem(m_key));
+});
