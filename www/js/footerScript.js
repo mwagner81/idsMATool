@@ -63,7 +63,7 @@ document.addEventListener("deviceready", function(){
     'Device Version: '  + device.version  + '<br />';    
 }, false);
 
-
+ 
 function getLogTime() {
     
     var d, time;
