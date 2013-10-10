@@ -207,7 +207,7 @@ jQuery(document).ready(function () {
     function getPCurGeoData() {
         
         var options = {
-            enableHighAccuracy: false, 
+            enableHighAccuracy: true, 
             timeout: 10000, 
             maximumAge:120000
         };        
@@ -226,7 +226,7 @@ jQuery(document).ready(function () {
         d = new Date();
 
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span> ';        
-        jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br><hr>");
+        jQuery("#permaCheck").append("<span><b>Permanent Error</b></span> "+ span_date + "<br><hr>");
     }    
     
     // Wachdienst/Rundgang Start
