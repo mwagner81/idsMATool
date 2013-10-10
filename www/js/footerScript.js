@@ -207,7 +207,7 @@ jQuery(document).ready(function () {
     function getPCurGeoData() {
         
         var options = {
-            enableHighAccuracy: true, 
+            enableHighAccuracy: false, 
             timeout: 10000, 
             maximumAge:120000
         };        
@@ -858,7 +858,7 @@ jQuery(document).ready(function () {
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         
         var options = {
-            enableHighAccuracy: true, 
+            enableHighAccuracy: false, 
             timeout: 10000, 
             maximumAge:120000
         };
