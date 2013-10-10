@@ -938,10 +938,6 @@ jQuery(document).ready(function () {
         
         var mDateTime, mString, position, mPos, mPics;        
         
-        var mOptions = {
-            timeout: 5000
-        };
-        
         navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoMerror, mOptions);   
         
         // set Meldungsstring in Localstorage    
