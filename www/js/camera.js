@@ -45,7 +45,7 @@ function captureSuccess(mediaFiles) {
         pictureFiles.push(mediaFiles[i]);
         jQuery("p#pics").prepend("<img src=\""+ pPath +"\" />");
         
-        localStorage.setItem("pics", pLs+","+pName);
+        localStorage.setItem("pics", pLs+pName+",");
     }
 }
     
