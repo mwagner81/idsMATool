@@ -30,12 +30,22 @@ function onPhotoURISuccess(imageURI) {
 }
     
 function captureSuccess(mediaFiles) {
-    var i, len;
+    var i, len, pPath, pName, pLs;
+    
+    pLs = localStorage.getItem("pics");
+    
+    if (pLs == null) {
+        pLs = "";
+    }
+    
     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
         pPath = mediaFiles[i].fullPath;
+        pName = mediaFiles[i].name;
 
         pictureFiles.push(mediaFiles[i]);
         jQuery("p#pics").prepend("<img src=\""+ pPath +"\" />");
+        
+        localStorage.setItem("pics", pLs+","+pName);
     }
 }
     
