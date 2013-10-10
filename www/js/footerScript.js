@@ -205,7 +205,7 @@ jQuery(document).ready(function () {
     
     function getPCurGeoData() {
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:0};        
+        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:60000};        
 
         pWatchId = navigator.geolocation.watchPosition(onPermGeoDataSuccess, onGeoError, options);
         
@@ -849,7 +849,7 @@ jQuery(document).ready(function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:0 };
+        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:60000 };
         
         watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
         
