@@ -212,12 +212,22 @@ jQuery(document).ready(function () {
             maximumAge:120000
         };        
 
-        pWatchId = navigator.geolocation.watchPosition(onPermGeoDataSuccess, onGeoError, options);
+        pWatchId = navigator.geolocation.watchPosition(onPermGeoDataSuccess, getPCurGeoError, options);
         
     // timer = window.setTimeout(getPCurGeoData, 300000);
         
     //timer = window.setTimeout(getPCurGeoData, 10000);		
     }
+    
+    function getPCurGeoError(error) {
+        
+        var d;
+        
+        d = new Date();
+
+        var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span> ';        
+        jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br><hr>");
+    }    
     
     // Wachdienst/Rundgang Start
     function onStartSuccess(position) {

@@ -5,14 +5,14 @@
 /*************************************/
 
 .in  {
-	-webkit-animation-duration: 10ms;
-	-moz-animation-duration: 10ms;
-	animation-duration: 10ms;
+	-webkit-animation-duration: 0ms;
+	-moz-animation-duration: 0ms;
+	animation-duration: 0ms;
 }
 .out {
-	-webkit-animation-duration: 10ms;
-	-moz-animation-duration: 10ms;
-	animation-duration: 10ms;
+	-webkit-animation-duration: 0ms;
+	-moz-animation-duration: 0ms;
+	animation-duration: 0ms;
 }
 
 .ui-mobile-viewport {
