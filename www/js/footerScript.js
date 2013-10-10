@@ -938,7 +938,7 @@ jQuery(document).ready(function () {
         
         var mDateTime, mString, position, mPos, mPics;        
         
-        navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError);   
+        navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoMError);   
         
         // set Meldungsstring in Localstorage    
         function saveLocalMeldung(position){
@@ -971,6 +971,10 @@ jQuery(document).ready(function () {
             jQuery(".meForm").each(function(){
                 jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
             });
+        }
+        
+        function onGeoMError(){
+            alert("Geolokalisierung zur Speicherung der Meldung nicht möglich!");
         }
     });
     
