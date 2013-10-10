@@ -144,13 +144,14 @@ jQuery(document).ready(function () {
         var d, m, msg;
         
         d = new Date();
-        m = d.getMonth() + 1;
         
 
         //console.log(getTime() + " setGeoData r_key => " + r_key);
 
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>';        
+        jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br><hr>");
 
+/*
         switch (error.code) {
             case error.PERMISSION_DENIED:
                 jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>User denied the request for Geolocation.<br><hr>");
@@ -165,7 +166,7 @@ jQuery(document).ready(function () {
                 jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>An unknown error occurred.<br><hr>");
                 break;
         }
-		
+*/		
     //	x.innerHTML = '<p class="event listening">Mobiltelefon nicht lokalisierbar. Bitte erneut dr&uuml;cken</p>';
     }
     
