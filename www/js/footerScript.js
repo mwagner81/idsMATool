@@ -205,7 +205,7 @@ jQuery(document).ready(function () {
     
     function getPCurGeoData() {
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:120000 };        
+        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:120000, frequency: 3000 };        
 
         pWatchId = navigator.geolocation.watchPosition(onPermGeoDataSuccess, onGeoError, options);
         
