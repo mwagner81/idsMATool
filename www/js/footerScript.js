@@ -862,6 +862,8 @@ jQuery(document).ready(function () {
             maximumAge:120000
         };
         
+        getPCurGeoData();
+        
     // watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
         
 
