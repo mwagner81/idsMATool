@@ -52,15 +52,15 @@ document.addEventListener("offline",  function(){
 }, false);
 
 document.addEventListener("deviceready", function(){
-	document.getElementById('readyTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>deviceready</span>";
+    document.getElementById('readyTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>deviceready</span>";
 
     var element = document.getElementById('deviceTest');
     element.innerHTML = 'Device Name: '     + device.name     + '<br />' +
-                        'Device Cordova: '  + device.cordova  + '<br />' +
-                        'Device Platform: ' + device.platform + '<br />' +
-                        'Device UUID: '     + device.uuid     + '<br />' +
-                        'Device Model: '    + device.model    + '<br />' +
-                        'Device Version: '  + device.version  + '<br />';    
+    'Device Cordova: '  + device.cordova  + '<br />' +
+    'Device Platform: ' + device.platform + '<br />' +
+    'Device UUID: '     + device.uuid     + '<br />' +
+    'Device Model: '    + device.model    + '<br />' +
+    'Device Version: '  + device.version  + '<br />';    
 }, false);
 
 
@@ -79,12 +79,12 @@ jQuery(document).ready(function () {
     /* GLOBAL VARS */
     var u_key, r_key, pFe_user, pCString, nr, rg, oRundgang, r_uid, m_key, x, permCheck, debug, timer;
 
-	// Options for Geocoding
-//    var gOptions = {
-//        enableHighAccuracy: true,
-//        timeout: 5000,
-//        maximumAge: 0
-//    };
+    // Options for Geocoding
+    //    var gOptions = {
+    //        enableHighAccuracy: true,
+    //        timeout: 5000,
+    //        maximumAge: 0
+    //    };
 
     if (localStorage.getItem("fe_user")) {
         // Set key for userData
@@ -119,21 +119,21 @@ jQuery(document).ready(function () {
         if (debug) {
             
             switch (type) {
-            case "debug":
-                console.debug(output);
-                break;
-            case "info":
-                console.info(output);
-                break;
-            case "warn":
-                console.warn(output);
-                break;
-            case "error":
-                console.error(output);
-                break;
-            default:
-                console.log(output);
-                break;
+                case "debug":
+                    console.debug(output);
+                    break;
+                case "info":
+                    console.info(output);
+                    break;
+                case "warn":
+                    console.warn(output);
+                    break;
+                case "error":
+                    console.error(output);
+                    break;
+                default:
+                    console.log(output);
+                    break;
             }
         }
     }
@@ -152,21 +152,21 @@ jQuery(document).ready(function () {
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>';        
 
         switch (error.code) {
-        case error.PERMISSION_DENIED:
-            jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>User denied the request for Geolocation.<br><hr>");
-            break;
-        case error.POSITION_UNAVAILABLE:
-            jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>Location information is unavailable..<br><hr>");
-            break;
-        case error.TIMEOUT:
-            jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>The request to get user location timed out.<br><hr>");
-            break;
-        case error.UNKNOWN_ERROR:
-            jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>An unknown error occurred.<br><hr>");
-            break;
+            case error.PERMISSION_DENIED:
+                jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>User denied the request for Geolocation.<br><hr>");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>Location information is unavailable..<br><hr>");
+                break;
+            case error.TIMEOUT:
+                jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>The request to get user location timed out.<br><hr>");
+                break;
+            case error.UNKNOWN_ERROR:
+                jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br>An unknown error occurred.<br><hr>");
+                break;
         }
 		
-//	x.innerHTML = '<p class="event listening">Mobiltelefon nicht lokalisierbar. Bitte erneut dr&uuml;cken</p>';
+    //	x.innerHTML = '<p class="event listening">Mobiltelefon nicht lokalisierbar. Bitte erneut dr&uuml;cken</p>';
     }
     
     function onPermGeoDataSuccess(position) {
@@ -181,7 +181,7 @@ jQuery(document).ready(function () {
         
         pCString = pCString + permCheck;
 
-	consoleLog('debug', 'permstring =>' + pCString);
+        consoleLog('debug', 'permstring =>' + pCString);
         
         var d = new Date();
         //console.log(getTime() + " setGeoData r_key => " + r_key);
@@ -189,14 +189,14 @@ jQuery(document).ready(function () {
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
         
         jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ span_date      + "<br />" +
-                              'Lat: '          + position.coords.latitude          + ' | ' +
-                              'Long: '         + position.coords.longitude         + '<br />' +
-                              'Acc: '          + position.coords.accuracy          + ' | ' +
-                              'Alt: '          + position.coords.altitude          + ' | ' +
-                              'Alt Acc: '      + position.coords.altitudeAccuracy  + '<br />' +
-                              'Heading: '      + position.coords.heading           + '|' +
-                              'Speed: '        + position.coords.speed             + '<br><hr>'
-                );
+            'Lat: '          + position.coords.latitude          + ' | ' +
+            'Long: '         + position.coords.longitude         + '<br />' +
+            'Acc: '          + position.coords.accuracy          + ' | ' +
+            'Alt: '          + position.coords.altitude          + ' | ' +
+            'Alt Acc: '      + position.coords.altitudeAccuracy  + '<br />' +
+            'Heading: '      + position.coords.heading           + '|' +
+            'Speed: '        + position.coords.speed             + '<br><hr>'
+            );
 
         localStorage.setItem(pFe_user, pCString);
     }
@@ -205,19 +205,23 @@ jQuery(document).ready(function () {
     
     function getPCurGeoData() {
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:120000};        
+        var options = {
+            enableHighAccuracy: true, 
+            timeout: 10000, 
+            maximumAge:120000
+        };        
 
         pWatchId = navigator.geolocation.watchPosition(onPermGeoDataSuccess, onGeoError, options);
         
-        // timer = window.setTimeout(getPCurGeoData, 300000);
+    // timer = window.setTimeout(getPCurGeoData, 300000);
         
-        //timer = window.setTimeout(getPCurGeoData, 10000);		
+    //timer = window.setTimeout(getPCurGeoData, 10000);		
     }
     
-	// Wachdienst/Rundgang Start
+    // Wachdienst/Rundgang Start
     function onStartSuccess(position) {
         
-//        navigator.geolocation.clearWatch(watchId);
+        //        navigator.geolocation.clearWatch(watchId);
 
         var d, m, patrol, check, span_text, span_date, json, Rundgang;
 
@@ -286,7 +290,7 @@ jQuery(document).ready(function () {
             
             /* Update Rundgang */
             oRundgang.Wachdienst[rg].checkString.push(check);
-			oRundgang.Wachdienst[rg].permString = localStorage.getItem(pFe_user);
+            oRundgang.Wachdienst[rg].permString = localStorage.getItem(pFe_user);
 			
             consoleLog('debug', "+ Kontrollpunkt");
             consoleLog('debug', oRundgang);
@@ -305,10 +309,10 @@ jQuery(document).ready(function () {
         }
         nr++;
         
-        //x.innerHTML = '<p class="event listening">Latitude: ' + position.coords.latitude + ', Longitude: ' + position.coords.longitude + '</p>';
+    //x.innerHTML = '<p class="event listening">Latitude: ' + position.coords.latitude + ', Longitude: ' + position.coords.longitude + '</p>';
     }
 
-	// Wachdienst/Rundgang Stop    
+    // Wachdienst/Rundgang Stop    
     function onStopSuccess(position) {
 
         var d, m, span_text, span_date, check;
@@ -330,7 +334,7 @@ jQuery(document).ready(function () {
         
         /* Update Rundgang */
         oRundgang.Wachdienst[rg].checkString.push(check);
-		oRundgang.Wachdienst[rg].permString = localStorage.getItem(pFe_user);
+        oRundgang.Wachdienst[rg].permString = localStorage.getItem(pFe_user);
         oRundgang.Wachdienst[rg].ende = new Date().getTime();
         consoleLog('debug', "Rundgang Ende");
         consoleLog('debug', oRundgang);
@@ -360,10 +364,10 @@ jQuery(document).ready(function () {
 
         nr = 0;
         rg++;
-		localStorage.setItem(pFe_user, '');
+        localStorage.setItem(pFe_user, '');
         clearTimeout(timer);
 		
-        //x.innerHTML = "Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude;
+    //x.innerHTML = "Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude;
     }
 
     function newRundgang(rg) {
@@ -379,10 +383,10 @@ jQuery(document).ready(function () {
         oRundgang = JSON.parse(localStorage.getItem(r_key));
         checkString = oRundgang.Wachdienst[rg].checkString;
 		
-		permString = oRundgang.Wachdienst[rg].permString;
+        permString = oRundgang.Wachdienst[rg].permString;
         
         if(permString != undefined){
-		  permString = permString.slice(0,-2);
+            permString = permString.slice(0,-2);
         }
     
         for (i = 0; i < checkString.length; i++) {
@@ -442,7 +446,7 @@ jQuery(document).ready(function () {
             }
         });
         
-        /*
+    /*
         return jQuery.ajax({
             type: 'POST',
             url: url,
@@ -474,10 +478,10 @@ jQuery(document).ready(function () {
         oRundgang = {};
         oRundgang = JSON.parse(localStorage.getItem(r_key));
         checkString = oRundgang.Wachdienst[rg].checkString;
-		permString = oRundgang.Wachdienst[rg].permString;
+        permString = oRundgang.Wachdienst[rg].permString;
         
         if(permString != undefined) {
-		  permString = permString.slice(0, -2);
+            permString = permString.slice(0, -2);
         }
 		    
         separator = '';
@@ -556,7 +560,7 @@ jQuery(document).ready(function () {
         var hmac, d, m, data, mDateTime, mPosition, mMeldung, url, request, jqxhr, uid, jmString, mPics, pData, mAddition;
         var m_key = 'm_' + localStorage.getItem("fe_user");
             
-//      hmac = 'a:3:{s:19:"newStoerungsmeldung";a:5:{s:6:"feUser";i:1;s:4:"type";i:1;s:8:"dateTime";i:1;s:7:"geoData";i:1;s:6:"images";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}478da69243a325065f105cd22b43fcbc0c45a50b';
+        //      hmac = 'a:3:{s:19:"newStoerungsmeldung";a:5:{s:6:"feUser";i:1;s:4:"type";i:1;s:8:"dateTime";i:1;s:7:"geoData";i:1;s:6:"images";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}478da69243a325065f105cd22b43fcbc0c45a50b';
         hmac = 'a:3:{s:19:"newStoerungsmeldung";a:6:{s:6:"feUser";i:1;s:4:"type";i:1;s:8:"addition";i:1;s:8:"dateTime";i:1;s:7:"geoData";i:1;s:6:"images";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}3ddd27c6a2cbeafbcbcffd18b4458ff35854b91b';
         
         //mString = '{ "datetime" : "' + mDateTime + '", "position" : "' + mPos + '", "meldung" : "' + mMeldung + '" }';
@@ -591,17 +595,20 @@ jQuery(document).ready(function () {
         };
     
         $.jsonp({
-                url: url,
-                data: data,
-                callbackParameter: 'jsonp_callback',
-                success: function() { 
-                    alert("Meldung erfolgreich");
-                    localStorage.removeItem(m_key);
-                    localStorage.removeItem("pics");                    
-                },
-                error: function(xOptions, textStatus){
-                    alert("Meldung fehlgeschlagen: " + xOptions + " " + textStatus);
-                }
+            url: url,
+            data: data,
+            callbackParameter: 'jsonp_callback',
+            success: function() { 
+                alert("Meldung erfolgreich");
+                localStorage.removeItem(m_key);
+                localStorage.removeItem("pics");                    
+            },
+            error: function(xOptions, textStatus){
+                alert("Meldung fehlgeschlagen: " + xOptions + " " + textStatus);
+                setTimeout(function() {
+                    newMeldung(localStorage.getItem("fe_user"),localStorage.getItem(m_key));
+                }, 30000);
+            }
         });               
         
         return false;
@@ -716,7 +723,7 @@ jQuery(document).ready(function () {
 
     jQuery("#userLogout").on('click', function () {
         
-		var error, url, data, username, password, request, uData;
+        var error, url, data, username, password, request, uData;
         
         error = false;
         url = "http://ma.ids-services.at/index.php";
@@ -795,8 +802,8 @@ jQuery(document).ready(function () {
         if(oRundgang.Wachdienst[rg].ende == 0){
             consoleLog('debug', "Rundgang wurde noch nicht beendet!");
 
-			/* Start/Continue auto geocoding */
-			// getPCurGeoData();            
+            /* Start/Continue auto geocoding */
+            // getPCurGeoData();            
 			
             jQuery(".expand").animate({
                 left: '100%'
@@ -849,14 +856,18 @@ jQuery(document).ready(function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:120000 };
+        var options = {
+            enableHighAccuracy: true, 
+            timeout: 10000, 
+            maximumAge:120000
+        };
         
-        // watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
+    // watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
         
 
-        //consoleLog('debug', "a#start r_key => " + r_key);
+    //consoleLog('debug', "a#start r_key => " + r_key);
         
-        /*        
+    /*        
         jQuery('#progress').addClass("fullwidth").delay(3000).queue(function (next) {
             jQuery(this).removeClass("fullwidth");
             next();
@@ -899,38 +910,45 @@ jQuery(document).ready(function () {
         } else {
             mMeldung = jQuery(this).find("span.meldung").text();
         }
-      
-        // get current Position
-        navigator.geolocation.getCurrentPosition(setMeldung, onGeoError);
+        
         
         // set Meldungsstring in Localstorage
-        function setMeldung(position){
-            
-            d = new Date();
-            m = d.getMonth() + 1;
-			
-            mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
-            mPos = position.coords.latitude + "," + position.coords.longitude;
-            mPics = localStorage.getItem("pics");
-            
-            mString = '[{ "datetime" : "' + mDateTime + '", "position" : "' + mPos + '", "meldung" : "' + mMeldung + '", "pics" : "' + mPics + '", "addition" : "' + mAddition + '" }]';
-  
-            localStorage.setItem(m_key, mString);
+        function setMeldung(){
             
             // opens the confirm dialog
-            jQuery.mobile.changePage("#confirmDialog", { transition: "slidedown", changeHash: false });
+            jQuery.mobile.changePage("#confirmDialog", {
+                transition: "slidedown", 
+                changeHash: false
+            });
             
             // writes the text of the current meldung in the confirm box
-            jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+mMeldung+"\" abschicken?");            
-            
+            jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+mMeldung+"\" abschicken?");     
         }   
-        
     });
+    
+        // set Meldungsstring in Localstorage    
+    function saveLocalMeldung(position){
+            
+        d = new Date();
+        m = d.getMonth() + 1;
+			
+        mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
+        mPos = position.coords.latitude + "," + position.coords.longitude;
+        mPics = localStorage.getItem("pics");
+            
+        mString = '[{ "datetime" : "' + mDateTime + '", "position" : "' + mPos + '", "meldung" : "' + mMeldung + '", "pics" : "' + mPics + '", "addition" : "' + mAddition + '" }]';
+  
+        localStorage.setItem(m_key, mString);            
+    }       
     
     jQuery(".mConfirm").on('click',function () {
         
+        navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError);        
+        
+        setTimeout(function() {
+                
             uploadFiles();
-            
+
             // Set key for Meldung
             m_key = 'm_' + localStorage.getItem("fe_user");   
 
@@ -939,6 +957,9 @@ jQuery(document).ready(function () {
             jQuery(".meForm").each(function(){
                 jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
             });
+            
+        }, 10000);
+        
     });
     
     jQuery(".mBreak").on('click', function () {
@@ -963,7 +984,7 @@ jQuery(document).ready(function () {
             jQuery("#vPlus").attr('src') == 'img/meldungButtonMinus.png'
             ? 'img/meldungButtonPlus.png'
             : 'img/meldungButtonMinus.png'
-        ));
+            ));
     });
 
     jQuery("#meLf").on('click', function () {
@@ -978,7 +999,7 @@ jQuery(document).ready(function () {
             jQuery("#vPlus2").attr('src') == 'img/meldungButtonMinus.png'
             ? 'img/meldungButtonPlus.png'
             : 'img/meldungButtonMinus.png'
-        ));
+            ));
     });
 
     jQuery("#meUe").on('click', function () {
@@ -993,7 +1014,7 @@ jQuery(document).ready(function () {
             jQuery("#vPlus3").attr('src') == 'img/meldungButtonMinus.png'
             ? 'img/meldungButtonPlus.png'
             : 'img/meldungButtonMinus.png'
-        ));
+            ));
     });
 });
 
