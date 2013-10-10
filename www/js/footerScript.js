@@ -869,6 +869,8 @@ jQuery(document).ready(function () {
         }
     }
     
+    var activeRundgang;
+    
     jQuery("a#start").on('click', function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
@@ -886,7 +888,7 @@ jQuery(document).ready(function () {
         }, 5000);
         
         
-        var activeRundgang = setInterval(function() {
+        activeRundgang = setInterval(function() {
             startRundgang()
         }, 5000);        
         
@@ -905,7 +907,10 @@ jQuery(document).ready(function () {
     });
     
     function startRundgang(){
-        x.innerHTML = '<p class="event listening">Suche gestartet</p>';
+        var options = {
+            enableHighAccuracy: true, 
+            timeout: 10000
+        };        
         navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError, options);
     }
 
