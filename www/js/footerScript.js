@@ -205,7 +205,7 @@ jQuery(document).ready(function () {
     
     function getPCurGeoData() {
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:10000};        
+        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:120000};        
 
         pWatchId = navigator.geolocation.watchPosition(onPermGeoDataSuccess, onGeoError, options);
         
@@ -217,7 +217,7 @@ jQuery(document).ready(function () {
 	// Wachdienst/Rundgang Start
     function onStartSuccess(position) {
         
-        navigator.geolocation.clearWatch(watchId);
+//        navigator.geolocation.clearWatch(watchId);
 
         var d, m, patrol, check, span_text, span_date, json, Rundgang;
 
@@ -849,9 +849,9 @@ jQuery(document).ready(function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         
-        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:10000 };
+        var options = { enableHighAccuracy: true, timeout: 10000, maximumAge:120000 };
         
-        watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
+        // watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
         
 
         //consoleLog('debug', "a#start r_key => " + r_key);
