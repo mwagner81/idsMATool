@@ -885,9 +885,9 @@ jQuery(document).ready(function () {
             getPCurGeoData()
         }, 5000);
         
+        
         var activeRundgang = setInterval(function() {
-            navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError, options);
-            x.innerHTML = '<p class="event listening">Suche gestartet</p>';
+            startRundgang()
         }, 5000);        
         
      
@@ -903,6 +903,11 @@ jQuery(document).ready(function () {
         */
 
     });
+    
+    function startRundgang(){
+        x.innerHTML = '<p class="event listening">Suche gestartet</p>';
+        navigator.geolocation.getCurrentPosition(onStartSuccess, onGeoError, options);
+    }
 
     jQuery("a#stop").on('click', function () {
 
