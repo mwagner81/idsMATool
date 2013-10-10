@@ -208,16 +208,21 @@ jQuery(document).ready(function () {
         
         var options = {
             enableHighAccuracy: true, 
-            timeout: 10000, 
-            maximumAge:120000
+            timeout: 10000
         };        
 
-        pWatchId = navigator.geolocation.watchPosition(onPermGeoDataSuccess, getPCurGeoError, options);
+        pWatchId = navigator.geolocation.getCurrentPosition(onPermGeoDataSuccess, getPCurGeoError, options);
         
     // timer = window.setTimeout(getPCurGeoData, 300000);
         
     //timer = window.setTimeout(getPCurGeoData, 10000);		
     }
+    
+    function getPCurGeoDataTimer() {
+        
+        var active = window.setInterval("getPCurGeoData()", 5000);   
+       	
+    }    
     
     function getPCurGeoError(error) {
         
@@ -872,7 +877,9 @@ jQuery(document).ready(function () {
             maximumAge:120000
         };
         
-        getPCurGeoData();
+//        getPCurGeoData();
+        
+        getPCurGeoDataTimer();
         
     // watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
         
@@ -938,7 +945,7 @@ jQuery(document).ready(function () {
         
         var mDateTime, mString, position, mPos, mPics;        
         
-        navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoMerror, mOptions);   
+        navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError);   
         
         // set Meldungsstring in Localstorage    
         function saveLocalMeldung(position){
@@ -971,10 +978,6 @@ jQuery(document).ready(function () {
             jQuery(".meForm").each(function(){
                 jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
             });
-        }
-        
-        function onGeoMerror(){
-            alert("Geolokalisierung zur Speicherung der Meldung nicht möglich!");
         }
     });
     
@@ -1032,10 +1035,4 @@ jQuery(document).ready(function () {
             : 'img/meldungButtonMinus.png'
             ));
     });
-});
-
-
-jQuery("#shlc").click(function(){
-    var m_key = 'm_' + localStorage.getItem("fe_user");
-    alert("Localstorage: "+localStorage.getItem(m_key));
 });
