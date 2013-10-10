@@ -616,9 +616,6 @@ jQuery(document).ready(function () {
             },
             error: function(xOptions, textStatus){
                 alert("Meldung fehlgeschlagen: " + xOptions + " " + textStatus);
-                setTimeout(function() {
-                    newMeldung(localStorage.getItem("fe_user"),localStorage.getItem(m_key));
-                }, 30000);
             }
         });               
         
