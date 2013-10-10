@@ -914,18 +914,15 @@ jQuery(document).ready(function () {
         }
         
         
-        // set Meldungsstring in Localstorage
-        function setMeldung(){
+        // opens the confirm dialog
+        jQuery.mobile.changePage("#confirmDialog", {
+            transition: "slidedown", 
+            changeHash: false
+        });
             
-            // opens the confirm dialog
-            jQuery.mobile.changePage("#confirmDialog", {
-                transition: "slidedown", 
-                changeHash: false
-            });
-            
-            // writes the text of the current meldung in the confirm box
-            jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+mMeldung+"\" abschicken?");     
-        }   
+        // writes the text of the current meldung in the confirm box
+        jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+mMeldung+"\" abschicken?");     
+        
     });
     
         // set Meldungsstring in Localstorage    
