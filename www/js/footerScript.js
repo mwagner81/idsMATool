@@ -202,6 +202,12 @@ jQuery(document).ready(function () {
         localStorage.setItem(pFe_user, pCString);
     }
     
+    function getPCurGeoDataTimer() {
+        
+        var active = window.setInterval("getPCurGeoData()", 5000);   
+       	
+    }    
+    
     var pWatchId, watchId;
     
     function getPCurGeoData() {
@@ -217,12 +223,6 @@ jQuery(document).ready(function () {
         
     //timer = window.setTimeout(getPCurGeoData, 10000);		
     }
-    
-    function getPCurGeoDataTimer() {
-        
-        var active = window.setInterval("getPCurGeoData()", 5000);   
-       	
-    }    
     
     function getPCurGeoError(error) {
         
@@ -870,16 +870,18 @@ jQuery(document).ready(function () {
     jQuery("a#start").on('click', function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
-        
+/*        
         var options = {
             enableHighAccuracy: false, 
             timeout: 10000, 
             maximumAge:120000
         };
-        
+*/        
 //        getPCurGeoData();
-        
-        getPCurGeoDataTimer();
+       
+        var active = setInterval(function() {
+            getPCurGeoData()
+        }, 5000);
         
     // watchId = navigator.geolocation.watchPosition(onStartSuccess, onGeoError, options);
         
