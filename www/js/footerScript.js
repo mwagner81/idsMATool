@@ -889,7 +889,7 @@ jQuery(document).ready(function () {
     jQuery(".meldungButton, .meldungButtonPic, .lF, .uE").on('click', function () {
             
         // set global Variables
-        var mDateTime, mString, position, mMeldung, mPos, mPics, mAddition;      
+        var mMeldung, mAddition;      
         
         // get clicked Medlung
         
@@ -925,27 +925,32 @@ jQuery(document).ready(function () {
         jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+mMeldung+"\" abschicken?");     
         
     });
-    
-        // set Meldungsstring in Localstorage    
-    function saveLocalMeldung(position){
-            
-        d = new Date();
-        m = d.getMonth() + 1;
-			
-        mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
-        mPos = position.coords.latitude + "," + position.coords.longitude;
-        mPics = localStorage.getItem("pics");
-            
-        mString = '[{ "datetime" : "' + mDateTime + '", "position" : "' + mPos + '", "meldung" : "' + mMeldung + '", "pics" : "' + mPics + '", "addition" : "' + mAddition + '" }]';
-  
-        localStorage.setItem(m_key, mString);            
-    }       
+         
     
     jQuery(".mConfirm").on('click',function () {
         
-        navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError);        
+        var mDateTime, mString, position, mMeldung, mPos, mPics, mAddition;        
         
-        setTimeout(function() {
+        navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError);   
+        
+        // set Meldungsstring in Localstorage    
+        function saveLocalMeldung(position){
+
+            d = new Date();
+            m = d.getMonth() + 1;
+
+            mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
+            mPos = position.coords.latitude + "," + position.coords.longitude;
+            mPics = localStorage.getItem("pics");
+
+            mString = '[{ "datetime" : "' + mDateTime + '", "position" : "' + mPos + '", "meldung" : "' + mMeldung + '", "pics" : "' + mPics + '", "addition" : "' + mAddition + '" }]';
+
+            localStorage.setItem(m_key, mString);    
+            
+            saveMeldung();
+        }  
+        
+        function saveMeldung() {
                 
             uploadFiles();
 
@@ -958,7 +963,7 @@ jQuery(document).ready(function () {
                 jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
             });
             
-        }, 10000);
+        }
         
     });
     
