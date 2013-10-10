@@ -886,12 +886,10 @@ jQuery(document).ready(function () {
 
     });
     
+    // set global Variables
+    var mMeldung, mAddition;      
+    
     jQuery(".meldungButton, .meldungButtonPic, .lF, .uE").on('click', function () {
-            
-        // set global Variables
-        var mMeldung, mAddition;      
-        
-        // get clicked Medlung
         
         if(jQuery(this).hasClass("meldungButtonPic")) {
             mMeldung = "Vandalismus";
@@ -929,7 +927,7 @@ jQuery(document).ready(function () {
     
     jQuery(".mConfirm").on('click',function () {
         
-        var mDateTime, mString, position, mMeldung, mPos, mPics, mAddition;        
+        var mDateTime, mString, position, mPos, mPics;        
         
         navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError);   
         
