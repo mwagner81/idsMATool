@@ -200,13 +200,7 @@ jQuery(document).ready(function () {
             );
 
         localStorage.setItem(pFe_user, pCString);
-    }
-    
-    function getPCurGeoDataTimer() {
-        
-        var active = window.setInterval("getPCurGeoData()", 5000);   
-       	
-    }    
+    } 
     
     var pWatchId, watchId;
     
@@ -237,7 +231,7 @@ jQuery(document).ready(function () {
     // Wachdienst/Rundgang Start
     function onStartSuccess(position) {
         
-        clearInterval(activeRundgang);
+        clearInterval(manuellRundgang);
         
         //        navigator.geolocation.clearWatch(watchId);
 
@@ -332,6 +326,8 @@ jQuery(document).ready(function () {
 
     // Wachdienst/Rundgang Stop    
     function onStopSuccess(position) {
+        
+        clearInterval(permanentRundgang);
 
         var d, m, span_text, span_date, check;
 
@@ -869,7 +865,7 @@ jQuery(document).ready(function () {
         }
     }
     
-    var activeRundgang;
+    var manuellRundgang, permanentRundgang;
     
     jQuery("a#start").on('click', function () {
 
@@ -883,12 +879,12 @@ jQuery(document).ready(function () {
 */        
 //        getPCurGeoData();
        
-        var active = setInterval(function() {
+        permanentRundgang = setInterval(function() {
             getPCurGeoData()
         }, 5000);
         
         
-        activeRundgang = setInterval(function() {
+        manuellRundgang = setInterval(function() {
             startRundgang()
         }, 5000);        
         
