@@ -1,91 +1,14 @@
-/*jslint node: true */
-// "use strict";
-
-// Wait for device API libraries to load
-//
-//document.addEventListener("deviceready", deviceIsReady, false);
-
-// device APIs are available
-//
-
-/*
-window.onload = function () {
-    var element = document.getElementById('deviceTest');
-    element.innerHTML = 'Device Name: '     + device.name     + '<br />' +
-                        'Device Cordova: '  + device.cordova  + '<br />' +
-                        'Device Platform: ' + device.platform + '<br />' +
-                        'Device UUID: '     + device.uuid     + '<br />' +
-                        'Device Model: '    + device.model    + '<br />' +
-                        'Device Version: '  + device.version  + '<br />';
-
-    // onSuccess Callback
-    //
-    var onSuccess = function (position) {
-		var geo = document.getElementById('geoTest');		
-        geo.innerHTML += 'Latitude: '          + position.coords.latitude          + '<br />' +
-                              'Longitude: '         + position.coords.longitude         + '<br />' +
-                              'Altitude: '          + position.coords.altitude          + '<br />' +
-                              'Accuracy: '          + position.coords.accuracy          + '<br />' +
-                              'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '<br />' +
-                              'Heading: '           + position.coords.heading           + '<br />' +
-                              'Speed: '             + position.coords.speed             + '<br />' +
-                              'Timestamp: '         + position.timestamp                + '<br />';
-    };
-
-    // onError Callback
-    //
-    var onError = function() {
-        alert('onError!');
-    };
-
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
-*/
-
-document.addEventListener("online",  function(){
-    document.getElementById('onlineTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>Online</span>";
-}, false);
-
-
-document.addEventListener("offline",  function(){
-    document.getElementById('onlineTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:red'>Offline</span>";
-}, false);
-
-document.addEventListener("deviceready", function(){
-    document.getElementById('readyTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>deviceready</span>";
-
-    var element = document.getElementById('deviceTest');
-    element.innerHTML = 'Device Name: '     + device.name     + '<br />' +
-    'Device Cordova: '  + device.cordova  + '<br />' +
-    'Device Platform: ' + device.platform + '<br />' +
-    'Device UUID: '     + device.uuid     + '<br />' +
-    'Device Model: '    + device.model    + '<br />' +
-    'Device Version: '  + device.version  + '<br />';    
-}, false);
-
- 
-function getLogTime() {
-    
-    var d, time;
-    d = new Date();
-    time = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ':' + d.getMilliseconds();
-    
-    return time;
-}
-
-
 jQuery(document).ready(function () {
-    
-    /* GLOBAL VARS */
-    var m_key;
-
-    if (localStorage.getItem("fe_user")) {
+	
+		// set global Variables
+    var mMeldung, mAddition, m_key;
+		
+		if (localStorage.getItem("fe_user")) {
         // Set key for Meldung
         m_key = 'm_' + localStorage.getItem("fe_user");
-    } 
-
-
-    function newMeldung(feUser,mString){
+    }
+	
+		function newMeldung(feUser,mString){
         
         alert("newMeldung: "+mString);
     
@@ -145,9 +68,67 @@ jQuery(document).ready(function () {
         return false;
         
     }
+		
+		function newMeldung(feUser,mString){
+        
+        alert("newMeldung: "+mString);
     
-    // set global Variables
-    var mMeldung, mAddition;      
+        consoleLog('debug', "Create new Stoerungsmeldung / Start");
+        
+        var hmac, d, m, data, mDateTime, mPosition, mMeldung, url, request, jqxhr, uid, jmString, mPics, pData, mAddition;
+        var m_key = 'm_' + localStorage.getItem("fe_user");
+            
+        //      hmac = 'a:3:{s:19:"newStoerungsmeldung";a:5:{s:6:"feUser";i:1;s:4:"type";i:1;s:8:"dateTime";i:1;s:7:"geoData";i:1;s:6:"images";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}478da69243a325065f105cd22b43fcbc0c45a50b';
+        hmac = 'a:3:{s:19:"newStoerungsmeldung";a:6:{s:6:"feUser";i:1;s:4:"type";i:1;s:8:"addition";i:1;s:8:"dateTime";i:1;s:7:"geoData";i:1;s:6:"images";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}3ddd27c6a2cbeafbcbcffd18b4458ff35854b91b';
+        
+        //mString = '{ "datetime" : "' + mDateTime + '", "position" : "' + mPos + '", "meldung" : "' + mMeldung + '" }';
+        
+        jmString = JSON.parse(mString);
+        
+        mDateTime = jmString[0]["datetime"];
+        mPosition = jmString[0]["position"];
+        mMeldung = jmString[0].meldung;
+        mPics = jmString[0].pics;
+        mAddition = jmString[0].addition;
+        
+    
+        url = "http://ma.ids-services.at/index.php";
+    
+        data = {
+            'id': 229,
+            'no_cache': 1,
+            'type': 97,
+            'tx_mungosstoerung_mungosstoerung[action]': "create",
+            'tx_mungosstoerung_mungosstoerung[controller]': "Stoerungsmeldung",
+            'tx_mungosstoerung_mungosstoerung[__referrer][extensionName]': "MungosStoerung",
+            'tx_mungosstoerung_mungosstoerung[__referrer][controllerName]': "Stoerungsmeldung",
+            'tx_mungosstoerung_mungosstoerung[__referrer][actionName]': "new",
+            'tx_mungosstoerung_mungosstoerung[newStoerungsmeldung][feUser]': feUser,
+            'tx_mungosstoerung_mungosstoerung[newStoerungsmeldung][dateTime]': mDateTime,
+            'tx_mungosstoerung_mungosstoerung[newStoerungsmeldung][geoData]': mPosition,
+            'tx_mungosstoerung_mungosstoerung[newStoerungsmeldung][type]': mMeldung,   
+            'tx_mungosstoerung_mungosstoerung[newStoerungsmeldung][images]': mPics, 
+            'tx_mungosstoerung_mungosstoerung[newStoerungsmeldung][addition]': mAddition, 
+            'tx_mungosstoerung_mungosstoerung[__hmac]': hmac
+        };
+    
+        $.jsonp({
+            url: url,
+            data: data,
+            callbackParameter: 'jsonp_callback',
+            success: function() { 
+                alert("Meldung erfolgreich");
+                localStorage.removeItem(m_key);
+                localStorage.removeItem("pics");                    
+            },
+            error: function(xOptions, textStatus){
+                alert("Meldung fehlgeschlagen: " + xOptions + " " + textStatus);
+            }
+        });               
+        
+        return false;
+        
+    }		      
     
     jQuery(".meldungButton, .meldungButtonPic, .lF, .uE").on('click', function () {
         
@@ -202,7 +183,6 @@ jQuery(document).ready(function () {
             mPics = localStorage.getItem("pics");
 
             mString = '[{ "datetime" : "' + mDateTime + '", "position" : "' + mPos + '", "meldung" : "' + mMeldung + '", "pics" : "' + mPics + '", "addition" : "' + mAddition + '" }]';
-
 
             localStorage.setItem(m_key, mString);    
             

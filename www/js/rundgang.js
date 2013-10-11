@@ -1,93 +1,12 @@
-
-/*jslint node: true */
-// "use strict";
-
-// Wait for device API libraries to load
-//
-//document.addEventListener("deviceready", deviceIsReady, false);
-
-// device APIs are available
-//
-
-/*
-window.onload = function () {
-    var element = document.getElementById('deviceTest');
-    element.innerHTML = 'Device Name: '     + device.name     + '<br />' +
-                        'Device Cordova: '  + device.cordova  + '<br />' +
-                        'Device Platform: ' + device.platform + '<br />' +
-                        'Device UUID: '     + device.uuid     + '<br />' +
-                        'Device Model: '    + device.model    + '<br />' +
-                        'Device Version: '  + device.version  + '<br />';
-
-    // onSuccess Callback
-    //
-    var onSuccess = function (position) {
-		var geo = document.getElementById('geoTest');		
-        geo.innerHTML += 'Latitude: '          + position.coords.latitude          + '<br />' +
-                              'Longitude: '         + position.coords.longitude         + '<br />' +
-                              'Altitude: '          + position.coords.altitude          + '<br />' +
-                              'Accuracy: '          + position.coords.accuracy          + '<br />' +
-                              'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '<br />' +
-                              'Heading: '           + position.coords.heading           + '<br />' +
-                              'Speed: '             + position.coords.speed             + '<br />' +
-                              'Timestamp: '         + position.timestamp                + '<br />';
-    };
-
-    // onError Callback
-    //
-    var onError = function() {
-        alert('onError!');
-    };
-
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
-*/
-
-document.addEventListener("online",  function(){
-    document.getElementById('onlineTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>Online</span>";
-}, false);
-
-
-document.addEventListener("offline",  function(){
-    document.getElementById('onlineTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:red'>Offline</span>";
-}, false);
-
-document.addEventListener("deviceready", function(){
-    document.getElementById('readyTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>deviceready</span>";
-
-    var element = document.getElementById('deviceTest');
-    element.innerHTML = 'Device Name: '     + device.name     + '<br />' +
-    'Device Cordova: '  + device.cordova  + '<br />' +
-    'Device Platform: ' + device.platform + '<br />' +
-    'Device UUID: '     + device.uuid     + '<br />' +
-    'Device Model: '    + device.model    + '<br />' +
-    'Device Version: '  + device.version  + '<br />';    
-}, false);
-
- 
-function getLogTime() {
-    
-    var d, time;
-    d = new Date();
-    time = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ':' + d.getMilliseconds();
-    
-    return time;
-}
-
-
 jQuery(document).ready(function () {
-    
-    /* GLOBAL VARS */
-    var r_key, pFe_user, pCString, nr, rg, oRundgang, r_uid, x, permCheck;
-
-    if (localStorage.getItem("fe_user")) {
+		if (localStorage.getItem("fe_user")) {
         // Set key for Rundgang
         r_key = 'r_' + localStorage.getItem("fe_user");
         // Set key for PermaGeo
         pFe_user = "p_" + localStorage.getItem("fe_user");
     }
 		
-		// Rundgang counter
+    // Rundgang counter
     rg = 0;
     // Kontrollpunkt counter
     nr = 0;
@@ -96,6 +15,13 @@ jQuery(document).ready(function () {
     oRundgang = {};
     
     x = document.getElementById("geolocation");
+
+    
+
+    
+		
+		
+		
 		
 		function onGeoError(error) {
         
@@ -525,6 +451,13 @@ jQuery(document).ready(function () {
         });    
     }
 
+    
+    
+   
+    
+
+    
+    
     jQuery("#showPermString").on('click', function () {
         var permString = localStorage.getItem(pFe_user);
     });
@@ -609,6 +542,14 @@ jQuery(document).ready(function () {
     jQuery("a#start").on('click', function () {
 
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
+/*        
+        var options = {
+            enableHighAccuracy: false, 
+            timeout: 10000, 
+            maximumAge:120000
+        };
+*/        
+//        getPCurGeoData();
        
         permanentRundgang = setInterval(function() {
             getPCurGeoData()
@@ -618,6 +559,18 @@ jQuery(document).ready(function () {
         manuellRundgang = setInterval(function() {
             startRundgang()
         }, 5000);        
+        
+     
+        
+
+    //consoleLog('debug', "a#start r_key => " + r_key);
+        
+    /*        
+        jQuery('#progress').addClass("fullwidth").delay(3000).queue(function (next) {
+            jQuery(this).removeClass("fullwidth");
+            next();
+        });
+        */
 
     });
     
@@ -634,6 +587,5 @@ jQuery(document).ready(function () {
         x.innerHTML = '<p class="event listening">Suche GPS Signal...</p>';
         navigator.geolocation.getCurrentPosition(onStopSuccess, onGeoError);
 
-    }); 
-   
+    });
 });
