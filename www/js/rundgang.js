@@ -1,19 +1,63 @@
 jQuery(document).ready(function () {
 
-	var rKey, rWatchId, rInterval, x, rCount, nr, oRundgang;
+	var rKey, rWatchId, rInterval, x, oRundgang;
 	
 	if (localStorage.getItem("fe_user")) {
-			// Set key for Rundgang
-			rKey = 'r_' + localStorage.getItem("fe_user");
-    }
+		// Set key for Rundgang
+		rKey = 'r_' + localStorage.getItem("fe_user");
+	}
 	
 	x = document.getElementById("geolocation");
-	rKey = 0;
-	rCount = 0;
-	nr = 0;
+	var rCount = 0;
+	var nr = 0;
+	var rStarted = false;
 	
 	// Rundgang Object
   oRundgang = {};
+	
+	/**************************************************************
+		SET START-VARIABLES
+	***************************************************************/
+	if (!localStorage.getItem(rKey)) {
+		// Wachdienst Array
+		oRundgang.Wachdienst = [];
+		
+	} else {
+		
+		oRundgang = JSON.parse(localStorage.getItem(rKey));
+		
+		// Get last Rundgang (Index)
+		rCount = oRundgang.Wachdienst.length -1;
+		
+		if(oRundgang.Wachdienst[rCount].ende == 0){
+			// der letzte Rundgang ist noch offen
+				
+				// Get Last Checkpoint
+				nr = oRundgang.Wachdienst[rCount].checkString.length - 1;
+				
+				d = new Date(oRundgang.Wachdienst[rCount].checkString[nr].datetime);
+				m = d.getMonth() + 1;
+				span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
+				span_text = '<span><b>Rundgang wird fortgesetzt</b></span>';        
+				jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
+					jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
+					jQuery(this).remove();
+				});
+				
+				rInterval = setInterval(function() {
+							getCurGeoData()
+					}, 5000);
+				
+				nr++;
+				rStarted = true;
+		} else {
+				rCount++;
+		}
+	}
+	
+	/**************************************************************
+		PRESS BUTTON -> START/STOP GEO_DATENERFASSUNG
+	***************************************************************/
 	
 	jQuery("a#start").on('click', function () {
 		
@@ -29,20 +73,19 @@ jQuery(document).ready(function () {
 				jQuery(this).attr('src', 'img/buttonsRun.png');
 				next();
 		});
-		
-		var options = {
-				enableHighAccuracy: true, 
-				timeout: 10000
-		};        
-
-		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
-		
 		d = new Date();
 		m = d.getMonth() + 1;
 		span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
+				
+		if (rStarted == false) {			
 		
-		if (nr == 0) {			
-			rKey = 'r_' + localStorage.getItem("fe_user");		
+			var options = {
+				enableHighAccuracy: true, 
+				timeout: 10000
+			};
+			rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
+			
+			// Aktiviere die permanente Geo-Datenerfassung
 			rInterval = setInterval(function() {
 						getCurGeoData()
 				}, 5000);
@@ -53,10 +96,12 @@ jQuery(document).ready(function () {
 				jQuery(this).remove();
 			});
 			
+			rStarted = true;
+			
 		} else {
+			// Deaktiviere die permanente Geo-Datenerfassung
 			clearInterval(rInterval);
 			
-			//Get last GeoData
 			var options = {
 				enableHighAccuracy: true, 
 				timeout: 10000
@@ -70,6 +115,8 @@ jQuery(document).ready(function () {
 				jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
 				jQuery(this).remove();
 			});
+			
+			rStarted = false;
 		}
 		
 	});
@@ -84,28 +131,44 @@ jQuery(document).ready(function () {
 		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
 	}	
 	
+	/**************************************************************
+		OBJEKT MIT GEO-DATEN ZUSAMMENSTELLEN
+	***************************************************************/
+	
 	function onGeoDataSuccess(position) {
 		
-		//x.innerHTML = '<p class="event received">GPS Signal gefunden!</p>';
+		x.innerHTML = '<p class="event received">Geo-Daten erfasst!</p>';
 		
-		geoStrg = '{ "datetime" : ' + new Date().getTime() + ', "status" : "ok", "lat" : ' + position.coords.latitude + ', "lng" : ' + position.coords.longitude + ', "acc" : ' + position.coords.accuracy + ' }, ';
+		//geoStrg = '{ "datetime" : ' + new Date().getTime() + ', "status" : "ok", "lat" : ' + position.coords.latitude + ', "lng" : ' + position.coords.longitude + ', "acc" : ' + position.coords.accuracy + ' }, ';
+		var geoData = {};
+		geoData.datetime = new Date().getTime();
+		geoData.status = "ok";
+		geoData.lat = position.coords.latitude;
+		geoData.lng = position.coords.longitude;
+		geoData.acc = position.coords.accuracy;
 		
-		saveCheckPoint(geoStrg);
+		saveCheckPoint(geoData);
 	}	
 	
 	function onGeoDataError(error) {
 		
-		//x.innerHTML = '<p class="event received">Kein GPS Signal gefunden!</p>';
+		x.innerHTML = '<p class="event received">Geo-Daten konnten nicht erfasst werden!</p>';
 		
-		geoStrg = '{ "datetime" : ' + new Date().getTime() + ', "status" : "' + error.code + '" }, ';
+		//geoStrg = '{ "datetime" : ' + new Date().getTime() + ', "status" : "' + error.code + '" }, ';
+		var geoData = {};
+		geoData.datetime = new Date().getTime();
+		geoData.status = error.code;
 		
-		saveCheckPoint(geoStrg);
+		saveCheckPoint(geoData);
 	}
 	
-	// Wachdienst/Rundgang Start
-	function saveCheckPoint(element) {
+	/**************************************************************
+		AKTUELLE GEO-DATEN SPEICHERN
+	***************************************************************/
+	
+	function saveCheckPoint(geoDataElement) {
 			
-			var d, m, patrol, check, span_text, span_date, json, Rundgang;
+			var Rundgang;
 			
 			if (nr == 0) {
 	
@@ -113,68 +176,61 @@ jQuery(document).ready(function () {
 					Rundgang = {};
 					Rundgang.id = rCount;
 					Rundgang.checkString = [];
-					Rundgang.checkString.push(element);
+					Rundgang.checkString.push(geoDataElement);
 					Rundgang.start = new Date().getTime();
 					Rundgang.ende = 0;
 					
 					oRundgang.Wachdienst.push(Rundgang);
 					
-					consoleLog('debug', 'Rundgang Start');
-					consoleLog('debug', oRundgang);
-					
 					localStorage.setItem(rKey, JSON.stringify(oRundgang));
+					
+					nr++;
 
 					newRundgang(rCount);
 					
 			} else {
 					
 					/* Load Rundgang from localStorage */
-					oRundgang = {};
 					oRundgang = JSON.parse(localStorage.getItem(rKey));
 					
 					/* Update Rundgang */
-					oRundgang.Wachdienst[rCount].checkString.push(element);
-		
-					consoleLog('debug', "+ Kontrollpunkt");
-					consoleLog('debug', oRundgang);
+					oRundgang.Wachdienst[rCount].checkString.push(geoDataElement);
 					
 					localStorage.setItem(rKey, JSON.stringify(oRundgang));
 					
+					nr++;
+					
 					updateRundgang(rCount, false);
-
-			}
-			nr++;
+			}		
 			
 	}
 
-	// Wachdienst/Rundgang Stop    
+	/**************************************************************
+		RUNDGANG STOPPEN
+	***************************************************************/
+	
 	function stopGeoData() {
 
-		var d, m, span_text, span_date, check;
-		
-		consoleLog('debug', "Beende Rundgang");
-
 		/* Load Rundgang from localStorage */
-		oRundgang = {};
 		oRundgang = JSON.parse(localStorage.getItem(rKey));
 		
 		/* Update Rundgang Ende*/
 		oRundgang.Wachdienst[rCount].ende = new Date().getTime();
-		consoleLog('debug', "Rundgang Ende");
-		consoleLog('debug', oRundgang);
 		
 		localStorage.setItem(rKey, JSON.stringify(oRundgang));
-
-		updateRundgang(rCount, true);
-
+		
 		nr = 0;
-		rCount++;
-	
+		rCount++;	
+		
+		updateRundgang(rCount-1, true);
+		
 	}
+	
+	/**************************************************************
+		NEUEN RUNDGANG SPEICHERN
+	***************************************************************/
 
 	function newRundgang(rCount) {
-	
-			consoleLog('debug', "Starte Rundgang");
 			
 			var hmac, d, m, data, startDatetime, url, oRundgang, rKey, checkString, checkpointMan, i;
 	
@@ -193,8 +249,7 @@ jQuery(document).ready(function () {
 	
 			// 17:21:00 5-8-2013
 			d = new Date();
-			m = d.getMonth() + 1;
-			
+			m = d.getMonth() + 1;			
 			startDatetime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();
 	
 			url = "http://ma.ids-services.at/index.php";
@@ -220,34 +275,30 @@ jQuery(document).ready(function () {
 					data: data,
 					callbackParameter: 'jsonp_callback',
 					success: function (json, textStatus, xOptions) {
-							//consoleLog('debug', xOptions);
-							
+
 							if (json.uid) {
-									consoleLog('debug', "Rundgang: uid => " + json.uid);
-									
 									/* Update Rundgang */
 									oRundgang.Wachdienst[rCount].uid = json.uid;
-									consoleLog('debug', oRundgang);
 							
 									localStorage.setItem(rKey, JSON.stringify(oRundgang));
-									
-									consoleLog('debug', "Neuer Rundgang erstellt");
 							}
 							
 					},
-					error: function (xOptions, textStatus) {
-							consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
-							consoleLog('debug', xOptions);
-							consoleLog('debug', "Neuer Rundgang erstellt");
+					error: function (xOptions, textStatus) {						
+						consoleLog('debug', "ERROR: Neuen Rundgang speichern");
+						consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
+						consoleLog('debug', xOptions);
 					}
 			});
 
 	}
 	
+	/**************************************************************
+		EXISTIERENDEN RUNDGANG SPEICHERN
+	***************************************************************/
+	
 	function updateRundgang(rCount, isLast) {
 	
-			consoleLog('debug', "Update Rundgang");
-			
 			var hmac, d, m, data, startDatetime, url, oRundgang, rKey, checkpointMan, separator, endDatetime, checkString;
 	
 			checkpointMan = '';
@@ -261,18 +312,14 @@ jQuery(document).ready(function () {
 			
 			for (var i=0; i < checkString.length; i++) {
 					
-					if(i>0){
-							separator = ', ';
-					}
+					if(i>0){ separator = ', '; }
 					checkpointMan = checkpointMan + separator + checkString[i];
 			}
 			
 			hmac = 'a:3:{s:8:"rundgang";a:6:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;s:10:"__identity";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}6313957ab723c65dd945a4cfb7063e14c57534fa';
 	
-			// 17:21:00 5-8-2013
 			d = new Date();
-			m = d.getMonth() + 1;
-	
+			m = d.getMonth() + 1;	
 			endDatetime = 0;
 			
 			if (isLast) {
@@ -303,119 +350,21 @@ jQuery(document).ready(function () {
 					data: data,
 					callbackParameter: 'jsonp_callback',
 					success: function(json, textStatus, xOptions) {
-							//consoleLog('debug', xOptions);
 							
-							if(json.uid){
-									consoleLog('debug', "Rundgang: uid => " + json.uid);
-									
-									/* Update Rundgang */
-									oRundgang.Wachdienst[rCount].uid = json.uid;
-									consoleLog('debug', oRundgang);
-							
-									localStorage.setItem(rKey,JSON.stringify(oRundgang));
-									
-									consoleLog('debug', "Rundgang aktualisiert");
-							}
+						if(json.uid){
+							/* Update Rundgang */
+							oRundgang.Wachdienst[rCount].uid = json.uid;
+					
+							localStorage.setItem(rKey,JSON.stringify(oRundgang));
+						}
 							
 					},
-					error: function(xOptions, textStatus){
-							consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
-							consoleLog('debug', xOptions);
-							consoleLog('debug', "Rundgang aktualisiert");
+					error: function(xOptions, textStatus){						
+						consoleLog('debug', "ERROR: Rundgang aktualisieren");
+						consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
+						consoleLog('debug', xOptions);
 					}
 			});    
 	}
 
-	
-	
- 
-	
-
-	
-	
-	jQuery("#showPermString").on('click', function () {
-			var permString = localStorage.getItem(pFe_user);
-	});
-
-	
-	jQuery("#clearStorage").on('click', function () {
-			localStorage.clear();
-	});
-
-	if (!localStorage.getItem(rKey)) {
-			consoleLog('debug', "localStorage: Rundgang => create");
-
-			// Wachdienst Array
-			oRundgang.Wachdienst = [];
-			
-	} else {
-			consoleLog('debug', "localStorage: Rundgang => load");
-			//localStorage.setItem(rKey, patrol + check);
-
-			oRundgang = JSON.parse(localStorage.getItem(rKey));
-			
-			// Get last Rundgang (Index)
-			rCount = oRundgang.Wachdienst.length -1;
-			consoleLog('debug', "Last index => " + rCount);
-			
-			if(oRundgang.Wachdienst[rCount].ende == 0){
-					consoleLog('debug', "Rundgang wurde noch nicht beendet!");
-
-					/* Start/Continue auto geocoding */
-					// getPCurGeoData();            
-		
-					jQuery(".expand").animate({
-							left: '100%'
-					}, 2000, 'linear', function () {
-							jQuery(".expand").removeAttr('style');
-					});
-
-					jQuery('#rundgangButtons').attr('src', 'img/buttonsAct.png').delay(1500).queue(function (next) {
-							jQuery(this).attr('src', 'img/buttonsRun.png');
-							next();
-					});
-					
-					checkString = oRundgang.Wachdienst[rCount].checkString;
-					
-					// Get Last Checkpoint
-					nr = checkString.length -1;
-					consoleLog('debug', "Last Kontrollpunkt Nr. => " + nr);
-					
-					last_check = JSON.parse(oRundgang.Wachdienst[rCount].checkString[nr]);
-					consoleLog('debug', "Last checkstring => ");
-					consoleLog('debug', last_check);
-					
-					time = parseInt(last_check.datetime);
-					
-					d = new Date(time);
-					m = d.getMonth() + 1;
-
-					span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
-					
-					if (nr == 0) {
-							span_text = '<span><b>Rundgang wurde gestartet</b></span>';
-					}
-					else {
-							span_text = '<span><b>Kontrollpunkt Nr. ' + nr + ' wurde gespeichert</b></span>';
-					}
-					
-					jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
-							jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
-							jQuery(this).remove();
-					});
-					
-					nr++;
-			}
-			else{
-					rCount++;
-			}
-	}
-	
-		
-		
-		
-		
-		
-		
-		
 });

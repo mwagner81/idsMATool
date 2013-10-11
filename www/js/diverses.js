@@ -2,7 +2,6 @@ document.addEventListener("online",  function(){
     document.getElementById('onlineTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>Online</span>";
 }, false);
 
-
 document.addEventListener("offline",  function(){
     document.getElementById('onlineTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:red'>Offline</span>";
 }, false);
@@ -19,7 +18,6 @@ document.addEventListener("deviceready", function(){
     'Device Version: '  + device.version  + '<br />';    
 }, false);
 
- 
 function getLogTime() {
     
     var d, time;
