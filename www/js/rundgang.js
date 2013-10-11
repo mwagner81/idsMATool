@@ -61,7 +61,7 @@ jQuery(document).ready(function () {
 	
 	jQuery("a#start").on('click', function () {
 		
-		x.innerHTML = '<p class="event listening">Geo-Daten werden abgerufen...</p>';
+		//x.innerHTML = '<p class="event listening">Geo-Daten werden abgerufen...</p>';
 		
 		jQuery(".expand").animate({
 				left: '100%'
@@ -76,15 +76,14 @@ jQuery(document).ready(function () {
 		d = new Date();
 		m = d.getMonth() + 1;
 		span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
-				
-		if (rStarted == false) {			
 		
-			var options = {
-				enableHighAccuracy: true, 
-				timeout: 10000
-			};
-			rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
-			
+		/*var options = {
+			enableHighAccuracy: true, 
+			timeout: 10000
+		};
+		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);*/
+				
+		if (rStarted == false) {	
 			// Aktiviere die permanente Geo-Datenerfassung
 			rInterval = setInterval(function() {
 						getCurGeoData()
@@ -101,12 +100,6 @@ jQuery(document).ready(function () {
 		} else {
 			// Deaktiviere die permanente Geo-Datenerfassung
 			clearInterval(rInterval);
-			
-			var options = {
-				enableHighAccuracy: true, 
-				timeout: 10000
-			};
-			rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
 			
 			stopGeoData();
 			
