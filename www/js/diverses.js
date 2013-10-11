@@ -30,7 +30,7 @@ function getLogTime() {
 }
 
 /* GLOBAL VARS */
-var u_key, r_key, pFe_user, pCString, nr, rg, oRundgang, r_uid, x, permCheck, timer, debug;
+var u_key, timer, debug;
 			
 function consoleLog(type, output) {
 	

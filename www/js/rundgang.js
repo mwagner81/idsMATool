@@ -1,4 +1,7 @@
 jQuery(document).ready(function () {
+
+		var r_key, pFe_user, pCString, nr, rg, oRundgang, r_uid, x, permCheck;
+	
 		if (localStorage.getItem("fe_user")) {
         // Set key for Rundgang
         r_key = 'r_' + localStorage.getItem("fe_user");
