@@ -235,61 +235,13 @@ jQuery(document).ready(function () {
     jQuery(".showMeForm").on('click', function () {
         if (jQuery(this).next(".meForm").hasClass("active")){
             jQuery(this).next(".meForm").slideUp("fast").removeClass("active");
-            jQuery(this).find("img").attr('src', 'img/meldungButtonPlus.png');
+            jQuery(this).find("img.mbPlus").attr('src', 'img/meldungButtonPlus.png');
         }else {
             jQuery(".meForm").slideUp("fast").removeClass("active");
+            jQuery(".showMeForm").find("img.mbPlus").attr('src', 'img/meldungButtonPlus.png')
             jQuery(this).next(".meForm").slideDown("fast").addClass("active");
-            jQuery(this).find("img").attr('src', 'img/meldungButtonMinus.png');
+            jQuery(this).find("img.mbPlus").attr('src', 'img/meldungButtonMinus.png');
         }
-    });
-        
-/*        
-        
-    jQuery("#vandalism").on('click', function () {
-        jQuery("#vandalismCamera").slideToggle("fast");
-        jQuery("#lostFound").slideUp("fast");
-        jQuery("#uaEntryHelp").slideUp("fast");
-        
-        jQuery("#vPlus2").attr('src', 'img/meldungButtonPlus.png');
-        jQuery("#vPlus3").attr('src', 'img/meldungButtonPlus.png');
-        
-        jQuery("#vPlus").attr('src', (
-            jQuery("#vPlus").attr('src') == 'img/meldungButtonMinus.png'
-            ? 'img/meldungButtonPlus.png'
-            : 'img/meldungButtonMinus.png'
-            ));
-    });
-
-    jQuery("#meLf").on('click', function () {
-        jQuery("#lostFound").slideToggle("fast");
-        jQuery("#vandalismCamera").slideUp("fast");
-        jQuery("#uaEntryHelp").slideUp("fast");
-        
-        jQuery("#vPlus").attr('src', 'img/meldungButtonPlus.png');
-        jQuery("#vPlus3").attr('src', 'img/meldungButtonPlus.png');
-        
-        jQuery("#vPlus2").attr('src', (
-            jQuery("#vPlus2").attr('src') == 'img/meldungButtonMinus.png'
-            ? 'img/meldungButtonPlus.png'
-            : 'img/meldungButtonMinus.png'
-            ));
-    });
-
-    jQuery("#meUe").on('click', function () {
-        jQuery("#uaEntryHelp").slideToggle("fast");
-        jQuery("#lostFound").slideUp("fast");
-        jQuery("#vandalismCamera").slideUp("fast");
-        
-        jQuery("#vPlus").attr('src', 'img/meldungButtonPlus.png');
-        jQuery("#vPlus2").attr('src', 'img/meldungButtonPlus.png');
-        
-        jQuery("#vPlus3").attr('src', (
-            jQuery("#vPlus3").attr('src') == 'img/meldungButtonMinus.png'
-            ? 'img/meldungButtonPlus.png'
-            : 'img/meldungButtonMinus.png'
-            ));
-    });
-    
-*/    
+    });  
     
 });
