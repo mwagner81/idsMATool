@@ -153,8 +153,9 @@
                     <p id="pics"></p>
                     <div class="cameraButtons">
                         <img src="img/cameraBreak.png" class="cameraBreak" onclick="deleteImage();" />
-                        
-                        <a href="#" class="meldungButtonPic">
+                        <input type="text" id="wachzimmer" name="wachzimmer" />
+                        <label for="wachzimmer"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
+                        <a href="#" class="meldungButtonPic meldung01 saveMeldung">
                             <img src="img/cameraSend.png" class="cameraSend" />
                         </a>
                     </div>
@@ -178,14 +179,14 @@
                             </div>
                         </div>
                         <br />
-                        <a class="reportButton lF" href="#" data-role="none"></a>
+                        <a class="reportButton lF meldung02 saveMeldung" href="#" data-role="none"></a>
                         
                     </form>
                 </div>
                 </div>
                 <div class="meldungLink">
                 <a id="meUe" class="meldungButtonD showMeForm meldungLink">
-                    <span class="meldung">Unangemeldete Einstiegshilfe</span><img src="img/meldungButtonPlus.png" id="vPlus3" />
+                    <span class="meldung">Unangemeldete Ein-, Ausstieghilfe</span><img src="img/meldungButtonPlus.png" id="vPlus3" />
                 </a>
                 <div class="meForm" style="display:none" id="uaEntryHelp">
                     <form>
@@ -205,18 +206,288 @@
                                 <input type="checkbox" class="meCheck" data-role="none" value="Begleitung" id="Begleitung" /> <label for="Begleitung"><span>Begleitung</span></label>
                             </div>
                         </div>
+                        <div class="uEinputWrap">
+                            <br />
+                        <b>Ankunftsbahnhof</b> (optional)<br />
+                            <input type="text" id="uEbh" placeholder="Ankunftsbahnhof" />
+                        </div>
+                        <div class="uEcheckWrap">
+                            <div>
+                                <input type="checkbox" class="meCheck" data-role="none" value="maTel" id="maTel" /> <label for="maTel"><span>MA für Ausstiegshilfe tel. informiert</span></label>
+                            </div>
+                        </div>
                         <br />
-                        <a class="reportButton uE" href="#" data-role="none"></a>
+                        <a class="reportButton uE  meldung03 saveMeldung" href="#" data-role="none"></a>
                     </form>
                 </div>  
                 </div>
-                <a id="meAB" class="meldungButton" href="#"><span class="meldung">Aufzugsbefreiung</span><img src="img/meldungButtonRight.png" /></a>   
-                <a id="meGM" class="meldungButton" href="#"><span class="meldung">Gewalt an Mitarbeiter</span><img src="img/meldungButtonRight.png" /></a>   
-                <a id="meED" class="meldungButton" href="#"><span class="meldung">Einbruch / Diebstahl</span><img src="img/meldungButtonRight.png" /></a>   
-                <a id="meBA" class="meldungButton" href="#"><span class="meldung">Beschwerden / Anfragen</span><img src="img/meldungButtonRight.png" /></a>   
-                <a id="meRG" class="meldungButton" href="#"><span class="meldung">Randgruppen</span><img src="img/meldungButtonRight.png" /></a>   
-                <a id="meR" class="meldungButton" href="#"><span class="meldung">Raucherstrafen</span><img src="img/meldungButtonRight.png" /></a>   
-                <a id="meVB" class="meldungButton" href="#"><span class="meldung">Verweise / Belehrung</span><img src="img/meldungButtonRight.png" /></a>
+                <a id="meAB" class="meldungButtonD showMeForm" href="#">
+                    <span class="meldung">Aufzugsbefreiung</span><img src="img/meldungButtonPlus.png" />
+                </a>   
+                <div class="meForm" style="display:none" id="meAufzugsbefreiung">
+                    <form>
+                        <div class="selectLabel">
+                            <label><span>Eingetroffen</span></label>
+                        </div>
+                        <div class="selectLeft">
+                        <select id="eingetroffeneStunde">
+                            <option value="">Stunde</option>
+                            <option value="00">00</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>                            
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                        </select>
+                        </div>
+                        <div class="selectRight">
+                        <select id="eingetroffeneMinute">
+                            <option value="">Minute</option>
+                            <option value="00">00</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>                            
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>                                     
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>  
+                            <option value="30">30</option>     
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                            <option value="36">36</option>
+                            <option value="37">37</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>  
+                            <option value="40">40</option>     
+                            <option value="41">41</option>
+                            <option value="42">42</option>
+                            <option value="43">43</option>
+                            <option value="44">44</option>
+                            <option value="45">45</option>
+                            <option value="46">46</option>
+                            <option value="47">47</option>
+                            <option value="48">48</option>
+                            <option value="49">49</option>     
+                            <option value="50">50</option>   
+                            <option value="51">51</option>
+                            <option value="52">52</option>
+                            <option value="53">53</option>
+                            <option value="54">54</option>
+                            <option value="55">55</option>
+                            <option value="56">56</option>
+                            <option value="57">57</option>
+                            <option value="58">58</option>
+                            <option value="59">59</option>                            
+                        </select>
+                        </div>
+                        <div class="selectLabel">
+                            <label><span>Beendet</span></label>
+                        </div>
+                        <div class="selectLeft">
+                        <select id="beendetStunde">
+                            <option value="">Stunde</option>
+                            <option value="00">00</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>                            
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                        </select>
+                        </div>
+                        <div class="selectRight">
+                        <select id="beendetMinute">
+                            <option value="">Minute</option>
+                            <option value="00">00</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>                            
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>                                     
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>  
+                            <option value="30">30</option>     
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                            <option value="36">36</option>
+                            <option value="37">37</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>  
+                            <option value="40">40</option>     
+                            <option value="41">41</option>
+                            <option value="42">42</option>
+                            <option value="43">43</option>
+                            <option value="44">44</option>
+                            <option value="45">45</option>
+                            <option value="46">46</option>
+                            <option value="47">47</option>
+                            <option value="48">48</option>
+                            <option value="49">49</option>     
+                            <option value="50">50</option>   
+                            <option value="51">51</option>
+                            <option value="52">52</option>
+                            <option value="53">53</option>
+                            <option value="54">54</option>
+                            <option value="55">55</option>
+                            <option value="56">56</option>
+                            <option value="57">57</option>
+                            <option value="58">58</option>
+                            <option value="59">59</option>                            
+                        </select>
+                        </div>
+                        <br class="clear">
+                        <a class="reportButton meldung04 saveMeldung" href="#" data-role="none"></a>
+                        
+                    </form>
+                </div>
+                <a id="meGM" class="meldungButtonD showMeForm" href="#">
+                    <span class="meldung">Gewalt an Mitarbeiter</span><img src="img/meldungButtonPlus.png" />
+                </a>   
+                <div class="meForm" style="display:none" id="meGewalt">
+                    <form>
+                    <div class="uEinputWrap">
+                        <input type="text" id="gewaltWachzimmer" name="gewaltWachzimmer" />
+                        <label for="gewaltWachzimmer"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
+                    </div>
+                    <div class="uEinputWrap">
+                        <br>
+                        <input type="text" id="gewaltKrankenhaus" name="gewaltKrankenhaus" />
+                        <label for="gewaltKrankenhaus"><span>Krankenhaus des Rettungseinsatzes</span></label>
+                    </div>
+                    <br />
+                    <a class="reportButton meldung05" href="#" data-role="none"></a>
+                    </form>
+                </div>
+                <a id="meED" class="meldungButtonD showMeForm" href="#">
+                    <span class="meldung">Einbruch / Diebstahl</span><img src="img/meldungButtonPlus.png" />
+                </a>   
+                <div class="meForm" style="display:none" id="meEinbruch">
+                    <form>
+                    <div class="uEinputWrap">
+                        <input type="text" id="einbruchWachzimmer" name="einbruchWachzimmer" />
+                        <label for="einbruchWachzimmer"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
+                    </div>
+                    <div class="uEinputWrap">
+                        <input type="text" id="einbruchKrankenhaus" name="einbruchKrankenhaus" />
+                        <label for="einbruchKrankenhaus"><span>Krankenhaus des Rettungseinsatzes</span></label>
+                    </div>        
+                    <div class="uEcheckWrap">
+                        <div>
+                            <input type="checkbox" class="meCheck" data-role="none" value="Konzernsicherheit" id="Konzernsicherheit" /> <label for="Konzernsicherheit"><span>Konzernsicherheit wurde verständigt</span></label>
+                        </div>
+                    </div> 
+                    <br />
+                    <a class="reportButton meldung06 saveMeldung" href="#" data-role="none"></a>           
+                    </form>
+                </div>
+                
+                <a id="meBA" class="meldungButtonD showMeForm" href="#">
+                    <span class="meldung">Beschwerden / Anfragen</span><img src="img/meldungButtonPlus.png" />
+                </a>   
+                <div class="meForm" style="display:none" id="meBeschwerde">
+                <form>
+                        <input type="text" id="beschwerdeName" name="beschwerdeName" />
+                        <label for="beschwerdeName"><span>Name des Beschwerdef&uuml;rers</span></label>
+                        <br>
+                        <input type="text" id="beschwerdeAdresse" name="beschwerdeAdresse" />
+                        <label for="beschwerdeAdresse"><span>Adresse des Beschwerdef&uuml;rers</span></label><br>
+                        <input type="text" id="beschwerdeKontakt" name="beschwerdeKontakt" />
+                        <label for="beschwerdeKontakt"><span>Kontakt des Beschwerdef&uuml;rers</span></label>
+                    <br />
+                    <a class="reportButton meldung07 saveMeldung" href="#" data-role="none"></a>                 
+                </form>
+                </div>
+                
+                <a id="meRG" class="meldungButton meldung08 saveMeldung" href="#"><span class="meldung">Randgruppen</span><img src="img/meldungButtonRight.png" /></a>   
+                <a id="meR" class="meldungButton meldung09 saveMeldung" href="#"><span class="meldung">Raucherstrafen</span><img src="img/meldungButtonRight.png" /></a>   
+                <a id="meVB" class="meldungButton meldung10 saveMeldung" href="#"><span class="meldung">Verweise / Belehrung</span><img src="img/meldungButtonRight.png" /></a>
             </div>
         </div>       
         <!-- /page -->
