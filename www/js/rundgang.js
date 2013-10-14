@@ -207,16 +207,17 @@ jQuery(document).ready(function () {
 		/* Load Rundgang from localStorage */
 		oRundgang = JSON.parse(localStorage.getItem(rKey));
 		
-		/* Update Rundgang Ende*/
-		oRundgang.Wachdienst[rCount].ende = new Date().getTime();
-		
-		localStorage.setItem(rKey, JSON.stringify(oRundgang));
-		
-		nr = 0;
-		rCount++;	
-		
-		updateRundgang(rCount-1, true);
-		
+		if (oRundgang.Wachdienst[rCount]) {
+			/* Update Rundgang Ende*/
+			oRundgang.Wachdienst[rCount].ende = new Date().getTime();
+			
+			localStorage.setItem(rKey, JSON.stringify(oRundgang));
+			
+			nr = 0;
+			rCount++;	
+			
+			updateRundgang(rCount-1, true);
+		}
 	}
 	
 	/**************************************************************
@@ -232,11 +233,12 @@ jQuery(document).ready(function () {
 			
 			oRundgang = {};
 			oRundgang = JSON.parse(localStorage.getItem(rKey));
-			checkString = oRundgang.Wachdienst[rCount].checkString;
+			checkpointMan = JSON.stringify(oRundgang.Wachdienst[rCount].checkString);
+			/*checkString = oRundgang.Wachdienst[rCount].checkString;
 	
 			for (i = 0; i < checkString.length; i++) {
 					checkpointMan = checkpointMan +  JSON.stringify(checkString[i]);
-			}
+			}*/
 			
 			hmac = 'a:3:{s:11:"newRundgang";a:5:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}f59be899124b071365d07b0bd18b87b4a16c3a91';
 	
@@ -299,7 +301,10 @@ jQuery(document).ready(function () {
 			
 			oRundgang = {};
 			oRundgang = JSON.parse(localStorage.getItem(rKey));
-			checkString = oRundgang.Wachdienst[rCount].checkString;
+			
+			checkpointMan = JSON.stringify(oRundgang.Wachdienst[rCount].checkString);
+			
+			/*checkString = oRundgang.Wachdienst[rCount].checkString;
 			
 			separator = '';
 			
@@ -307,7 +312,7 @@ jQuery(document).ready(function () {
 					
 					if(i>0){ separator = ', '; }
 					checkpointMan = checkpointMan + separator +  JSON.stringify(checkString[i]);
-			}
+			}*/
 			
 			hmac = 'a:3:{s:8:"rundgang";a:6:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;s:10:"__identity";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}6313957ab723c65dd945a4cfb7063e14c57534fa';
 	
