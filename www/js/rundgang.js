@@ -235,7 +235,7 @@ jQuery(document).ready(function () {
 			checkString = oRundgang.Wachdienst[rCount].checkString;
 	
 			for (i = 0; i < checkString.length; i++) {
-					checkpointMan = checkpointMan + checkString[i];
+					checkpointMan = checkpointMan +  JSON.stringify(checkString[i]);
 			}
 			
 			hmac = 'a:3:{s:11:"newRundgang";a:5:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}f59be899124b071365d07b0bd18b87b4a16c3a91';
@@ -306,7 +306,7 @@ jQuery(document).ready(function () {
 			for (var i=0; i < checkString.length; i++) {
 					
 					if(i>0){ separator = ', '; }
-					checkpointMan = checkpointMan + separator + checkString[i];
+					checkpointMan = checkpointMan + separator +  JSON.stringify(checkString[i]);
 			}
 			
 			hmac = 'a:3:{s:8:"rundgang";a:6:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;s:10:"__identity";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}6313957ab723c65dd945a4cfb7063e14c57534fa';
