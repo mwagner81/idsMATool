@@ -234,6 +234,9 @@ jQuery(document).ready(function () {
 			oRundgang = {};
 			oRundgang = JSON.parse(localStorage.getItem(rKey));
 			checkpointMan = JSON.stringify(oRundgang.Wachdienst[rCount].checkString);
+			
+			 jQuery("#permaCheck").append("<span><b>Error</b></span> "+ checkpointMan + "<br><hr>");
+			
 			/*checkString = oRundgang.Wachdienst[rCount].checkString;
 	
 			for (i = 0; i < checkString.length; i++) {
@@ -303,6 +306,8 @@ jQuery(document).ready(function () {
 			oRundgang = JSON.parse(localStorage.getItem(rKey));
 			
 			checkpointMan = JSON.stringify(oRundgang.Wachdienst[rCount].checkString);
+			
+			jQuery("#permaCheck").append("<span><b>Error</b></span> "+ checkpointMan + "<br><hr>");
 			
 			/*checkString = oRundgang.Wachdienst[rCount].checkString;
 			
