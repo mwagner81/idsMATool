@@ -140,7 +140,7 @@ jQuery(document).ready(function () {
 		// holt die aktuellen Geokoordinaten				
 		var options = {
 			enableHighAccuracy: true, 
-			timeout: 10000
+			timeout: 30000
 		};
 		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
 	}	
@@ -291,7 +291,7 @@ jQuery(document).ready(function () {
 							'tx_idsmungosrundgang[endDatetime]': endDatetime,
 							'tx_idsmungosrundgang[checkpoint]': checkpoint						
 					};
-					consoleLog('debug', "update Rundgang (" + rundgangContainer.Wachdienst[0].uid + "): "+checkpoint);
+					//consoleLog('debug', "update Rundgang (" + rundgangContainer.Wachdienst[0].uid + "): "+checkpoint);
 						
 				} else {
 					// Rundgang wurde bisher noch nicht gespeichert			
@@ -306,7 +306,7 @@ jQuery(document).ready(function () {
 							'tx_idsmungosrundgang[endDatetime]': endDatetime,
 							'tx_idsmungosrundgang[checkpoint]': checkpoint						
 					};
-					consoleLog('debug', "neuer Rundgang: " + checkpoint);
+					//consoleLog('debug', "neuer Rundgang: " + checkpoint);
 					
 				}
 						
@@ -325,16 +325,16 @@ jQuery(document).ready(function () {
 							}
 							localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
 							
-							jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
-							consoleLog('debug', "Request-UID: " + json.uid);
+							//jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
+							//consoleLog('debug', "Request-UID: " + json.uid);
 			
 						}
 							
 					},
 					error: function(){
-						jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");		
-						consoleLog('debug', "ERROR: Rundgang aktualisieren");
-						consoleLog('debug', "Request failed: ");
+						//jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");		
+						//consoleLog('debug', "ERROR: Rundgang aktualisieren");
+						//consoleLog('debug', "Request failed: ");
 					}
 				});				
 				
