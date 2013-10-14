@@ -89,13 +89,13 @@ jQuery(document).ready(function () {
                 alert("Meldung erfolgreich");
                 localStorage.removeItem(m_key);
                 localStorage.removeItem("pics");   
-                jQuery("form").find("input[type=text], textarea").val("");
+                jQuery("input[type=text], textarea").val("");
+                jQuery("input[type=checkbox]").attr('checked', false);
+                jQuery("input[type=radio]").attr('checked', false);
                 jQuery("#eingetroffeneStunde").val("");
                 jQuery("#eingetroffeneMinute").val("");
                 jQuery("#beendetStunde").val("");
                 jQuery("#beendetMinute").val("");
-                jQuery("form").find("input[type=checkbox]").attr('checked', false);
-                jQuery("form").find("input[type=radio]").attr('checked', false);
             },
             error: function(xOptions, textStatus, error){
                 alert("Meldung fehlgeschlagen: " + JSON.stringify(xOptions) + " " + textStatus + " " + error);
@@ -232,16 +232,15 @@ jQuery(document).ready(function () {
     jQuery(".mBreak").on('click', function () {
         m_key = 'm_' + localStorage.getItem("fe_user"); 
         
-        localStorage.removeItem(m_key);
-        localStorage.removeItem("pics");
-
-        jQuery("form").find("input[type=text], textarea").val("");
-        jQuery("#eingetroffeneStunde").val("");
-        jQuery("#eingetroffeneMinute").val("");
-        jQuery("#beendetStunde").val("");
-        jQuery("#beendetMinute").val("");
-        jQuery("form").find("input[type=checkbox]").attr('checked', false);
-        jQuery("form").find("input[type=radio]").attr('checked', false);
+                localStorage.removeItem(m_key);
+                localStorage.removeItem("pics");   
+                jQuery("input[type=text], textarea").val("");
+                jQuery("input[type=checkbox]").attr('checked', false);
+                jQuery("input[type=radio]").attr('checked', false);
+                jQuery("#eingetroffeneStunde").val("");
+                jQuery("#eingetroffeneMinute").val("");
+                jQuery("#beendetStunde").val("");
+                jQuery("#beendetMinute").val("");
         
         jQuery(".meForm").slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');    
         
