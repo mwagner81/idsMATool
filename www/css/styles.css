@@ -558,7 +558,8 @@ a.mobilitaetButton.canceled img {
 }
 
 a.meldungButton.ui-link, 
-a.meldungButtonD.ui-link{
+a.meldungButtonD.ui-link, 
+a.showMeForm {
     height: 22px;
     padding: 18px;
     margin-bottom: 5px;
@@ -574,7 +575,7 @@ a.meldungButtonD.ui-link{
     box-shadow: 5px 5px 5px #C5C5C5;
     position: relative;
     color: #383838;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     line-height: 22px;
     display: block;
@@ -777,8 +778,7 @@ textarea.mobilitaetDetailText {
 /*           meldungForm             */
 /*************************************/
 
-#lostFound, 
-#uaEntryHelp {
+.meForm {
     display: none;
     background: rgb(255,255,255); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(239,239,239,1) 100%); /* FF3.6+ */
@@ -793,6 +793,11 @@ textarea.mobilitaetDetailText {
     font-size: 14px;
     line-height: 135%;
     margin-bottom: 6px;
+}
+
+.meForm#vandalismCamera {
+    padding: 5px;
+    background: none transparent;
 }
 
 .radioWrap {
@@ -1033,4 +1038,23 @@ span.navVertLineBright {
     position: absolute;
     top:-4px;
     left: -131px;
+}
+
+.selectLeft {
+    width: 45%;
+    float: left;
+}
+
+.selectRight {
+    width: 45%;
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.selectLabel {
+    float: left;
+    width: 100%;
 }
