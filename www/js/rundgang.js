@@ -1,6 +1,8 @@
 jQuery(document).ready(function () {
 
-	var rKey, rWatchId, rInterval, x, oRundgang;
+	var rKey, rWatchId, saveInterval, cleanInterval, rInterval, x, oRundgang;
+	
+	var url = "http://ma.ids-services.at/index.php"; 
 	
 	if (localStorage.getItem("fe_user")) {
 		// Set key for Rundgang
@@ -9,11 +11,18 @@ jQuery(document).ready(function () {
 	
 	x = document.getElementById("geolocation");
 	var rCount = 0;
-	var nr = 0;
+	var checkpointNr = 0;
 	var rStarted = false;
 	
 	// Rundgang Object
-  oRundgang = {};
+  oRundgang = {};	
+	
+	saveInterval = setInterval(function() {
+				updateRundgang()
+		}, 1000);
+	/*cleanInterval = setInterval(function() {
+				cleanRundgang()
+		}, 60000);*/
 	
 	/**************************************************************
 		SET START-VARIABLES
@@ -29,26 +38,39 @@ jQuery(document).ready(function () {
 		// Get last Rundgang (Index)
 		rCount = oRundgang.Wachdienst.length -1;
 		
-		if(oRundgang.Wachdienst[rCount].ende == 0){
+		if (oRundgang.Wachdienst[rCount] && (oRundgang.Wachdienst[rCount].ende == 0)){
 			// der letzte Rundgang ist noch offen
 				
 				// Get Last Checkpoint
-				nr = oRundgang.Wachdienst[rCount].checkString.length - 1;
+				if (oRundgang.Wachdienst[rCount].checkString.length > 0) {
+					checkpointNr = oRundgang.Wachdienst[rCount].checkString.length - 1;
 				
-				d = new Date(oRundgang.Wachdienst[rCount].checkString[nr].datetime);
-				m = d.getMonth() + 1;
-				span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
-				span_text = '<span><b>Rundgang wird fortgesetzt</b></span>';        
-				jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
-					jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
-					jQuery(this).remove();
-				});
+				
+					d = new Date(oRundgang.Wachdienst[rCount].checkString[checkpointNr].datetime);
+					m = d.getMonth() + 1;
+					span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
+					span_text = '<span><b>Rundgang wird fortgesetzt</b></span>';        
+					jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
+						jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
+						jQuery(this).remove();
+					});
+				} else {
+					checkpointNr = 0;
+					d = new Date();
+					m = d.getMonth() + 1;
+					span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
+					span_text = '<span><b>Rundgang wird fortgesetzt</b></span>';        
+					jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
+						jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
+						jQuery(this).remove();
+					});
+				}
 				
 				rInterval = setInterval(function() {
 							getCurGeoData()
 					}, 5000);
 				
-				nr++;
+				checkpointNr++;
 				rStarted = true;
 		} else {
 				rCount++;
@@ -115,8 +137,7 @@ jQuery(document).ready(function () {
 	});
 	
 	function getCurGeoData() {	
-		// holt die aktuellen Geokoordinaten	
-			
+		// holt die aktuellen Geokoordinaten				
 		var options = {
 			enableHighAccuracy: true, 
 			timeout: 10000
@@ -135,6 +156,7 @@ jQuery(document).ready(function () {
 		//geoStrg = '{ "datetime" : ' + new Date().getTime() + ', "status" : "ok", "lat" : ' + position.coords.latitude + ', "lng" : ' + position.coords.longitude + ', "acc" : ' + position.coords.accuracy + ' }, ';
 		var geoData = {};
 		geoData.datetime = new Date().getTime();
+		geoData.checkpoint = checkpointNr;
 		geoData.status = "ok";
 		geoData.lat = position.coords.latitude;
 		geoData.lng = position.coords.longitude;
@@ -150,6 +172,7 @@ jQuery(document).ready(function () {
 		//geoStrg = '{ "datetime" : ' + new Date().getTime() + ', "status" : "' + error.code + '" }, ';
 		var geoData = {};
 		geoData.datetime = new Date().getTime();
+		geoData.checkpoint = checkpointNr;
 		geoData.status = error.code;
 		
 		saveCheckPoint(geoData);
@@ -163,7 +186,7 @@ jQuery(document).ready(function () {
 			
 			var Rundgang;
 			
-			if (nr == 0) {
+			if (checkpointNr == 0) {
 	
 					/* Create new Rundgang */
 					Rundgang = {};
@@ -172,14 +195,15 @@ jQuery(document).ready(function () {
 					Rundgang.checkString.push(geoDataElement);
 					Rundgang.start = new Date().getTime();
 					Rundgang.ende = 0;
+					Rundgang.complete = 0;
 					
 					oRundgang.Wachdienst.push(Rundgang);
 					
 					localStorage.setItem(rKey, JSON.stringify(oRundgang));
 					
-					nr++;
+					checkpointNr++;
 
-					newRundgang(rCount);
+					//newRundgang(rCount);
 					
 			} else {
 					
@@ -191,9 +215,9 @@ jQuery(document).ready(function () {
 					
 					localStorage.setItem(rKey, JSON.stringify(oRundgang));
 					
-					nr++;
+					checkpointNr++;
 					
-					updateRundgang(rCount, false);
+					//updateRundgang(rCount, false);
 			}		
 			
 	}
@@ -203,7 +227,7 @@ jQuery(document).ready(function () {
 	***************************************************************/
 	
 	function stopGeoData() {
-
+		
 		/* Load Rundgang from localStorage */
 		oRundgang = JSON.parse(localStorage.getItem(rKey));
 		
@@ -213,148 +237,162 @@ jQuery(document).ready(function () {
 			
 			localStorage.setItem(rKey, JSON.stringify(oRundgang));
 			
-			nr = 0;
+			checkpointNr = 0;
 			rCount++;	
 			
-			updateRundgang(rCount-1, true);
 		}
 	}
 	
+	
+	
 	/**************************************************************
-		NEUEN RUNDGANG SPEICHERN
+		RUNDGANG SPEICHERN ODER AKTUALISIEREN
 	***************************************************************/
-
-	function newRundgang(currRundgangNr) {
-			
-			var hmac, d, m, data, startDatetime, url, oRundgang, rKey, checkString, checkpointMan, i;
 	
-			checkpointMan = '';
-			rKey = 'r_' + localStorage.getItem("fe_user");
+	function updateRundgang() {
+		
+		var rundgangContainer, checkpointContainer, checkpoint;
+		
+		rundgangContainer = {};
+		rundgangContainer = JSON.parse(localStorage.getItem(rKey));
+		
+		if (rundgangContainer && rundgangContainer.Wachdienst[0]) {
+			// es existiert ein Rundgang
 			
-			oRundgang = {};
-			oRundgang = JSON.parse(localStorage.getItem(rKey));
-			checkpointMan = JSON.stringify(oRundgang.Wachdienst[currRundgangNr].checkString);
+			checkpointContainer = rundgangContainer.Wachdienst[0].checkString;
 			
-			hmac = 'a:3:{s:11:"newRundgang";a:5:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}f59be899124b071365d07b0bd18b87b4a16c3a91';
-	
-			// 17:21:00 5-8-2013
-			d = new Date();
-			m = d.getMonth() + 1;			
-			startDatetime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();
-	
-			url = "http://ma.ids-services.at/index.php";
-	
-			data = {
-					'id': 227,
-					'no_cache': 1,
-					'type': 99,
-					'tx_mungoswachdienst_request[action]': "create",
-					'tx_mungoswachdienst_request[controller]': "Rundgang",
-					'tx_mungoswachdienst_request[__referrer][extensionName]': "MungosWachdienst",
-					'tx_mungoswachdienst_request[__referrer][controllerName]': "Rundgang",
-					'tx_mungoswachdienst_request[__referrer][actionName]': "new",
-					'tx_mungoswachdienst_request[newRundgang][feUser]': localStorage.getItem("fe_user"),
-					'tx_mungoswachdienst_request[newRundgang][startDatetime]': startDatetime,
-					'tx_mungoswachdienst_request[newRundgang][checkpointMan]': checkpointMan,
-					'tx_mungoswachdienst_request[newRundgang][checkpointAuto]': '',
-					'tx_mungoswachdienst_request[__hmac]': hmac
-			};
-			
-			$.jsonp({
+			if (checkpointContainer[0]) {
+				// Checkpoints vorhanden -> speichern
+				
+				checkpoint = JSON.stringify(checkpointContainer[0]);
+				
+				d = new Date(rundgangContainer.Wachdienst[0].start);
+        m = d.getMonth() + 1;
+    		startDatetime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();
+				
+				if (rundgangContainer.Wachdienst[0].ende > 0) {
+					d = new Date(rundgangContainer.Wachdienst[0].ende);
+					m = d.getMonth() + 1;
+					endDatetime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();
+				} else {
+					endDatetime = 0;
+				}			
+		
+				if (rundgangContainer.Wachdienst[0].uid && (rundgangContainer.Wachdienst[0].uid > 0)) {
+					// bestehenden Rundgang speichern			
+					data = {
+							'id': 227,
+							'no_cache': 1,
+							'type': 99,
+							'tx_idsmungosrundgang[action]': "update",
+							'tx_idsmungosrundgang[uid]': rundgangContainer.Wachdienst[0].uid,
+							'tx_idsmungosrundgang[feUser]': localStorage.getItem("fe_user"),
+							'tx_idsmungosrundgang[startDatetime]': startDatetime,
+							'tx_idsmungosrundgang[endDatetime]': endDatetime,
+							'tx_idsmungosrundgang[checkpoint]': checkpoint						
+					};
+					consoleLog('debug', "update Rundgang (" + rundgangContainer.Wachdienst[0].uid + "): "+checkpoint);
+						
+				} else {
+					// Rundgang wurde bisher noch nicht gespeichert			
+					data = {
+							'id': 227,
+							'no_cache': 1,
+							'type': 99,
+							'tx_idsmungosrundgang[action]': "create",
+							'tx_idsmungosrundgang[uid]': 0,
+							'tx_idsmungosrundgang[feUser]': localStorage.getItem("fe_user"),
+							'tx_idsmungosrundgang[startDatetime]': startDatetime,
+							'tx_idsmungosrundgang[endDatetime]': endDatetime,
+							'tx_idsmungosrundgang[checkpoint]': checkpoint						
+					};
+					consoleLog('debug', "neuer Rundgang: " + checkpoint);
+					
+				}
+						
+				$.jsonp({
 					url: url,
 					data: data,
 					callbackParameter: 'jsonp_callback',
-					success: function (json, textStatus, xOptions) {
-
-						if (json.uid) {
-							//jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
-							/* Update Rundgang */
-							oRundgang.Wachdienst[currRundgangNr].uid = json.uid;
-					
-							localStorage.setItem(rKey, JSON.stringify(oRundgang));
+					success: function(json) {
+							
+						if(json.uid){
+							
+							rundgangContainer.Wachdienst[0].uid = json.uid;
+							rundgangContainer.Wachdienst[0].checkString.shift();
+							if (rundgangContainer.Wachdienst[0].ende > 0) {
+								rundgangContainer.Wachdienst[0].complete = 1;
+							}
+							localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
+							
+							jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
+							consoleLog('debug', "Request-UID: " + json.uid);
+			
 						}
 							
 					},
-					error: function (xOptions, textStatus) {							
-						//jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");
-											
-						consoleLog('debug', "ERROR: Neuen Rundgang speichern");
-						consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
-						consoleLog('debug', xOptions);
+					error: function(){
+						jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");		
+						consoleLog('debug', "ERROR: Rundgang aktualisieren");
+						consoleLog('debug', "Request failed: ");
 					}
-			});
-
+				});				
+				
+			}	else {
+				// keine Checkpoints
+				if (rundgangContainer.Wachdienst[0].ende > 0) {
+					//Rundgang wurde beendet
+					if (rundgangContainer.Wachdienst[0].complete > 0) {
+						rundgangContainer.Wachdienst.shift();
+						localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
+						if (rundgangContainer.Wachdienst.length) {
+							rCount = rundgangContainer.Wachdienst.length-1;
+						} else {
+							rCount = 0;
+						}
+					} else {
+						var geoData = {};
+						geoData.datetime = new Date().getTime();
+						geoData.checkpoint = 0;
+						geoData.status = 'complete';
+						
+						rundgangContainer = JSON.parse(localStorage.getItem(rKey));
+						rundgangContainer.Wachdienst[0].checkString.push(geoData);
+						localStorage.setItem(rKey, JSON.stringify(rundgangContainer));
+					}
+				}
+			}
+			
+		}
+		
 	}
 	
 	/**************************************************************
-		EXISTIERENDEN RUNDGANG SPEICHERN
+		RUNDGANG-DATEN SÄUBERN
 	***************************************************************/
 	
-	function updateRundgang(currRundgangNr, isLast) {
-	
-			var hmac, d, m, data, startDatetime, url, oRundgang, rKey, checkpointMan, separator, endDatetime, checkString;
-	
-			checkpointMan = '';
-			rKey = 'r_' + localStorage.getItem("fe_user");
-			
-			oRundgang = {};
-			oRundgang = JSON.parse(localStorage.getItem(rKey));
-			
-			checkpointMan = JSON.stringify(oRundgang.Wachdienst[currRundgangNr].checkString);
-			
-			hmac = 'a:3:{s:8:"rundgang";a:6:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;s:10:"__identity";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}6313957ab723c65dd945a4cfb7063e14c57534fa';
-	
-			d = new Date();
-			m = d.getMonth() + 1;	
-			endDatetime = 0;
-			
-			if (isLast) {
-					endDatetime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();
+	function cleanRundgang() {
+		var rundgangContainer, cleanLocalStorage;
+		
+		cleanLocalStorage = true;
+		
+		rundgangContainer = {};
+		rundgangContainer = JSON.parse(localStorage.getItem(rKey));
+		
+		for (i=0;i<rundgangContainer.Wachdienst.length;i++) {
+			if (rundgangContainer.Wachdienst[i].checkString.length > 0) {
+				cleanLocalStorage = false;
 			}
-			
-			url = "http://ma.ids-services.at/index.php";
-	
-			data = {
-					'id': 227,
-					'no_cache': 1,
-					'type': 99,
-					'tx_mungoswachdienst_request[action]': "update",
-					'tx_mungoswachdienst_request[controller]': "Rundgang",
-					'tx_mungoswachdienst_request[rundgang][__identity]': oRundgang.Wachdienst[currRundgangNr].uid,
-					'tx_mungoswachdienst_request[__referrer][extensionName]': "MungosWachdienst",
-					'tx_mungoswachdienst_request[__referrer][controllerName]': "Rundgang",
-					'tx_mungoswachdienst_request[__referrer][actionName]': "edit",
-					'tx_mungoswachdienst_request[rundgang][feUser]': localStorage.getItem("fe_user"),
-					'tx_mungoswachdienst_request[rundgang][checkpointMan]': checkpointMan,
-					'tx_mungoswachdienst_request[rundgang][checkpointAuto]': '',
-					'tx_mungoswachdienst_request[rundgang][endDatetime]': endDatetime,
-					'tx_mungoswachdienst_request[__hmac]': hmac
-			};
-	
-			$.jsonp({
-					url: url,
-					data: data,
-					callbackParameter: 'jsonp_callback',
-					success: function(json, textStatus, xOptions) {
-							
-						if(json.uid){
-							/* Update Rundgang */
-							//jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
-							
-							oRundgang.Wachdienst[currRundgangNr].uid = json.uid;
-					
-							localStorage.setItem(rKey,JSON.stringify(oRundgang));
-						}
-							
-					},
-					error: function(xOptions, textStatus){
-						//jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");		
-										
-						consoleLog('debug', "ERROR: Rundgang aktualisieren");
-						consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
-						consoleLog('debug', xOptions);
-					}
-			});    
+			if ((i=rundgangContainer.Wachdienst.length-1) && (rundgangContainer.Wachdienst[i].ende == 0)) {
+				cleanLocalStorage = false;
+			}
+		}
+		
+		if (cleanLocalStorage == true) {
+			localStorage.removeItem(rKey)
+		}
+		
 	}
 
 });
+
