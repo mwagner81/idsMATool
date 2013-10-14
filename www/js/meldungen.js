@@ -131,6 +131,7 @@ jQuery(document).ready(function () {
         }
         
         mLostFound = jQuery(".meRadio:checked").length > 0 ? jQuery(".meRadio:checked").val() : "";
+        mPoliceInfo = jQuery("#wachzimmer").val().length > 0 ? jQuery("#wachzimmer").val() : "";
         mTrainNumber = jQuery("#uEzn").val().length > 0 ? jQuery("#uEzn").val() : "";
         mNumberPersons = jQuery("#uEAz").val().length > 0 ? jQuery("#uEAz").val() : "";
         mArrivalStation = jQuery("#uEbh").val().length > 0 ? jQuery("#uEbh").val() : "";
