@@ -88,7 +88,14 @@ jQuery(document).ready(function () {
             success: function() { 
                 alert("Meldung erfolgreich");
                 localStorage.removeItem(m_key);
-                localStorage.removeItem("pics");                    
+                localStorage.removeItem("pics");   
+                jQuery("form").find("input[type=text], textarea").val("");
+                jQuery("#eingetroffeneStunde").val("");
+                jQuery("#eingetroffeneMinute").val("");
+                jQuery("#beendetStunde").val("");
+                jQuery("#beendetMinute").val("");
+                jQuery("form").find("input[type=checkbox]").attr('checked', false);
+                jQuery("form").find("input[type=radio]").attr('checked', false);
             },
             error: function(xOptions, textStatus, error){
                 alert("Meldung fehlgeschlagen: " + JSON.stringify(xOptions) + " " + textStatus + " " + error);
@@ -227,6 +234,14 @@ jQuery(document).ready(function () {
         
         localStorage.removeItem(m_key);
         localStorage.removeItem("pics");
+
+        jQuery("form").find("input[type=text], textarea").val("");
+        jQuery("#eingetroffeneStunde").val("");
+        jQuery("#eingetroffeneMinute").val("");
+        jQuery("#beendetStunde").val("");
+        jQuery("#beendetMinute").val("");
+        jQuery("form").find("input[type=checkbox]").attr('checked', false);
+        jQuery("form").find("input[type=radio]").attr('checked', false);
         
         jQuery(".meForm").slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');    
         
