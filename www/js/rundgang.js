@@ -224,7 +224,7 @@ jQuery(document).ready(function () {
 		NEUEN RUNDGANG SPEICHERN
 	***************************************************************/
 
-	function newRundgang(rCount) {
+	function newRundgang(currRundgangNr) {
 			
 			var hmac, d, m, data, startDatetime, url, oRundgang, rKey, checkString, checkpointMan, i;
 	
@@ -233,15 +233,7 @@ jQuery(document).ready(function () {
 			
 			oRundgang = {};
 			oRundgang = JSON.parse(localStorage.getItem(rKey));
-			checkpointMan = JSON.stringify(oRundgang.Wachdienst[rCount].checkString);
-			
-			 jQuery("#permaCheck").append("<span><b>Error</b></span> "+ checkpointMan + "<br><hr>");
-			
-			/*checkString = oRundgang.Wachdienst[rCount].checkString;
-	
-			for (i = 0; i < checkString.length; i++) {
-					checkpointMan = checkpointMan +  JSON.stringify(checkString[i]);
-			}*/
+			checkpointMan = JSON.stringify(oRundgang.Wachdienst[currRundgangNr].checkString);
 			
 			hmac = 'a:3:{s:11:"newRundgang";a:5:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}f59be899124b071365d07b0bd18b87b4a16c3a91';
 	
@@ -274,15 +266,18 @@ jQuery(document).ready(function () {
 					callbackParameter: 'jsonp_callback',
 					success: function (json, textStatus, xOptions) {
 
-							if (json.uid) {
-									/* Update Rundgang */
-									oRundgang.Wachdienst[rCount].uid = json.uid;
-							
-									localStorage.setItem(rKey, JSON.stringify(oRundgang));
-							}
+						if (json.uid) {
+							jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
+							/* Update Rundgang */
+							oRundgang.Wachdienst[currRundgangNr].uid = json.uid;
+					
+							localStorage.setItem(rKey, JSON.stringify(oRundgang));
+						}
 							
 					},
-					error: function (xOptions, textStatus) {						
+					error: function (xOptions, textStatus) {							
+						jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");
+											
 						consoleLog('debug', "ERROR: Neuen Rundgang speichern");
 						consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
 						consoleLog('debug', xOptions);
@@ -295,7 +290,7 @@ jQuery(document).ready(function () {
 		EXISTIERENDEN RUNDGANG SPEICHERN
 	***************************************************************/
 	
-	function updateRundgang(rCount, isLast) {
+	function updateRundgang(currRundgangNr, isLast) {
 	
 			var hmac, d, m, data, startDatetime, url, oRundgang, rKey, checkpointMan, separator, endDatetime, checkString;
 	
@@ -305,19 +300,7 @@ jQuery(document).ready(function () {
 			oRundgang = {};
 			oRundgang = JSON.parse(localStorage.getItem(rKey));
 			
-			checkpointMan = JSON.stringify(oRundgang.Wachdienst[rCount].checkString);
-			
-			jQuery("#permaCheck").append("<span><b>Error</b></span> "+ checkpointMan + "<br><hr>");
-			
-			/*checkString = oRundgang.Wachdienst[rCount].checkString;
-			
-			separator = '';
-			
-			for (var i=0; i < checkString.length; i++) {
-					
-					if(i>0){ separator = ', '; }
-					checkpointMan = checkpointMan + separator +  JSON.stringify(checkString[i]);
-			}*/
+			checkpointMan = JSON.stringify(oRundgang.Wachdienst[currRundgangNr].checkString);
 			
 			hmac = 'a:3:{s:8:"rundgang";a:6:{s:6:"feUser";i:1;s:13:"startDatetime";i:1;s:11:"endDatetime";i:1;s:13:"checkpointMan";i:1;s:14:"checkpointAuto";i:1;s:10:"__identity";i:1;}s:6:"action";i:1;s:10:"controller";i:1;}6313957ab723c65dd945a4cfb7063e14c57534fa';
 	
@@ -337,7 +320,7 @@ jQuery(document).ready(function () {
 					'type': 99,
 					'tx_mungoswachdienst_request[action]': "update",
 					'tx_mungoswachdienst_request[controller]': "Rundgang",
-					'tx_mungoswachdienst_request[rundgang][__identity]': oRundgang.Wachdienst[rCount].uid,
+					'tx_mungoswachdienst_request[rundgang][__identity]': oRundgang.Wachdienst[currRundgangNr].uid,
 					'tx_mungoswachdienst_request[__referrer][extensionName]': "MungosWachdienst",
 					'tx_mungoswachdienst_request[__referrer][controllerName]': "Rundgang",
 					'tx_mungoswachdienst_request[__referrer][actionName]': "edit",
@@ -356,13 +339,17 @@ jQuery(document).ready(function () {
 							
 						if(json.uid){
 							/* Update Rundgang */
-							oRundgang.Wachdienst[rCount].uid = json.uid;
+							jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
+							
+							oRundgang.Wachdienst[currRundgangNr].uid = json.uid;
 					
 							localStorage.setItem(rKey,JSON.stringify(oRundgang));
 						}
 							
 					},
-					error: function(xOptions, textStatus){						
+					error: function(xOptions, textStatus){
+						jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");		
+										
 						consoleLog('debug', "ERROR: Rundgang aktualisieren");
 						consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
 						consoleLog('debug', xOptions);
