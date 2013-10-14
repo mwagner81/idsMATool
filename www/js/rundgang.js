@@ -207,7 +207,7 @@ jQuery(document).ready(function () {
 		/* Load Rundgang from localStorage */
 		oRundgang = JSON.parse(localStorage.getItem(rKey));
 		
-		if (oRundgang.Wachdienst[rCount]) {
+		if (oRundgang && oRundgang.Wachdienst[rCount]) {
 			/* Update Rundgang Ende*/
 			oRundgang.Wachdienst[rCount].ende = new Date().getTime();
 			
