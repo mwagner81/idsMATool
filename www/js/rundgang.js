@@ -267,7 +267,7 @@ jQuery(document).ready(function () {
 					success: function (json, textStatus, xOptions) {
 
 						if (json.uid) {
-							jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
+							//jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
 							/* Update Rundgang */
 							oRundgang.Wachdienst[currRundgangNr].uid = json.uid;
 					
@@ -276,7 +276,7 @@ jQuery(document).ready(function () {
 							
 					},
 					error: function (xOptions, textStatus) {							
-						jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");
+						//jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");
 											
 						consoleLog('debug', "ERROR: Neuen Rundgang speichern");
 						consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
@@ -339,7 +339,7 @@ jQuery(document).ready(function () {
 							
 						if(json.uid){
 							/* Update Rundgang */
-							jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
+							//jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
 							
 							oRundgang.Wachdienst[currRundgangNr].uid = json.uid;
 					
@@ -348,7 +348,7 @@ jQuery(document).ready(function () {
 							
 					},
 					error: function(xOptions, textStatus){
-						jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");		
+						//jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");		
 										
 						consoleLog('debug', "ERROR: Rundgang aktualisieren");
 						consoleLog('debug', "Request failed: " + xOptions + " " + textStatus);
