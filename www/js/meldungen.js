@@ -141,15 +141,35 @@ jQuery(document).ready(function () {
         mLiftArrivelTime = jQuery("#eingetroffeneStunde").val().length > 0 && jQuery("#eingetroffeneMinute").val().length ? 
             jQuery("#eingetroffeneStunde").val()+":"+jQuery("#eingetroffeneMinute").val() : "";
         mLiftEndedTime = jQuery("#beendetStunde").val().length > 0 && jQuery("#beendetMinute").val().length ? 
-            jQuery("#beendetStunde").val()+":"+jQuery("#beendetMinute").val() : "";
-        mPoliceInfo = jQuery("#gewaltWachzimmer").val().length > 0 ? jQuery("#gewaltWachzimmer").val() : "";
-        mHospitalInfo = jQuery("#gewaltKrankenhaus").val().length > 0 ? jQuery("#gewaltKrankenhaus").val() : "";
-        mPoliceInfo = jQuery("#einbruchWachzimmer").val().length > 0 ? jQuery("#einbruchWachzimmer").val() : "";
-        mHospitalInfo = jQuery("#einbruchKrankenhaus").val().length > 0 ? jQuery("#einbruchKrankenhaus").val() : "";        
+            jQuery("#beendetStunde").val()+":"+jQuery("#beendetMinute").val() : "";       
         mConcernSecurity = jQuery("#Konzernsicherheit").prop('checked') ? 1 : 0;
         mName = jQuery("#beschwerdeName").val().length > 0 ? jQuery("#beschwerdeName").val() : ""; 
         mAddress = jQuery("#beschwerdeAdresse").val().length > 0 ? jQuery("#beschwerdeAdresse").val() : ""; 
         mContact = jQuery("#beschwerdeKontakt").val().length > 0 ? jQuery("#beschwerdeKontakt").val() : ""; 
+        
+        if(jQuery("#wachzimmer").val().length > 0){
+            mPoliceInfo = jQuery("#wachzimmer").val();
+        }
+        else if(jQuery("#gewaltWachzimmer").val().length > 0){
+            mPoliceInfo = jQuery("#gewaltWachzimmer").val();
+        }        
+        else if(jQuery("#gewaltWachzimmer").val().length > 0){
+            mPoliceInfo = jQuery("#gewaltWachzimmer").val();
+        }  
+        else if(jQuery("#einbruchWachzimmer").val().length > 0){
+            mPoliceInfo = jQuery("#einbruchWachzimmer").val();
+        }  else {
+            mPoliceInfo = "";
+        }
+        
+        if(jQuery("#gewaltKrankenhaus").val().length > 0){
+            mHospitalInfo = jQuery("#gewaltKrankenhaus").val();
+        }  
+        else if(jQuery("#einbruchKrankenhaus").val().length > 0){
+            mHospitalInfo = jQuery("#einbruchKrankenhaus").val();
+        }else {
+            mHospitalInfo = "";
+        }
              
         
         // opens the confirm dialog
