@@ -154,7 +154,7 @@ jQuery(document).ready(function () {
 		// holt die aktuellen Geokoordinaten				
 		var options = {
 			enableHighAccuracy: true, 
-			timeout: 30000
+			timeout: 60000
 		};
 		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
 	}	
