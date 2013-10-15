@@ -91,10 +91,6 @@ jQuery(document).ready(function () {
 				jQuery(".expand").removeAttr('style');
 		});
 
-		jQuery('#rundgangButtons').attr('src', 'img/buttonsAct.png').delay(1500).queue(function (next) {
-				jQuery(this).attr('src', 'img/buttonsRun.png');
-				next();
-		});
 		d = new Date();
 		m = d.getMonth() + 1;
 		span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
@@ -111,6 +107,11 @@ jQuery(document).ready(function () {
 						getCurGeoData()
 				}, 5000);
 			
+			jQuery('#rundgangButtons').attr('src', 'img/buttonsAct.png').delay(1500).queue(function (next) {
+				jQuery(this).attr('src', 'img/buttonsRun.png');
+				next();
+			});
+			
 			span_text = '<span><b>Rundgang wurde gestartet</b></span>';        
 			jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
 				jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
@@ -122,6 +123,11 @@ jQuery(document).ready(function () {
 		} else {
 			// Deaktiviere die permanente Geo-Datenerfassung
 			clearInterval(rInterval);
+			
+			jQuery('#rundgangButtons').attr('src', 'img/buttonsRunAct.png').delay(1500).queue(function (next) {
+				jQuery(this).attr('src', 'img/buttons.png');
+				next();
+			});
 			
 			stopGeoData();
 			
