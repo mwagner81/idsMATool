@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
 
-	var rKey, rWatchId, saveInterval, cleanInterval, rInterval, x, oRundgang;
+	var rKey, rWatchId, saveInterval, cleanInterval, rInterval, saveTimeout, x, oRundgang;
 	
 	var url = "http://ma.ids-services.at/index.php"; 
 	
@@ -17,9 +17,12 @@ jQuery(document).ready(function () {
 	// Rundgang Object
   oRundgang = {};	
 	
-	saveInterval = setInterval(function() {
+	/*saveInterval = setInterval(function() {
 				updateRundgang()
-		}, 1000);
+		}, 1000);*/
+	saveTimeout = setTimeout(function() {
+				updateRundgang()
+		}, 5000);
 	/*cleanInterval = setInterval(function() {
 				cleanRundgang()
 		}, 60000);*/
@@ -40,6 +43,11 @@ jQuery(document).ready(function () {
 		
 		if (oRundgang.Wachdienst[rCount] && (oRundgang.Wachdienst[rCount].ende == 0)){
 			// der letzte Rundgang ist noch offen
+			
+				jQuery('#rundgangButtons').attr('src', 'img/buttonsAct.png').delay(1500).queue(function (next) {
+					jQuery(this).attr('src', 'img/buttonsRun.png');
+					next();
+				});
 				
 				// Get Last Checkpoint
 				if (oRundgang.Wachdienst[rCount].checkString.length > 0) {
@@ -259,17 +267,21 @@ jQuery(document).ready(function () {
 		
 		var rundgangContainer, checkpointContainer, checkpoint;
 		
+		consoleLog('debug', "updateRundgang gestartet");
+		
 		rundgangContainer = {};
 		rundgangContainer = JSON.parse(localStorage.getItem(rKey));
 		
 		if (rundgangContainer && rundgangContainer.Wachdienst[0]) {
 			// es existiert ein Rundgang
 			
+			consoleLog('debug', "Rundgang gefunden");
 			checkpointContainer = rundgangContainer.Wachdienst[0].checkString;
 			
 			if (checkpointContainer[0]) {
 				// Checkpoints vorhanden -> speichern
 				
+				consoleLog('debug', "Checkpoints vorhanden");
 				checkpoint = JSON.stringify(checkpointContainer[0]);
 				
 				d = new Date(rundgangContainer.Wachdienst[0].start);
@@ -285,7 +297,8 @@ jQuery(document).ready(function () {
 				}			
 		
 				if (rundgangContainer.Wachdienst[0].uid && (rundgangContainer.Wachdienst[0].uid > 0)) {
-					// bestehenden Rundgang speichern			
+					// bestehenden Rundgang speichern		
+					
 					data = {
 							'id': 227,
 							'no_cache': 1,
@@ -297,10 +310,11 @@ jQuery(document).ready(function () {
 							'tx_idsmungosrundgang[endDatetime]': endDatetime,
 							'tx_idsmungosrundgang[checkpoint]': checkpoint						
 					};
-					//consoleLog('debug', "update Rundgang (" + rundgangContainer.Wachdienst[0].uid + "): "+checkpoint);
+					consoleLog('debug', "update Rundgang (" + rundgangContainer.Wachdienst[0].uid + "): "+checkpoint);
 						
 				} else {
-					// Rundgang wurde bisher noch nicht gespeichert			
+					// Rundgang wurde bisher noch nicht gespeichert		
+					
 					data = {
 							'id': 227,
 							'no_cache': 1,
@@ -312,7 +326,7 @@ jQuery(document).ready(function () {
 							'tx_idsmungosrundgang[endDatetime]': endDatetime,
 							'tx_idsmungosrundgang[checkpoint]': checkpoint						
 					};
-					//consoleLog('debug', "neuer Rundgang: " + checkpoint);
+					consoleLog('debug', "neuer Rundgang: " + checkpoint);
 					
 				}
 						
@@ -332,14 +346,14 @@ jQuery(document).ready(function () {
 							localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
 							
 							//jQuery("#permaCheck").append("<span><b>Sucess:</b></span> "+ json.uid + "<br><hr>");
-							//consoleLog('debug', "Request-UID: " + json.uid);
+							consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);
 			
 						}
-							
+													
 					},
 					error: function(){
 						//jQuery("#permaCheck").append("<span><b>Error:</b></span> while submit<br><hr>");		
-						//consoleLog('debug', "ERROR: Rundgang aktualisieren");
+						consoleLog('debug', "ERROR: Rundgang aktualisieren");
 						//consoleLog('debug', "Request failed: ");
 					}
 				});				
@@ -348,6 +362,8 @@ jQuery(document).ready(function () {
 				// keine Checkpoints
 				if (rundgangContainer.Wachdienst[0].ende > 0) {
 					//Rundgang wurde beendet
+					
+					consoleLog('debug', "Rundgang wurde beendet");
 					if (rundgangContainer.Wachdienst[0].complete > 0) {
 						rundgangContainer.Wachdienst.shift();
 						localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
@@ -356,6 +372,8 @@ jQuery(document).ready(function () {
 						} else {
 							rCount = 0;
 						}
+						
+						consoleLog('debug', "Rundgang status=complete");
 					} else {
 						var geoData = {};
 						geoData.datetime = new Date().getTime();
@@ -365,12 +383,19 @@ jQuery(document).ready(function () {
 						rundgangContainer = JSON.parse(localStorage.getItem(rKey));
 						rundgangContainer.Wachdienst[0].checkString.push(geoData);
 						localStorage.setItem(rKey, JSON.stringify(rundgangContainer));
+						
+						consoleLog('debug', "Abschluss-Checkpoint setzen");
 					}
 				}
+				
 			}
 			
 		}
 		
+		saveTimeout = setTimeout(function() {
+					updateRundgang()
+			}, 1000);
+
 	}
 	
 	/**************************************************************
