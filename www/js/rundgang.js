@@ -153,8 +153,7 @@ jQuery(document).ready(function () {
 	function getCurGeoData() {	
 		// holt die aktuellen Geokoordinaten				
 		var options = {
-			enableHighAccuracy: true, 
-			timeout: 60000
+			maximumAge: 5000, timeout: 10000, enableHighAccuracy: true 
 		};
 		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
 	}	
@@ -174,7 +173,13 @@ jQuery(document).ready(function () {
 		geoData.status = "ok";
 		geoData.lat = position.coords.latitude;
 		geoData.lng = position.coords.longitude;
-		geoData.acc = position.coords.accuracy;
+		geoData.acc = position.coords.accuracy;		
+		geoData.timestamp = position.timestamp;
+		
+		var d = new Date(position.timestamp);
+    var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';
+		          
+		jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ span_date      + "<br /><hr>");
 		
 		saveCheckPoint(geoData);
 	}	
@@ -188,6 +193,15 @@ jQuery(document).ready(function () {
 		geoData.datetime = new Date().getTime();
 		geoData.checkpoint = checkpointNr;
 		geoData.status = error.code;
+		
+		var d = new Date();
+    var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
+        
+		jQuery("#permaCheck").append("<span><b>Error</b></span> | "+ span_date      + "<br />" +
+				'Code: '          + error.code          + ' | ' +
+				'Message: '       + error.message        + '<br /><hr>'
+				);
+
 		
 		saveCheckPoint(geoData);
 	}

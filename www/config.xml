@@ -109,6 +109,6 @@
     <gap:plugin name="org.apache.cordova.core.dialogs" />
     
 	<!-- 3rd Party Plugins -->
-		<!--<gap:plugin name="com.chariotsolutions.nfc.plugin" />-->
+		<gap:plugin name="com.chariotsolutions.nfc.plugin" />
 		
 </widget>
