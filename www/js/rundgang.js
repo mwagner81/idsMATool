@@ -153,8 +153,9 @@ jQuery(document).ready(function () {
 	function getCurGeoData() {	
 		// holt die aktuellen Geokoordinaten				
 		var options = {
-			enableHighAccuracy: true, 
-			timeout: 60000
+			maximumAge: 5000, 
+			timeout: 10000, 
+			enableHighAccuracy: true
 		};
 		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
 	}	
@@ -175,6 +176,15 @@ jQuery(document).ready(function () {
 		geoData.lat = position.coords.latitude;
 		geoData.lng = position.coords.longitude;
 		geoData.acc = position.coords.accuracy;
+		geoData.time = position.timestamp;
+		
+		var d = new Date(timestamp);
+		var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
+		
+		jQuery("#permaCheck").append("<span><b>Error</b></span> | "+ span_date + "<br />" +
+				'Code: '          + error.code          + ' | ' +
+				'Message: '       + error.message       + '<br><hr>'
+				);
 		
 		saveCheckPoint(geoData);
 	}	
@@ -188,6 +198,26 @@ jQuery(document).ready(function () {
 		geoData.datetime = new Date().getTime();
 		geoData.checkpoint = checkpointNr;
 		geoData.status = error.code;
+		
+		var networkState = navigator.connection.type;
+    states[Connection.UNKNOWN]  = 'Unknown connection';
+    states[Connection.ETHERNET] = 'Ethernet connection';
+    states[Connection.WIFI]     = 'WiFi connection';
+    states[Connection.CELL_2G]  = 'Cell 2G connection';
+    states[Connection.CELL_3G]  = 'Cell 3G connection';
+    states[Connection.CELL_4G]  = 'Cell 4G connection';
+    states[Connection.CELL]     = 'Cell generic connection';
+    states[Connection.NONE]     = 'No network connection';
+		
+		var d = new Date();
+		var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
+		
+		jQuery("#permaCheck").append("<span><b>Error</b></span> | "+ span_date + "<br />" +
+				'Code: '          	+ error.code          	+ ' | ' +
+				'Message: '       	+ error.message       	+ '<br>' + 
+				'Connection type: ' + states[networkState]	+ '<br><hr>'
+				);
+
 		
 		saveCheckPoint(geoData);
 	}

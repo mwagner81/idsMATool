@@ -26,8 +26,8 @@
     <feature name="http://api.phonegap.com/1.0/file"/>
     <feature name="http://api.phonegap.com/1.0/media"/>
     <feature name="http://api.phonegap.com/1.0/notification"/>    
-    <!--
     <feature name="http://api.phonegap.com/1.0/network"/>
+		<!--
     <feature name="http://api.phonegap.com/1.0/contacts"/>
     -->
     
@@ -102,13 +102,13 @@
     <gap:plugin name="org.apache.cordova.core.media-capture" />
     <gap:plugin name="org.apache.cordova.core.camera" />    
     <gap:plugin name="org.apache.cordova.core.file-transfer" />
+    <gap:plugin name="org.apache.cordova.core.network-information" />
     <!--
     <gap:plugin name="org.apache.cordova.core.contacts" />
     -->
     <gap:plugin name="org.apache.cordova.core.dialogs" />
     
 	<!-- 3rd Party Plugins -->
-    <!--
-	<gap:plugin name="com.chariotsolutions.nfc.plugin" />
-    -->
+		<gap:plugin name="com.chariotsolutions.nfc.plugin" />
+		
 </widget>
