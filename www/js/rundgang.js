@@ -179,7 +179,7 @@ jQuery(document).ready(function () {
 		var d = new Date(position.timestamp);
     var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';
 		          
-		jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ span_date      + "<br /><hr>");
+		jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ navigator.connection.type      + "<br /><hr>");
 		
 		saveCheckPoint(geoData);
 	}	
