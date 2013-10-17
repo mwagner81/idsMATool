@@ -178,7 +178,7 @@ jQuery(document).ready(function () {
 		geoData.acc = position.coords.accuracy;
 		geoData.time = position.timestamp;
 		
-		var networkState = navigator.connection.type;
+		/*var networkState = navigator.connection.type;
     states[Connection.UNKNOWN]  = 'Unknown connection';
     states[Connection.ETHERNET] = 'Ethernet connection';
     states[Connection.WIFI]     = 'WiFi connection';
@@ -186,14 +186,14 @@ jQuery(document).ready(function () {
     states[Connection.CELL_3G]  = 'Cell 3G connection';
     states[Connection.CELL_4G]  = 'Cell 4G connection';
     states[Connection.CELL]     = 'Cell generic connection';
-    states[Connection.NONE]     = 'No network connection';
+    states[Connection.NONE]     = 'No network connection';*/
 		
 		var d = new Date(timestamp);
 		var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
 		
-		jQuery("#permaCheck").append("<span><b>Error</b></span> | "+ span_date + "<br />" +				
+		jQuery("#permaCheck").append("<span><b>Error</b></span> | "+ span_date + "<br />");/* +				
 				'Connection type: ' + states[networkState]	+ '<br><hr>'
-				);
+				);*/
 		
 		saveCheckPoint(geoData);
 	}	
@@ -208,7 +208,7 @@ jQuery(document).ready(function () {
 		geoData.checkpoint = checkpointNr;
 		geoData.status = error.code;
 		
-		var networkState = navigator.connection.type;
+		/*var networkState = navigator.connection.type;
     states[Connection.UNKNOWN]  = 'Unknown connection';
     states[Connection.ETHERNET] = 'Ethernet connection';
     states[Connection.WIFI]     = 'WiFi connection';
@@ -216,16 +216,16 @@ jQuery(document).ready(function () {
     states[Connection.CELL_3G]  = 'Cell 3G connection';
     states[Connection.CELL_4G]  = 'Cell 4G connection';
     states[Connection.CELL]     = 'Cell generic connection';
-    states[Connection.NONE]     = 'No network connection';
+    states[Connection.NONE]     = 'No network connection';*/
 		
 		var d = new Date();
 		var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
 		
 		jQuery("#permaCheck").append("<span><b>Error</b></span> | "+ span_date + "<br />" +
 				'Code: '          	+ error.code          	+ ' | ' +
-				'Message: '       	+ error.message       	+ '<br>' + 
+				'Message: '       	+ error.message       	+ '<br>');/* + 
 				'Connection type: ' + states[networkState]	+ '<br><hr>'
-				);
+				);*/
 
 		
 		saveCheckPoint(geoData);
