@@ -130,6 +130,7 @@ jQuery(document).ready(function () {
 			});
 			
 			rStarted = true;
+			jQuery("#permaCheck").empty();
 			
 		} else {
 			// Deaktiviere die permanente Geo-Datenerfassung
@@ -377,7 +378,7 @@ jQuery(document).ready(function () {
 							}
 							localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
 							
-							jQuery("#permaCheck").append("<span><b>Daten gespeichert:</b></span> "+ json.uid + "<br><hr>");
+							jQuery("#permaCheck").append("<span><b>Daten gespeichert</b></span> (UID: "+ json.uid + ")<br><hr>");
 							consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);
 			
 						}
