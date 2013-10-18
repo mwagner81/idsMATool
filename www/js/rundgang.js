@@ -13,6 +13,9 @@ jQuery(document).ready(function () {
 	var rCount = 0;
 	var checkpointNr = 0;
 	var rStarted = false;
+	var rTimeout = 5000;
+	var rMaximumAge = 5000;
+	var rEnableHighAccuracy = true;
 	
 	// Rundgang Object
   oRundgang = {};	
@@ -151,9 +154,9 @@ jQuery(document).ready(function () {
 	});
 	
 	function getCurGeoData() {	
-		// holt die aktuellen Geokoordinaten				
+		// holt die aktuellen Geokoordinaten			
 		var options = {
-			maximumAge: 5000, timeout: 10000, enableHighAccuracy: true 
+			maximumAge: rMaximumAge, timeout: rTimeout, enableHighAccuracy: rEnableHighAccuracy 
 		};
 		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
 	}	
@@ -178,8 +181,14 @@ jQuery(document).ready(function () {
 		
 		var d = new Date(position.timestamp);
     var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';
+		if (navigator.connection) { navCon = navigator.connection.type; }
+		else { navCon = "unavailable"; }
 		          
-		jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ navigator.connection.type      + "<br /><hr>");
+		jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ span_date      + "<br />" + 
+				'Connectiontype: ' + navCon + '<br><hr>'
+				);
+		
+		rTimeout = 5000;
 		
 		saveCheckPoint(geoData);
 	}	
@@ -195,13 +204,18 @@ jQuery(document).ready(function () {
 		geoData.status = error.code;
 		
 		var d = new Date();
-    var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';        
+    var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>'; 
+		
+		if (navigator.connection) { navCon = navigator.connection.type; }
+		else { navCon = "unavailable"; }       
         
-		jQuery("#permaCheck").append("<span><b>Error</b></span> | "+ span_date      + "<br />" +
+		jQuery("#permaCheck").append('<span><b>Error</b></span> | ' + span_date      + '<br />"'+
 				'Code: '          + error.code          + ' | ' +
-				'Message: '       + error.message        + '<br /><hr>'
+				'Message: '       + error.message        + '<br />' + 
+				'Connectiontype: ' + navCon + '<br><hr>'
 				);
 
+		rTimeout = 60000;
 		
 		saveCheckPoint(geoData);
 	}
