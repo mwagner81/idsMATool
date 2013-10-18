@@ -185,8 +185,7 @@ jQuery(document).ready(function () {
 		if (navigator.connection) { navCon = navigator.connection.type; }
 		else { navCon = "unavailable"; }
 		          
-		jQuery("#permaCheck").append("<span><b>Success</b></span> | "+ span_date      + "<br />" + 
-				'Connectiontype: ' + navCon + '<br><hr>'
+		jQuery("#permaCheck").append('<span><b>Success</b></span> | ' + span_date      + '<br /><hr>'
 				);
 		
 		rTimeout = 10000;
@@ -212,8 +211,7 @@ jQuery(document).ready(function () {
         
 		jQuery("#permaCheck").append('<span><b>Error</b></span> | ' + span_date      + '<br />"'+
 				'Code: '          + error.code          + ' | ' +
-				'Message: '       + error.message        + '<br />' + 
-				'Connectiontype: ' + navCon + '<br><hr>'
+				'Message: '       + error.message        + '<br /><hr>'
 				);
 
 		rTimeout = 60000;
@@ -378,14 +376,16 @@ jQuery(document).ready(function () {
 							}
 							localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
 							
-							jQuery("#permaCheck").append("<span><b>Daten gespeichert</b></span> (UID: "+ json.uid + ")<br><hr>");
+							jQuery("#permaCheck").append('<span><b>Daten gespeichert</b></span> (UID: '+ json.uid + ')<br>' + 
+									'Connectiontype: ' + navCon + '<br><hr>');
 							consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);
 			
 						}
 													
 					},
 					error: function(){
-						jQuery("#permaCheck").append("<span><b>Fehler</b></span> Daten konnten nicht gespeichert werden<br><hr>");		
+						jQuery("#permaCheck").append('<span><b>Fehler</b></span> Daten konnten nicht gespeichert werden<br>' + 
+									'Connectiontype: ' + navCon + '<br><hr>');		
 						consoleLog('debug', "ERROR: Rundgang aktualisieren");
 						//consoleLog('debug', "Request failed: ");
 					}
