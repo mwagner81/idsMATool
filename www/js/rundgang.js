@@ -303,6 +303,7 @@ jQuery(document).ready(function () {
 		var rundgangContainer, checkpointContainer, checkpoint;
 		
 		consoleLog('debug', "updateRundgang gestartet");
+		jQuery("#permaCheck").append('<span><b>Datentransfer gestartet</b></span> <br><hr>');
 		
 		rundgangContainer = {};
 		rundgangContainer = JSON.parse(localStorage.getItem(rKey));
@@ -377,7 +378,7 @@ jQuery(document).ready(function () {
 							
 							jQuery("#permaCheck").append('<span><b>Daten gespeichert</b></span> (UID: '+ json.uid + ')<br>' + 
 									'Connectiontype: ' + navCon + '<br>' + 
-									'Data: ' + checkpoint + '<br><hr>');
+									'Data: ' + JSON.stringify(rundgangContainer.Wachdienst[0]) + '<br><hr>');
 							consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);
 							
 							if (rundgangContainer.Wachdienst[0].uid == 0) {
@@ -398,7 +399,8 @@ jQuery(document).ready(function () {
 					},
 					error: function(){
 						jQuery("#permaCheck").append('<span><b>Fehler</b></span> Daten konnten nicht gespeichert werden<br>' + 
-									'Connectiontype: ' + navCon + '<br><hr>');		
+									'Connectiontype: ' + navCon + '<br>' + 
+									'Data: ' + JSON.stringify(rundgangContainer.Wachdienst[0]) + '<br><hr>');		
 						consoleLog('debug', "ERROR: Rundgang aktualisieren");
 						saveTimeout = setTimeout(function() {
 									updateRundgang()
