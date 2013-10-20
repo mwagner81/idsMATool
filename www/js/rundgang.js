@@ -111,6 +111,7 @@ jQuery(document).ready(function () {
 				
 		if (rStarted == false) {	
 			// Aktiviere die permanente Geo-Datenerfassung
+			
 			getCurGeoData();
 			rInterval = setInterval(function() {
 						getCurGeoData()
@@ -379,7 +380,9 @@ jQuery(document).ready(function () {
 									'Data: ' + checkpoint + '<br><hr>');
 							consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);
 							
-							rundgangContainer.Wachdienst[0].uid = json.uid;
+							if (rundgangContainer.Wachdienst[0].uid == 0) {
+								rundgangContainer.Wachdienst[0].uid = json.uid;
+							}
 							rundgangContainer.Wachdienst[0].checkString.shift();
 							if (rundgangContainer.Wachdienst[0].ende > 0) {
 								rundgangContainer.Wachdienst[0].complete = 1;
@@ -387,6 +390,10 @@ jQuery(document).ready(function () {
 							localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
 							
 						}
+						
+						saveTimeout = setTimeout(function() {
+									updateRundgang()
+							}, 1000);
 													
 					},
 					error: function(){
@@ -394,6 +401,10 @@ jQuery(document).ready(function () {
 									'Connectiontype: ' + navCon + '<br><hr>');		
 						consoleLog('debug', "ERROR: Rundgang aktualisieren");
 						//consoleLog('debug', "Request failed: ");
+						saveTimeout = setTimeout(function() {
+									updateRundgang()
+							}, 1000);
+							
 					}
 				});				
 				
@@ -425,15 +436,16 @@ jQuery(document).ready(function () {
 						
 						consoleLog('debug', "Abschluss-Checkpoint setzen");
 					}
+					
 				}
+				
+				saveTimeout = setTimeout(function() {
+							updateRundgang()
+					}, 1000);
 				
 			}
 			
 		}
-		
-		saveTimeout = setTimeout(function() {
-					updateRundgang()
-			}, 1000);
 
 	}
 	
