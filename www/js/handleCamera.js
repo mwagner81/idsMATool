@@ -65,7 +65,7 @@ function uploadFiles() {
     
     
     if(mesLen>0) {
-        setTimeout("alert(\"Es werden "+mesLen+" Bilder hochgeladen\")", 500);
+        //setTimeout("alert(\"Es werden "+mesLen+" Bilder hochgeladen\")", 500);
     }
 }
 
