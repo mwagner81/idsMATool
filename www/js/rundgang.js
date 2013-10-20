@@ -17,7 +17,7 @@ jQuery(document).ready(function () {
 	var rMaximumAge = 5000;
 	var rEnableHighAccuracy = true;
 	var searchGeoData = false;
-	var setIntervalStartTimeout = 1000;
+	var setGeoDataErrCount = 0;
 	var setIntervalTimeout = 7000;
 	
 	// Rundgang Object
@@ -190,6 +190,7 @@ jQuery(document).ready(function () {
 				);
 		
 		rTimeout = 10000;
+		setGeoDataErrCount = 0;
 		searchGeoData = false;
 		
 		saveCheckPoint(geoData);
@@ -215,8 +216,9 @@ jQuery(document).ready(function () {
 				'Code: '          + error.code          + ' | ' +
 				'Message: '       + error.message        + '<br /><hr>'
 				);
-
-		rTimeout = 60000;
+				
+		setGeoDataErrCount++;
+		if (setGeoDataErrCount > 5) { rTimeout = 60000; }
 		searchGeoData = false;
 		
 		saveCheckPoint(geoData);
@@ -372,6 +374,11 @@ jQuery(document).ready(function () {
 							
 						if(json.uid){
 							
+							jQuery("#permaCheck").append('<span><b>Daten gespeichert</b></span> (UID: '+ json.uid + ')<br>' + 
+									'Connectiontype: ' + navCon + '<br>' + 
+									'Data: ' + checkpoint + '<br><hr>');
+							consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);
+							
 							rundgangContainer.Wachdienst[0].uid = json.uid;
 							rundgangContainer.Wachdienst[0].checkString.shift();
 							if (rundgangContainer.Wachdienst[0].ende > 0) {
@@ -379,10 +386,6 @@ jQuery(document).ready(function () {
 							}
 							localStorage.setItem(rKey,JSON.stringify(rundgangContainer));
 							
-							jQuery("#permaCheck").append('<span><b>Daten gespeichert</b></span> (UID: '+ json.uid + ')<br>' + 
-									'Connectiontype: ' + navCon + '<br><hr>');
-							consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);
-			
 						}
 													
 					},
