@@ -95,7 +95,7 @@ function uploadFile(mediaFile) {
     name = mediaFile.name;
 
     ft.upload(path,
-        "http://ids-services.at/ma-test/upload.php",
+        "http://ma.ids-services.at/images/upload.php",
         function(result) {
             console.log('Upload success: ' + result.responseCode);
             console.log(result.bytesSent + ' bytes sent');
