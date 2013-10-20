@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
 
-	var rKey, rWatchId, getGeoDateTimeout, rInterval, saveTimeout, x, oRundgang; //, cleanInterval
+	var rKey, rWatchId, saveInterval, rInterval, saveTimeout, x, oRundgang;
 	
 	var url = "http://ma.ids-services.at/index.php"; 
 	
@@ -16,19 +16,16 @@ jQuery(document).ready(function () {
 	var rTimeout = 10000;
 	var rMaximumAge = 5000;
 	var rEnableHighAccuracy = true;
+	var searchGeoData = false;
+	var setIntervalStartTimeout = 1000;
+	var setIntervalTimeout = 7000;
 	
 	// Rundgang Object
   oRundgang = {};	
 	
-	/*saveInterval = setInterval(function() {
-				updateRundgang()
-		}, 1000);*/
 	saveTimeout = setTimeout(function() {
 				updateRundgang()
 		}, 5000);
-	/*cleanInterval = setInterval(function() {
-				cleanRundgang()
-		}, 60000);*/
 	
 	/**************************************************************
 		SET START-VARIABLES
@@ -77,10 +74,9 @@ jQuery(document).ready(function () {
 					});
 				}
 				
-				getGeoDateTimeout = setTimeout(function() {
+				rInterval = setInterval(function() {
 							getCurGeoData()
-					}, 5000);
-				
+					}, setIntervalTimeout);
 				
 				checkpointNr++;
 				rStarted = true;
@@ -115,9 +111,10 @@ jQuery(document).ready(function () {
 				
 		if (rStarted == false) {	
 			// Aktiviere die permanente Geo-Datenerfassung
-			getGeoDateTimeout = setTimeout(function() {
+			getCurGeoData();
+			rInterval = setInterval(function() {
 						getCurGeoData()
-				}, 5000);
+				}, setIntervalTimeout);
 			
 			jQuery('#rundgangButtons').attr('src', 'img/buttonsAct.png').delay(1500).queue(function (next) {
 				jQuery(this).attr('src', 'img/buttonsRun.png');
@@ -156,11 +153,14 @@ jQuery(document).ready(function () {
 	});
 	
 	function getCurGeoData() {	
-		// holt die aktuellen Geokoordinaten			
-		var options = {
-			maximumAge: rMaximumAge, timeout: rTimeout, enableHighAccuracy: rEnableHighAccuracy 
-		};
-		rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
+		// holt die aktuellen Geokoordinaten	
+		if (searchGeoData == false	) {
+			searchGeoData = true;
+			var options = {
+				maximumAge: rMaximumAge, timeout: rTimeout, enableHighAccuracy: rEnableHighAccuracy 
+			};
+			rWatchId = navigator.geolocation.getCurrentPosition(onGeoDataSuccess, onGeoDataError, options);	
+		}
 	}	
 	
 	/**************************************************************
@@ -190,10 +190,7 @@ jQuery(document).ready(function () {
 				);
 		
 		rTimeout = 10000;
-		
-		getGeoDateTimeout = setTimeout(function() {
-						getCurGeoData()
-				}, 5000);
+		searchGeoData = false;
 		
 		saveCheckPoint(geoData);
 	}	
@@ -220,10 +217,7 @@ jQuery(document).ready(function () {
 				);
 
 		rTimeout = 60000;
-		
-		getGeoDateTimeout = setTimeout(function() {
-						getCurGeoData()
-				}, 5000);
+		searchGeoData = false;
 		
 		saveCheckPoint(geoData);
 	}
