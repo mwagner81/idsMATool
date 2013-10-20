@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
 
-	var rKey, rWatchId, saveInterval, cleanInterval, rInterval, saveTimeout, x, oRundgang;
+	var rKey, rWatchId, getGeoDateTimeout, rInterval, saveTimeout, x, oRundgang; //, cleanInterval
 	
 	var url = "http://ma.ids-services.at/index.php"; 
 	
@@ -77,9 +77,10 @@ jQuery(document).ready(function () {
 					});
 				}
 				
-				rInterval = setInterval(function() {
+				getGeoDateTimeout = setTimeout(function() {
 							getCurGeoData()
 					}, 5000);
+				
 				
 				checkpointNr++;
 				rStarted = true;
@@ -114,7 +115,7 @@ jQuery(document).ready(function () {
 				
 		if (rStarted == false) {	
 			// Aktiviere die permanente Geo-Datenerfassung
-			rInterval = setInterval(function() {
+			getGeoDateTimeout = setTimeout(function() {
 						getCurGeoData()
 				}, 5000);
 			
@@ -190,6 +191,10 @@ jQuery(document).ready(function () {
 		
 		rTimeout = 10000;
 		
+		getGeoDateTimeout = setTimeout(function() {
+						getCurGeoData()
+				}, 5000);
+		
 		saveCheckPoint(geoData);
 	}	
 	
@@ -215,6 +220,10 @@ jQuery(document).ready(function () {
 				);
 
 		rTimeout = 60000;
+		
+		getGeoDateTimeout = setTimeout(function() {
+						getCurGeoData()
+				}, 5000);
 		
 		saveCheckPoint(geoData);
 	}
