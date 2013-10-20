@@ -446,6 +446,10 @@ jQuery(document).ready(function () {
 				
 			}
 			
+		} else {
+			saveTimeout = setTimeout(function() {
+						updateRundgang()
+				}, 1000);
 		}
 
 	}
