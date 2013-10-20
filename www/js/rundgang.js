@@ -18,7 +18,7 @@ jQuery(document).ready(function () {
 	var rEnableHighAccuracy = true;
 	var searchGeoData = false;
 	var setGeoDataErrCount = 0;
-	var setIntervalTimeout = 7000;
+	var setIntervalTimeout = 5000;
 	
 	// Rundgang Object
   oRundgang = {};	
@@ -400,7 +400,6 @@ jQuery(document).ready(function () {
 						jQuery("#permaCheck").append('<span><b>Fehler</b></span> Daten konnten nicht gespeichert werden<br>' + 
 									'Connectiontype: ' + navCon + '<br><hr>');		
 						consoleLog('debug', "ERROR: Rundgang aktualisieren");
-						//consoleLog('debug', "Request failed: ");
 						saveTimeout = setTimeout(function() {
 									updateRundgang()
 							}, 1000);
