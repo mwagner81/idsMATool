@@ -12,7 +12,7 @@ jQuery(document).ready(function () {
 		
     function newMeldung(feUser,mString){
     
-        consoleLog('debug', "Create new Stoerungsmeldung / Start");
+        //consoleLog('debug', "Create new Stoerungsmeldung / Start");
         
         var hmac, d, m, data, mDateTime, mPosition, mMeldung, url, request, jqxhr, uid, jmString, mPics, pData, mAddition;
         var m_key = 'm_' + localStorage.getItem("fe_user");
@@ -86,7 +86,7 @@ jQuery(document).ready(function () {
             data: data,
             callbackParameter: 'jsonp_callback',
             success: function() { 
-                alert("Meldung erfolgreich");
+                //alert("Meldung erfolgreich");
                 localStorage.removeItem(m_key);
                 localStorage.removeItem("pics");   
                 jQuery("input[type=text], textarea").val("");
@@ -98,7 +98,7 @@ jQuery(document).ready(function () {
                 jQuery("#beendetMinute").val("");
             },
             error: function(xOptions, textStatus, error){
-                alert("Meldung fehlgeschlagen: " + JSON.stringify(xOptions) + " " + textStatus + " " + error);
+                //alert("Meldung fehlgeschlagen: " + JSON.stringify(xOptions) + " " + textStatus + " " + error);
             }
         });               
         
@@ -240,12 +240,12 @@ jQuery(document).ready(function () {
             });
         }
         
-	function onGeoError(error) {
+		function onGeoError(error) {
         
         var d = new Date();
         
         var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>';        
-        jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br><hr>");
+        //jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br><hr>");
         }        
     });
     
