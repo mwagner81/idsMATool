@@ -88,7 +88,7 @@ function uploadFile(mediaFile) {
     name = mediaFile.name;
 
     ft.upload(path,
-        "http://ids-services.at/ma-test/upload.php",
+        "http://active.mungos-services.at/fileadmin/upload/upload.php",
         function(result) {
             console.log('Upload success: ' + result.responseCode);
             console.log(result.bytesSent + ' bytes sent');

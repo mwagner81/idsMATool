@@ -2,7 +2,7 @@ jQuery(document).ready(function () {
 
 	var rKey, rWatchId, saveInterval, rInterval, saveTimeout, x, oRundgang;
 	
-	var url = "http://ma.ids-services.at/index.php"; 
+	var url = "http://active.mungos-services.at/index.php"; 
 	
 	if (localStorage.getItem("fe_user")) {
 		// Set key for Rundgang
@@ -328,7 +328,7 @@ jQuery(document).ready(function () {
 					// bestehenden Rundgang speichern		
 					
 					data = {
-							'id': 227,
+							'id': 77,
 							'no_cache': 1,
 							'type': 99,
 							'tx_idsmungosrundgang[action]': "update",
@@ -345,7 +345,7 @@ jQuery(document).ready(function () {
 					// Rundgang wurde bisher noch nicht gespeichert		
 					
 					data = {
-							'id': 227,
+							'id': 77,
 							'no_cache': 1,
 							'type': 99,
 							'tx_idsmungosrundgang[action]': "create",

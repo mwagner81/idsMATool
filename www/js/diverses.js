@@ -76,7 +76,7 @@ jQuery(document).ready(function () {
         jQuery("#loginError").html('');
         
         error = false;
-        url = "http://ma.ids-services.at/index.php";
+        url = "http://active.mungos-services.at/index.php";
         
         /* get some values from elements on the page: */
         form = jQuery(this);
@@ -84,7 +84,7 @@ jQuery(document).ready(function () {
         password = form.find('input[name="password"]').val();
 	
         data = {
-            'id': 237,
+            'id': 76,
             'no_cache': 1,
             'type': 98,
             'tx_idsapplogin_pi1[username]': username,
@@ -170,7 +170,7 @@ jQuery(document).ready(function () {
         var error, url, data, username, password, request, uData;
         
         error = false;
-        url = "http://ma.ids-services.at/index.php";
+        url = "http://active.mungos-services.at/index.php";
         
         // Load userData
         uData = {};
@@ -178,7 +178,7 @@ jQuery(document).ready(function () {
         //consoleLog('debug', uData);
         
         data = {
-            'id': 237,
+            'id': 76,
             'no_cache': 1,
             'type': 98,
             'tx_idsapplogin_pi1[username]': uData.username,
