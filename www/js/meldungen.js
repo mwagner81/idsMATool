@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
     // set global Variables
     var mMeldung, mAddition, m_key;
     var mLostFound, mTrainNumber, mNumberPersons, mLift, mWheelchair, mEscort, mArrivalStation, mMaPhone, mLiftArrivelTime, mLiftEndedTime, mPoliceInfo, mHospitalInfo, mConcernSecurity;
-    var mName, mAddress, mContact;
+    var mName, mAddress, mContact, mComment;
 		
     if (localStorage.getItem("fe_user")) {
         // Set key for Meldung
@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
     
 			//consoleLog('debug', "Create new Stoerungsmeldung / Start");
 			
-			var data, mDateTime, mPosition, mMeldung, url, request, jqxhr, uid, jmString, mPics, pData, mAddition;
+			var data, mDateTime, mPosition, mMeldung, url, request, jqxhr, uid, jmString, mPics, pData, mAddition, mComment;
 			var m_key = 'm_' + localStorage.getItem("fe_user");
 					
 			jmString = JSON.parse(mString);   
@@ -24,6 +24,7 @@ jQuery(document).ready(function () {
 			mMeldung = jmString[0].meldung;
 			mPics = jmString[0].pics;        
 			mLostFound = jmString[0].lostfound;
+			mComment = jmString[0].comment;
 			mTrainNumber = jmString[0].trainnumber;
 			mNumberPersons = jmString[0].numberpersons;
 			mLift = jmString[0].lift;
@@ -54,6 +55,7 @@ jQuery(document).ready(function () {
 					'tx_mungosstoerung[type]': mMeldung,   
 					'tx_mungosstoerung[images]': mPics, 
 					'tx_mungosstoerung[lostFound]': mLostFound, 
+					'tx_mungosstoerung[comment]': mComment, 
 					'tx_mungosstoerung[trainNumber]': mTrainNumber, 
 					'tx_mungosstoerung[numberPersons]': mNumberPersons, 
 					'tx_mungosstoerung[lift]': mLift, 
@@ -138,7 +140,8 @@ jQuery(document).ready(function () {
 			mConcernSecurity = jQuery("#Konzernsicherheit").prop('checked') ? 1 : 0;
 			mName = jQuery("#beschwerdeName").val().length > 0 ? jQuery("#beschwerdeName").val() : ""; 
 			mAddress = jQuery("#beschwerdeAdresse").val().length > 0 ? jQuery("#beschwerdeAdresse").val() : ""; 
-			mContact = jQuery("#beschwerdeKontakt").val().length > 0 ? jQuery("#beschwerdeKontakt").val() : ""; 
+			mContact = jQuery("#beschwerdeKontakt").val().length > 0 ? jQuery("#beschwerdeKontakt").val() : "";
+			mComment = jQuery("#comment").val().length > 0 ? jQuery("#comment").val() : "";  
 			
 			if(jQuery("#wachzimmer").val().length > 0){
 					mPoliceInfo = jQuery("#wachzimmer").val();
@@ -197,6 +200,7 @@ jQuery(document).ready(function () {
 						+ '", "meldung" : "' + mMeldung 
 						+ '", "pics" : "' + mPics 
 						+ '", "lostfound" : "' + mLostFound 
+						+ '", "comment" : "' + mComment
 						+ '", "trainnumber" : "' + mTrainNumber 
 						+ '", "numberpersons" : "' + mNumberPersons 
 						+ '", "lift" : "' + mLift 
