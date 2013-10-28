@@ -82,8 +82,9 @@ jQuery(document).ready(function () {
 					callbackParameter: 'jsonp_callback',
 					success: function(json) { 
 							//alert("Meldung erfolgreich");
-							consoleLog('debug', "Störungsmeldung gespeichert (uid:"+json.uid+")");
-							consoleLog('debug', JSON.stringify(data));
+							//consoleLog('debug', "Störungsmeldung gespeichert (uid:"+json.uid+")");
+							//consoleLog('debug', JSON.stringify(data));
+                                                        jQuery("#meldungenTest").append("<b>Meldung gespeichert!</b> - uid: "+json.uid+"<br><br>");
 							localStorage.removeItem(m_key);
 							localStorage.removeItem("pics");   
 							jQuery("input[type=text], textarea").val("");
@@ -95,7 +96,7 @@ jQuery(document).ready(function () {
 							jQuery("#beendetMinute").val("");
 					},
 					error: function(xOptions, textStatus, error){
-							consoleLog('debug', "Störungsmeldung error");
+							//consoleLog('debug', "Störungsmeldung error");
 							alert("Meldung fehlgeschlagen: " + textStatus + " " + error);
 					}
 			});               
