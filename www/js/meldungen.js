@@ -20,7 +20,7 @@ jQuery(document).ready(function () {
 			mString = mString.replace(/\n/g,"\\n")
 			jmString = JSON.parse(mString);   
 			
-                        jQuery("#meldungenTest").append("function newMeldung - mSTring: "+mString);
+                        jQuery("#meldungenTest").append("<b>function newMeldung</b> - mSTring: "+mString+"<br><br>");
                         
 			mDateTime = jmString[0]["datetime"];
 			mPosition = jmString[0]["position"];
@@ -170,7 +170,7 @@ jQuery(document).ready(function () {
 					mHospitalInfo = "";
 			}
              
-                        jQuery("#meldungenTest").append("Click saveMeldung - Meldung: "+mMeldung);
+                        jQuery("#meldungenTest").append("<b>Click saveMeldung</b> - Meldung: "+mMeldung+"<br><br>");
         
 			// opens the confirm dialog
 			jQuery.mobile.changePage("#confirmDialog", {
@@ -224,7 +224,7 @@ jQuery(document).ready(function () {
 
 				localStorage.setItem(m_key, mString);    
                                 
-                                jQuery("#meldungenTest").append("mConfirm - mSTring: "+mString);
+                                jQuery("#meldungenTest").append("<b>mConfirm</b> - mSTring: "+mString+"<br><br>");
 				
         saveMeldung();
       }  
@@ -236,7 +236,7 @@ jQuery(document).ready(function () {
 				// Set key for Meldung
 				m_key = 'm_' + localStorage.getItem("fe_user");   
                                 
-                                jQuery("#meldungenTest").append("function saveMeldung - Localstorage: "+localStorage.getItem(m_key));
+                                jQuery("#meldungenTest").append("<b>function saveMeldung</b> - Localstorage: "+localStorage.getItem(m_key)+"<br><br>");
 
 				newMeldung(localStorage.getItem("fe_user"),localStorage.getItem(m_key));
 
