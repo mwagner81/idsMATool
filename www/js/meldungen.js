@@ -90,10 +90,10 @@ jQuery(document).ready(function () {
 							jQuery("input[type=text], textarea").val("");
 							jQuery("input[type=checkbox]").attr('checked', false);
 							jQuery("input[type=radio]").attr('checked', false);
-							jQuery("#eingetroffeneStunde").val("");
-							jQuery("#eingetroffeneMinute").val("");
-							jQuery("#beendetStunde").val("");
-							jQuery("#beendetMinute").val("");
+							jQuery("#eingetroffeneStunde").prop('selectedIndex',0);
+							jQuery("#eingetroffeneMinute").prop('selectedIndex',0);
+							jQuery("#beendetStunde").prop('selectedIndex',0);
+							jQuery("#beendetMinute").prop('selectedIndex',0);
 					},
 					error: function(xOptions, textStatus, error){
 							//consoleLog('debug', "Störungsmeldung error");
@@ -128,6 +128,10 @@ jQuery(document).ready(function () {
 			}else if(jQuery(this).hasClass("meldung10")) {
 					mMeldung = "Verweise / Belehrung";
 			}
+			
+			d = new Date();
+			m = d.getMonth() + 1;
+			//mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();  
         
 			mLostFound = jQuery(".meRadio:checked").length > 0 ? jQuery(".meRadio:checked").val() : "";
 			mTrainNumber = jQuery("#uEzn").val().length > 0 ? jQuery("#uEzn").val() : "";
@@ -138,9 +142,9 @@ jQuery(document).ready(function () {
 			mEscort = jQuery("#Begleitung").prop('checked') ? 1 : 0;
 			mMaPhone = jQuery("#maTel").prop('checked') ? 1 : 0;
 			mLiftArrivelTime = jQuery("#eingetroffeneStunde").val().length > 0 && jQuery("#eingetroffeneMinute").val().length ? 
-					jQuery("#eingetroffeneStunde").val()+":"+jQuery("#eingetroffeneMinute").val() : "";
+					jQuery("#eingetroffeneStunde").val()+":"+jQuery("#eingetroffeneMinute").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear() : "";
 			mLiftEndedTime = jQuery("#beendetStunde").val().length > 0 && jQuery("#beendetMinute").val().length ? 
-					jQuery("#beendetStunde").val()+":"+jQuery("#beendetMinute").val() : "";       
+					jQuery("#beendetStunde").val()+":"+jQuery("#beendetMinute").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear() : "";       
 			mConcernSecurity = jQuery("#Konzernsicherheit").prop('checked') ? 1 : 0;
 			mName = jQuery("#beschwerdeName").val().length > 0 ? jQuery("#beschwerdeName").val() : ""; 
 			mAddress = jQuery("#beschwerdeAdresse").val().length > 0 ? jQuery("#beschwerdeAdresse").val() : ""; 
@@ -312,10 +316,10 @@ jQuery(document).ready(function () {
 							jQuery("input[type=text], textarea").val("");
 							jQuery("input[type=checkbox]").attr('checked', false);
 							jQuery("input[type=radio]").attr('checked', false);
-							jQuery("#eingetroffeneStunde").val("");
-							jQuery("#eingetroffeneMinute").val("");
-							jQuery("#beendetStunde").val("");
-							jQuery("#beendetMinute").val("");
+							jQuery("#eingetroffeneStunde").prop('selectedIndex',0);
+							jQuery("#eingetroffeneMinute").prop('selectedIndex',0);
+							jQuery("#beendetStunde").prop('selectedIndex',0);
+							jQuery("#beendetMinute").prop('selectedIndex',0);
 			
 			jQuery(".meForm").slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');    
 				
