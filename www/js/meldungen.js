@@ -20,12 +20,14 @@ jQuery(document).ready(function () {
 			mString = mString.replace(/\n/g,"\\n")
 			jmString = JSON.parse(mString);   
 			
+                        jQuery("#meldungenTest").append("function newMeldung - mSTring: "+mString);
+                        
 			mDateTime = jmString[0]["datetime"];
 			mPosition = jmString[0]["position"];
 			mMeldung = jmString[0].meldung;
 			mPics = jmString[0].pics;        
 			mLostFound = jmString[0].lostfound;
-      mComment = jmString[0].comment;
+                        mComment = jmString[0].comment;
 			mTrainNumber = jmString[0].trainnumber;
 			mNumberPersons = jmString[0].numberpersons;
 			mLift = jmString[0].lift;
@@ -142,7 +144,7 @@ jQuery(document).ready(function () {
 			mName = jQuery("#beschwerdeName").val().length > 0 ? jQuery("#beschwerdeName").val() : ""; 
 			mAddress = jQuery("#beschwerdeAdresse").val().length > 0 ? jQuery("#beschwerdeAdresse").val() : ""; 
 			mContact = jQuery("#beschwerdeKontakt").val().length > 0 ? jQuery("#beschwerdeKontakt").val() : ""; 
-      mComment = jQuery("#comment").val().length > 0 ? jQuery("#comment").val() : ""; 
+                        mComment = jQuery("#comment").val().length > 0 ? jQuery("#comment").val() : ""; 
 			
 			if(jQuery("#wachzimmer").val().length > 0){
 					mPoliceInfo = jQuery("#wachzimmer").val();
@@ -168,6 +170,7 @@ jQuery(document).ready(function () {
 					mHospitalInfo = "";
 			}
              
+                        jQuery("#meldungenTest").append("Click saveMeldung - Meldung: "+mMeldung);
         
 			// opens the confirm dialog
 			jQuery.mobile.changePage("#confirmDialog", {
@@ -220,6 +223,8 @@ jQuery(document).ready(function () {
 						+ '" }]';
 
 				localStorage.setItem(m_key, mString);    
+                                
+                                jQuery("#meldungenTest").append("mConfirm - mSTring: "+mString);
 				
         saveMeldung();
       }  
@@ -230,6 +235,8 @@ jQuery(document).ready(function () {
 
 				// Set key for Meldung
 				m_key = 'm_' + localStorage.getItem("fe_user");   
+                                
+                                jQuery("#meldungenTest").append("function saveMeldung - Localstorage: "+localStorage.getItem(m_key));
 
 				newMeldung(localStorage.getItem("fe_user"),localStorage.getItem(m_key));
 
