@@ -4,6 +4,8 @@ jQuery(document).ready(function () {
     var mMeldung, mAddition, m_key;
     var mLostFound, mTrainNumber, mNumberPersons, mLift, mWheelchair, mEscort, mArrivalStation, mMaPhone, mLiftArrivelTime, mLiftEndedTime, mPoliceInfo, mHospitalInfo, mConcernSecurity;
     var mName, mAddress, mContact, mComment;
+		var countGeoForMeldung = 0;
+		var searchGeoDataForMeldung = false;
 		
     if (localStorage.getItem("fe_user")) {
         // Set key for Meldung
@@ -180,73 +182,88 @@ jQuery(document).ready(function () {
 			jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+mMeldung+"\" abschicken?");     
 			
     });
-         
-    jQuery(".mConfirm").on('click',function () {
-        
-			var mDateTime, mString, position, mPos, mPics;        
+		
+		// set Meldungsstring in Localstorage    
+		function saveLocalMeldung(position){
 			
-			navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError);   
+			var mDateTime, mString, position, mPos, mPics;  
+
+			d = new Date();
+			m = d.getMonth() + 1;
+
+			mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
+			mPos = position.coords.latitude + "," + position.coords.longitude;
+			mPics = localStorage.getItem("pics");
 			
-			// set Meldungsstring in Localstorage    
-			function saveLocalMeldung(position){
+			countGeoForMeldung = 0;
+			searchGeoDataForMeldung = false;
 
-				d = new Date();
-				m = d.getMonth() + 1;
+			mString = '[{   "datetime" : "' + mDateTime 
+					+ '", "position" : "' + mPos 
+					+ '", "meldung" : "' + mMeldung 
+					+ '", "pics" : "' + mPics 
+					+ '", "lostfound" : "' + mLostFound 
+					+ '", "comment" : "' + mComment 
+					+ '", "trainnumber" : "' + mTrainNumber 
+					+ '", "numberpersons" : "' + mNumberPersons 
+					+ '", "lift" : "' + mLift 
+					+ '", "wheelchair" : "' + mWheelchair 
+					+ '", "escort" : "' + mEscort 
+					+ '", "arrivalstation" : "' + mArrivalStation 
+					+ '", "maphone" : "' + mMaPhone 
+					+ '", "liftarrivaltime" : "' + mLiftArrivelTime 
+					+ '", "liftendedtime" : "' + mLiftEndedTime 
+					+ '", "policeinfo" : "' + mPoliceInfo 
+					+ '", "hospitalinfo" : "' + mHospitalInfo 
+					+ '", "concernsecurity" : "' + mConcernSecurity 
+					+ '", "name" : "' + mName 
+					+ '", "address" : "' + mAddress 
+					+ '", "contact" : "' + mContact 
+					+ '" }]';
 
-				mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
-				mPos = position.coords.latitude + "," + position.coords.longitude;
-				mPics = localStorage.getItem("pics");
+			localStorage.setItem(m_key, mString);    
+															
+			
+			saveMeldung();
+		}  
+			
+		function saveMeldung() {  
+						
+			uploadFiles();
 
-				mString = '[{   "datetime" : "' + mDateTime 
-						+ '", "position" : "' + mPos 
-						+ '", "meldung" : "' + mMeldung 
-						+ '", "pics" : "' + mPics 
-						+ '", "lostfound" : "' + mLostFound 
-            + '", "comment" : "' + mComment 
-						+ '", "trainnumber" : "' + mTrainNumber 
-						+ '", "numberpersons" : "' + mNumberPersons 
-						+ '", "lift" : "' + mLift 
-						+ '", "wheelchair" : "' + mWheelchair 
-						+ '", "escort" : "' + mEscort 
-						+ '", "arrivalstation" : "' + mArrivalStation 
-						+ '", "maphone" : "' + mMaPhone 
-						+ '", "liftarrivaltime" : "' + mLiftArrivelTime 
-						+ '", "liftendedtime" : "' + mLiftEndedTime 
-						+ '", "policeinfo" : "' + mPoliceInfo 
-						+ '", "hospitalinfo" : "' + mHospitalInfo 
-						+ '", "concernsecurity" : "' + mConcernSecurity 
-						+ '", "name" : "' + mName 
-						+ '", "address" : "' + mAddress 
-						+ '", "contact" : "' + mContact 
-						+ '" }]';
+			// Set key for Meldung
+			m_key = 'm_' + localStorage.getItem("fe_user");   
+															
 
-				localStorage.setItem(m_key, mString);    
-                                
-				
-        saveMeldung();
-      }  
-        
-			function saveMeldung() {  
-							
-				uploadFiles();
+			newMeldung(localStorage.getItem("fe_user"),localStorage.getItem(m_key));
 
-				// Set key for Meldung
-				m_key = 'm_' + localStorage.getItem("fe_user");   
-                                
-
-				newMeldung(localStorage.getItem("fe_user"),localStorage.getItem(m_key));
-
-				jQuery(".meForm").each(function(){
-						jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
-				});
+			jQuery(".meForm").each(function(){
+					jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
+			});
+		}
+			
+		function onGeoError(error) {		
+			countGeoForMeldung++;	
+			var d = new Date();			
+			var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>'; 
+			if (countGeoForMeldung <= 2) {
+				getCurGeoDataForMeldung();
 			}
-        
-			function onGeoError(error) {
-					
-					var d = new Date();
-					
-					var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>'; 
-			}  
+		}  
+		
+		function getCurGeoDataForMeldung() {	
+		// holt die aktuellen Geokoordinaten	
+			if (searchGeoDataForMeldung == false	) {
+				searchGeoDataForMeldung = true;
+				var options = {
+					maximumAge: 5000, timeout: 60000, enableHighAccuracy: true 
+				};
+				rWatchId = navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError, options);	
+			}
+		}	
+         
+    jQuery(".mConfirm").on('click',function () {			
+			getCurGeoDataForMeldung();					
 			      
 		});
 	
