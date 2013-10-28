@@ -324,8 +324,15 @@ div#login {
     background: none repeat scroll 0 0 #dedede;
     overflow: hidden;
 }
+.infoBox {
+    height: 100px;
+    padding: 0 5px;
+    border: 0 none;
+    background: none repeat scroll 0 0 #dedede;
+    overflow: hidden;
+}
 
-.statusBox p {
+.statusBox p, .infoBox p {
     height: 36px;
     padding: 20px;
     margin: 8px 0;
