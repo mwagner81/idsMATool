@@ -244,10 +244,47 @@ jQuery(document).ready(function () {
 			
 		function onGeoError(error) {		
 			countGeoForMeldung++;	
-			var d = new Date();			
-			var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>'; 
+			var mDateTime, mString, position, mPos, mPics; 
+			
 			if (countGeoForMeldung <= 2) {
 				getCurGeoDataForMeldung();
+			} else {
+				d = new Date();
+				m = d.getMonth() + 1;
+	
+				mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
+				mPos = '0';
+				mPics = localStorage.getItem("pics");
+				
+				countGeoForMeldung = 0;
+				searchGeoDataForMeldung = false;
+	
+				mString = '[{   "datetime" : "' + mDateTime 
+						+ '", "position" : "' + mPos 
+						+ '", "meldung" : "' + mMeldung 
+						+ '", "pics" : "' + mPics 
+						+ '", "lostfound" : "' + mLostFound 
+						+ '", "comment" : "' + mComment 
+						+ '", "trainnumber" : "' + mTrainNumber 
+						+ '", "numberpersons" : "' + mNumberPersons 
+						+ '", "lift" : "' + mLift 
+						+ '", "wheelchair" : "' + mWheelchair 
+						+ '", "escort" : "' + mEscort 
+						+ '", "arrivalstation" : "' + mArrivalStation 
+						+ '", "maphone" : "' + mMaPhone 
+						+ '", "liftarrivaltime" : "' + mLiftArrivelTime 
+						+ '", "liftendedtime" : "' + mLiftEndedTime 
+						+ '", "policeinfo" : "' + mPoliceInfo 
+						+ '", "hospitalinfo" : "' + mHospitalInfo 
+						+ '", "concernsecurity" : "' + mConcernSecurity 
+						+ '", "name" : "' + mName 
+						+ '", "address" : "' + mAddress 
+						+ '", "contact" : "' + mContact 
+						+ '" }]';
+	
+				localStorage.setItem(m_key, mString);    																
+				
+				saveMeldung();
 			}
 		}  
 		
