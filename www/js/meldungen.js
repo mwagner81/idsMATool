@@ -20,7 +20,6 @@ jQuery(document).ready(function () {
 			mString = mString.replace(/\n/g,"\\n")
 			jmString = JSON.parse(mString);   
 			
-                        jQuery("#meldungenTest").append("<b>function newMeldung</b> - mSTring: "+mString+"<br><br>");
                         
 			mDateTime = jmString[0]["datetime"];
 			mPosition = jmString[0]["position"];
@@ -84,7 +83,6 @@ jQuery(document).ready(function () {
 							//alert("Meldung erfolgreich");
 							//consoleLog('debug', "Störungsmeldung gespeichert (uid:"+json.uid+")");
 							//consoleLog('debug', JSON.stringify(data));
-                                                        jQuery("#meldungenTest").append("<b>Meldung gespeichert!</b> - uid: "+json.uid+"<br><br>");
 							localStorage.removeItem(m_key);
 							localStorage.removeItem("pics");   
 							jQuery("input[type=text], textarea").val("");
@@ -171,7 +169,6 @@ jQuery(document).ready(function () {
 					mHospitalInfo = "";
 			}
              
-                        jQuery("#meldungenTest").append("<b>Click saveMeldung</b> - Meldung: "+mMeldung+"<br><br>");
         
 			// opens the confirm dialog
 			jQuery.mobile.changePage("#confirmDialog", {
@@ -225,7 +222,6 @@ jQuery(document).ready(function () {
 
 				localStorage.setItem(m_key, mString);    
                                 
-                                jQuery("#meldungenTest").append("<b>mConfirm</b> - mSTring: "+mString+"<br><br>");
 				
         saveMeldung();
       }  
@@ -237,7 +233,6 @@ jQuery(document).ready(function () {
 				// Set key for Meldung
 				m_key = 'm_' + localStorage.getItem("fe_user");   
                                 
-                                jQuery("#meldungenTest").append("<b>function saveMeldung</b> - Localstorage: "+localStorage.getItem(m_key)+"<br><br>");
 
 				newMeldung(localStorage.getItem("fe_user"),localStorage.getItem(m_key));
 
@@ -250,8 +245,7 @@ jQuery(document).ready(function () {
 					
 					var d = new Date();
 					
-					var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>';        
-					//jQuery("#permaCheck").append("<span><b>Error</b></span> "+ span_date + "<br><hr>");
+					var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '</span>'; 
 			}  
 			      
 		});
