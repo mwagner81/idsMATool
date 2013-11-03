@@ -259,7 +259,7 @@ jQuery(document).ready(function () {
 			if (reportContainer && reportContainer.reports && reportContainer.reports[0]) {
 			
 				if  (reportContainer.reports[0].lat != "") {
-					url = "http://active-dev.mungos-services.at/index.php";
+					url = "http://active.mungos-services.at/index.php";
 					
 					data = {
 							'id': 79,
