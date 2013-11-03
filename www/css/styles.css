@@ -698,7 +698,7 @@ p#pics img:nth-child(5n) {
     padding-bottom: 20px;
 }
 
-input#uEzn {
+input.zugnummer {
     background: url("../img/inputUeZn.png") 0 0 no-repeat transparent;
     height: 20px;
     line-height: 20px;
@@ -709,7 +709,7 @@ input#uEzn {
     margin-top: 5px;
 }
 
-input#uEAz {
+input.persons {
     background: url("../img/inputUeAz.png") 0 0 no-repeat transparent;
     height: 20px;
     line-height: 20px;

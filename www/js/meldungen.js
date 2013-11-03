@@ -1,181 +1,131 @@
 jQuery(document).ready(function () {
 	
     // set global Variables
-    var mMeldung, mAddition, m_key;
-    var mLostFound, mTrainNumber, mNumberPersons, mLift, mWheelchair, mEscort, mArrivalStation, mMaPhone, mLiftArrivelTime, mLiftEndedTime, mPoliceInfo, mHospitalInfo, mConcernSecurity;
-    var mName, mAddress, mContact, mComment;
-		var countGeoForMeldung = 0;
-		var searchGeoDataForMeldung = false;
-		
+		var reportData, mKey, mInterval, searchGeoData;
+		var reportContainer = {};
+
+		var mTimeout = 10000;
+		var mMaximumAge = 5000;
+		var mEnableHighAccuracy = true;
+		var searchGeoData = false;
+		var setGeoDataErrCount = 0;
+				
     if (localStorage.getItem("fe_user")) {
         // Set key for Meldung
-        m_key = 'm_' + localStorage.getItem("fe_user");
+        mKey = 'm_' + localStorage.getItem("fe_user");
     }
+		if (!localStorage.getItem(mKey)) {
+			// Basiseintrag in Localstorage
+			reportContainer.reports = [];		
+			localStorage.setItem(mKey, JSON.stringify(reportContainer));
+		} else {
+			// wenn bereits ein Eintrag vorhanden ist
+			reportContainer = JSON.parse(localStorage.getItem(mKey));
+			
+			for (i=0;i<reportContainer.reports.length;i++) {
+				if (reportContainer.reports[i].lat == "") {
+					getCurGeoData();
+					break;
+				}
+			}
+			saveTimeout = setTimeout(function() {
+						saveReportToServer()
+				}, 5000);
+				
+		}
 		
-    function newMeldung(feUser,mString){
-    
-			//consoleLog('debug', "Create new Stoerungsmeldung / Start");
+		jQuery(".saveMeldung").on('click', function () {
 			
-			var data, mDateTime, mPosition, mMeldung, url, request, jqxhr, uid, jmString, mPics, pData, mAddition, mComment;
-			var m_key = 'm_' + localStorage.getItem("fe_user");
-			
-			mString = mString.replace(/\n/g,"\\n")
-			jmString = JSON.parse(mString);   
-			
-                        
-			mDateTime = jmString[0]["datetime"];
-			mPosition = jmString[0]["position"];
-			mMeldung = jmString[0].meldung;
-			mPics = jmString[0].pics;        
-			mLostFound = jmString[0].lostfound;
-                        mComment = jmString[0].comment;
-			mTrainNumber = jmString[0].trainnumber;
-			mNumberPersons = jmString[0].numberpersons;
-			mLift = jmString[0].lift;
-			mWheelchair = jmString[0].wheelchair;
-			mEscort = jmString[0].escort;
-			mArrivalStation = jmString[0].arrivalstation;
-			mMaPhone = jmString[0].maphone;
-			mLiftArrivelTime = jmString[0].liftarrivaltime;
-			mLiftEndedTime = jmString[0].liftendedtime;
-			mPoliceInfo = jmString[0].policeinfo;
-			mHospitalInfo = jmString[0].hospitalinfo;
-			mConcernSecurity = jmString[0].concernsecurity;
-			mName = jmString[0].name;
-			mAddress = jmString[0].address; 
-			mContact = jmString[0].contact;
-			
-    
-			url = "http://active.mungos-services.at/index.php";
-
-			data = {
-					'id': 79,
-					'no_cache': 1,
-					'type': 97,
-					'tx_mungosstoerung[action]': "create",
-					'tx_mungosstoerung[feUser]': feUser,
-					'tx_mungosstoerung[dateTime]': mDateTime,
-					'tx_mungosstoerung[geoData]': mPosition,
-					'tx_mungosstoerung[type]': mMeldung,   
-					'tx_mungosstoerung[images]': mPics, 
-					'tx_mungosstoerung[lostFound]': mLostFound, 
-					'tx_mungosstoerung[comment]': mComment, 
-					'tx_mungosstoerung[trainNumber]': mTrainNumber, 
-					'tx_mungosstoerung[numberPersons]': mNumberPersons, 
-					'tx_mungosstoerung[lift]': mLift, 
-					'tx_mungosstoerung[wheelchair]': mWheelchair, 
-					'tx_mungosstoerung[escort]': mEscort, 
-					'tx_mungosstoerung[arrivalStation]': mArrivalStation, 
-					'tx_mungosstoerung[maPhoneInfo]': mMaPhone, 
-					'tx_mungosstoerung[liftArrivelTime]': mLiftArrivelTime, 
-					'tx_mungosstoerung[liftEndedTime]': mLiftEndedTime, 
-					'tx_mungosstoerung[policeInfo]': mPoliceInfo, 
-					'tx_mungosstoerung[hospitalInfo]': mHospitalInfo, 
-					'tx_mungosstoerung[concernSecurity]': mConcernSecurity, 
-					'tx_mungosstoerung[name]': mName, 
-					'tx_mungosstoerung[address]': mAddress, 
-					'tx_mungosstoerung[contact]': mContact
-			};
-	
-			$.jsonp({
-					url: url,
-					data: data,
-					callbackParameter: 'jsonp_callback',
-					success: function(json) { 
-							//alert("Meldung erfolgreich");
-							//consoleLog('debug', "Störungsmeldung gespeichert (uid:"+json.uid+")");
-							//consoleLog('debug', JSON.stringify(data));
-							localStorage.removeItem(m_key);
-							localStorage.removeItem("pics");   
-							jQuery("input[type=text], textarea").val("");
-							jQuery("input[type=checkbox]").attr('checked', false);
-							jQuery("input[type=radio]").attr('checked', false);
-							jQuery("#eingetroffeneStunde").prop('selectedIndex',0);
-							jQuery("#eingetroffeneMinute").prop('selectedIndex',0);
-							jQuery("#beendetStunde").prop('selectedIndex',0);
-							jQuery("#beendetMinute").prop('selectedIndex',0);
-					},
-					error: function(xOptions, textStatus, error){
-							//consoleLog('debug', "Störungsmeldung error");
-							alert("Meldung fehlgeschlagen: " + textStatus + " " + error);
-					}
-			});               
-			
-			return false;
-        
-    }		      
-    
-    jQuery(".saveMeldung").on('click', function () {
-        
-			if(jQuery(this).hasClass("meldung01")) {
-					mMeldung = "Vandalismus";
-			}else if(jQuery(this).hasClass("meldung02")) {
-					mMeldung = "Lost & Found";
-			}else if(jQuery(this).hasClass("meldung03")) {
-					mMeldung = "Unangemeldete Ein-, Ausstieghilfe";            
-			}else if(jQuery(this).hasClass("meldung04")) {
-					mMeldung = "Aufzugsbefreiung";             
-			}else if(jQuery(this).hasClass("meldung05")) {
-					mMeldung = "Gewalt an Mitarbeiter";                
-			}else if(jQuery(this).hasClass("meldung06")) {
-					mMeldung = "Einbruch / Diebstahl";                
-			}else if(jQuery(this).hasClass("meldung07")) {
-					mMeldung = "Beschwerden / Anfragen";               
-			}else if(jQuery(this).hasClass("meldung08")) {
-					mMeldung = "Randgruppen";    
-			}else if(jQuery(this).hasClass("meldung09")) {
-					mMeldung = "Raucherstrafen";   
-			}else if(jQuery(this).hasClass("meldung10")) {
-					mMeldung = "Verweise / Belehrung";
-			}
-			
+      reportData = {};
 			d = new Date();
-			m = d.getMonth() + 1;
-			//mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();  
-        
-			mLostFound = jQuery(".meRadio:checked").length > 0 ? jQuery(".meRadio:checked").val() : "";
-			mTrainNumber = jQuery("#uEzn").val().length > 0 ? jQuery("#uEzn").val() : "";
-			mNumberPersons = jQuery("#uEAz").val().length > 0 ? jQuery("#uEAz").val() : "";
-			mArrivalStation = jQuery("#uEbh").val().length > 0 ? jQuery("#uEbh").val() : "";
-			mLift = jQuery("#Hebelift").prop('checked') ? 1 : 0;
-			mWheelchair = jQuery("#Bahnrollstuhl").prop('checked') ? 1 : 0;
-			mEscort = jQuery("#Begleitung").prop('checked') ? 1 : 0;
-			mMaPhone = jQuery("#maTel").prop('checked') ? 1 : 0;
-			mLiftArrivelTime = jQuery("#eingetroffeneStunde").val().length > 0 && jQuery("#eingetroffeneMinute").val().length ? 
-					jQuery("#eingetroffeneStunde").val()+":"+jQuery("#eingetroffeneMinute").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear() : "";
-			mLiftEndedTime = jQuery("#beendetStunde").val().length > 0 && jQuery("#beendetMinute").val().length ? 
-					jQuery("#beendetStunde").val()+":"+jQuery("#beendetMinute").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear() : "";       
-			mConcernSecurity = jQuery("#Konzernsicherheit").prop('checked') ? 1 : 0;
-			mName = jQuery("#beschwerdeName").val().length > 0 ? jQuery("#beschwerdeName").val() : ""; 
-			mAddress = jQuery("#beschwerdeAdresse").val().length > 0 ? jQuery("#beschwerdeAdresse").val() : ""; 
-			mContact = jQuery("#beschwerdeKontakt").val().length > 0 ? jQuery("#beschwerdeKontakt").val() : ""; 
-                        mComment = jQuery("#comment").val().length > 0 ? jQuery("#comment").val() : ""; 
+			m = d.getMonth() + 1; 
 			
-			if(jQuery("#wachzimmer").val().length > 0){
-					mPoliceInfo = jQuery("#wachzimmer").val();
-			}
-			else if(jQuery("#gewaltWachzimmer").val().length > 0){
-					mPoliceInfo = jQuery("#gewaltWachzimmer").val();
-			}        
-			else if(jQuery("#gewaltWachzimmer").val().length > 0){
-					mPoliceInfo = jQuery("#gewaltWachzimmer").val();
-			}  
-			else if(jQuery("#einbruchWachzimmer").val().length > 0){
-					mPoliceInfo = jQuery("#einbruchWachzimmer").val();
-			}  else {
-					mPoliceInfo = "";
-			}
+			if(jQuery(this).hasClass("01_meldung")) {
+				// Vandalismus
+				reportData.type = "Vandalismus";
+				reportData.police = jQuery("#01_wachzimmer").val();
+				reportData.comment = jQuery("#01_comment").val();				
+				reportData.fotos = localStorage.getItem("pics");
+				uploadFiles();
+				
+			} else if(jQuery(this).hasClass("02_meldung")) {
+				// Lost & Found
+				reportData.type = "Lost & Found";
+				reportData.found = jQuery(".02_gefunden:checked").val();
+				reportData.comment = jQuery("#02_comment").val();		
+				
+			} else if(jQuery(this).hasClass("03_meldung")) {
+				//unangemeldete Ein- oder Ausstiegshilfe
+				reportData.type = "Unangemeldete Ein-, Ausstieghilfe";   
+				reportData.trainNumber = jQuery("#03_zugnummer").val();
+				reportData.numOfPersons = jQuery("#03_persons").val();				
+				reportData.lift = jQuery("#03_hebelift").prop('checked') ? 1 : 0;
+				reportData.wheelchair = jQuery("#03_bahnrollstuhl").prop('checked') ? 1 : 0;
+				reportData.escort = jQuery("#03_begleitung").prop('checked') ? 1 : 0;
+				reportData.stationOfArrival = jQuery("#03_ankunftsbhf").val();	
+				reportData.departureContacted = jQuery("#03_austieg_kontakt").prop('checked') ? 1 : 0;	
+				reportData.comment = jQuery("#03_comment").val();		
+				        
+			} else if(jQuery(this).hasClass("04_meldung")) {
+				// Aufzugsbefreiung
+				reportData.type = "Aufzugsbefreiung"; 
+				if ((jQuery("#04_eingetroffen_std").val().length > 0) && (jQuery("#04_eingetroffen_min").val().length > 0)) {
+					reportData.arrivalTime = jQuery("#04_eingetroffen_std").val()+":"+jQuery("#04_eingetroffen_min").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
+				} else {
+					reportData.arrivalTime =  '00:00:'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
+				}
+				if ((jQuery("#04_beendet_std").val().length > 0) && (jQuery("#04_beendet_min").val().length > 0)) {
+					reportData.endTime = jQuery("#04_beendet_std").val()+":"+jQuery("#04_beendet_min").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
+				} else {
+					reportData.endTime = '00:00:'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
+				}
+				reportData.comment = jQuery("#04_comment").val();				
 			
-			if(jQuery("#gewaltKrankenhaus").val().length > 0){
-					mHospitalInfo = jQuery("#gewaltKrankenhaus").val();
-			/*}  
-			else if(jQuery("#einbruchKrankenhaus").val().length > 0){
-					mHospitalInfo = jQuery("#einbruchKrankenhaus").val();*/
-			}else {
-					mHospitalInfo = "";
+			} else if(jQuery(this).hasClass("05_meldung")) {
+				// Gewalt an Mitarbeiter
+				reportData.type = "Gewalt an Mitarbeiter"; 
+				reportData.police = jQuery("#05_wachzimmer").val();
+				reportData.hospital = jQuery("#05_krankenhaus").val();
+				reportData.comment = jQuery("#05_comment").val();	
+				               
+			} else if(jQuery(this).hasClass("06_meldung")) {
+				// Einbruch / Diebstahl
+				reportData.type = "Einbruch / Diebstahl";  
+				reportData.police = jQuery("#06_wachzimmer").val();
+				reportData.security = jQuery("#06_konzernsicherheit").prop('checked') ? 1 : 0;	
+				reportData.comment = jQuery("#06_comment").val();	 
+				             
+			} else if(jQuery(this).hasClass("07_meldung")) {
+				// Beschwerden/Anfragen
+				reportData.type = "Beschwerden / Anfragen"; 
+				reportData.name = jQuery("#07_name").val();
+				reportData.address = jQuery("#07_adresse").val();
+				reportData.contact = jQuery("#07_kontakt").val();
+				reportData.comment = jQuery("#07_comment").val();
+					              
+			} else if(jQuery(this).hasClass("08_meldung")) {
+				// Randgruppen
+				reportData.type = "Randgruppen";  
+				reportData.comment = jQuery("#08_comment").val();  
+				
+			} else if(jQuery(this).hasClass("09_meldung")) {
+				// Raucherstrafen
+				reportData.type = "Raucherstrafen";   
+				
+			} else if(jQuery(this).hasClass("10_meldung")) {
+				// Verweise/Belehrung
+				reportData.type = "Verweise / Belehrung";
+				reportData.comment = jQuery("#10_comment").val();
+				
 			}
-             
-        
+		
+			reportData.timestamp = new Date();
+			reportData.lat = "";
+			reportData.lng = "";
+			reportData.acc = "";	
+			reportData.geoTimestamp = "";	
+			reportData.complete = 0;	
+		 
 			// opens the confirm dialog
 			jQuery.mobile.changePage("#confirmDialog", {
 					transition: "slidedown", 
@@ -183,149 +133,27 @@ jQuery(document).ready(function () {
 			});
 					
 			// writes the text of the current meldung in the confirm box
-			jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+mMeldung+"\" abschicken?");     
+			jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+reportData.type+"\" abschicken?");     
 			
     });
 		
-		// set Meldungsstring in Localstorage    
-		function saveLocalMeldung(position){
+		jQuery(".mConfirm").on('click',function () {
+			// Daten abspeichern			
+			saveReportData(reportData);		
 			
-			var mDateTime, mString, position, mPos, mPics;  
-
-			d = new Date();
-			m = d.getMonth() + 1;
-
-			mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
-			mPos = position.coords.latitude + "," + position.coords.longitude;
-			mPics = localStorage.getItem("pics");
-			
-			countGeoForMeldung = 0;
-			searchGeoDataForMeldung = false;
-
-			mString = '[{   "datetime" : "' + mDateTime 
-					+ '", "position" : "' + mPos 
-					+ '", "meldung" : "' + mMeldung 
-					+ '", "pics" : "' + mPics 
-					+ '", "lostfound" : "' + mLostFound 
-					+ '", "comment" : "' + mComment 
-					+ '", "trainnumber" : "' + mTrainNumber 
-					+ '", "numberpersons" : "' + mNumberPersons 
-					+ '", "lift" : "' + mLift 
-					+ '", "wheelchair" : "' + mWheelchair 
-					+ '", "escort" : "' + mEscort 
-					+ '", "arrivalstation" : "' + mArrivalStation 
-					+ '", "maphone" : "' + mMaPhone 
-					+ '", "liftarrivaltime" : "' + mLiftArrivelTime 
-					+ '", "liftendedtime" : "' + mLiftEndedTime 
-					+ '", "policeinfo" : "' + mPoliceInfo 
-					+ '", "hospitalinfo" : "' + mHospitalInfo 
-					+ '", "concernsecurity" : "' + mConcernSecurity 
-					+ '", "name" : "' + mName 
-					+ '", "address" : "' + mAddress 
-					+ '", "contact" : "' + mContact 
-					+ '" }]';
-
-			localStorage.setItem(m_key, mString);    
-															
-			
-			saveMeldung();
-		}  
-			
-		function saveMeldung() {  
-						
-			uploadFiles();
-
-			// Set key for Meldung
-			m_key = 'm_' + localStorage.getItem("fe_user");   
-															
-
-			newMeldung(localStorage.getItem("fe_user"),localStorage.getItem(m_key));
-
+			//
 			jQuery(".meForm").each(function(){
 					jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
-			});
-		}
-			
-		function onGeoError(error) {		
-			countGeoForMeldung++;	
-			var mDateTime, mString, position, mPos, mPics; 
-			
-			if (countGeoForMeldung <= 2) {
-				getCurGeoDataForMeldung();
-			} else {
-				d = new Date();
-				m = d.getMonth() + 1;
-	
-				mDateTime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();                
-				mPos = '0';
-				mPics = localStorage.getItem("pics");
-				
-				countGeoForMeldung = 0;
-				searchGeoDataForMeldung = false;
-	
-				mString = '[{   "datetime" : "' + mDateTime 
-						+ '", "position" : "' + mPos 
-						+ '", "meldung" : "' + mMeldung 
-						+ '", "pics" : "' + mPics 
-						+ '", "lostfound" : "' + mLostFound 
-						+ '", "comment" : "' + mComment 
-						+ '", "trainnumber" : "' + mTrainNumber 
-						+ '", "numberpersons" : "' + mNumberPersons 
-						+ '", "lift" : "' + mLift 
-						+ '", "wheelchair" : "' + mWheelchair 
-						+ '", "escort" : "' + mEscort 
-						+ '", "arrivalstation" : "' + mArrivalStation 
-						+ '", "maphone" : "' + mMaPhone 
-						+ '", "liftarrivaltime" : "' + mLiftArrivelTime 
-						+ '", "liftendedtime" : "' + mLiftEndedTime 
-						+ '", "policeinfo" : "' + mPoliceInfo 
-						+ '", "hospitalinfo" : "' + mHospitalInfo 
-						+ '", "concernsecurity" : "' + mConcernSecurity 
-						+ '", "name" : "' + mName 
-						+ '", "address" : "' + mAddress 
-						+ '", "contact" : "' + mContact 
-						+ '" }]';
-	
-				localStorage.setItem(m_key, mString);    																
-				
-				saveMeldung();
-			}
-		}  
-		
-		function getCurGeoDataForMeldung() {	
-		// holt die aktuellen Geokoordinaten	
-			if (searchGeoDataForMeldung == false	) {
-				searchGeoDataForMeldung = true;
-				var options = {
-					maximumAge: 5000, timeout: 60000, enableHighAccuracy: true 
-				};
-				rWatchId = navigator.geolocation.getCurrentPosition(saveLocalMeldung, onGeoError, options);	
-			}
-		}	
-         
-    jQuery(".mConfirm").on('click',function () {			
-			getCurGeoDataForMeldung();					
-			      
-		});
+			});	      
+		});		
 	
 		jQuery(".mBreak").on('click', function () {
-			m_key = 'm_' + localStorage.getItem("fe_user"); 
-			
-							localStorage.removeItem(m_key);
-							localStorage.removeItem("pics");   
-							jQuery("input[type=text], textarea").val("");
-							jQuery("input[type=checkbox]").attr('checked', false);
-							jQuery("input[type=radio]").attr('checked', false);
-							jQuery("#eingetroffeneStunde").prop('selectedIndex',0);
-							jQuery("#eingetroffeneMinute").prop('selectedIndex',0);
-							jQuery("#beendetStunde").prop('selectedIndex',0);
-							jQuery("#beendetMinute").prop('selectedIndex',0);
-			
-			jQuery(".meForm").slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');    
-				
-		});
+			// Formular zurücksetzen
+			resetForm();				
+		});		
 	
 		jQuery(".showMeForm").on('click', function () {
+			// öffnet das Formular des jeweiligen Meldungstyps
 			if (jQuery(this).next(".meForm").hasClass("active")){
 					jQuery(this).next(".meForm").slideUp("fast").removeClass("active");
 					jQuery(this).find("img.mbPlus").attr('src', 'img/meldungButtonPlus.png');
@@ -336,5 +164,140 @@ jQuery(document).ready(function () {
 					jQuery(this).find("img.mbPlus").attr('src', 'img/meldungButtonMinus.png');
 			}
 		});  
+		
+		/**************************************************************
+			MELDUNG ZURÜCKSETZEN
+		***************************************************************/		
+		function resetForm() {			
+			localStorage.removeItem("pics");   
+			jQuery("input[type=text], textarea").val("");
+			jQuery("input[type=checkbox]").attr('checked', false);
+			jQuery("select").attr('checked', false);
+			
+			jQuery(".meForm").slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
+		}
+		
+		/**************************************************************
+			MELDUNG IN DEN LOCALSTORAGE SPEICHERN
+		***************************************************************/	    
+		function saveReportData(reportData){
+			//jQuery("#permaCheck").append('<span><b>saveReportData</b></span><br /><hr>');
+			
+			localStorage.setItem("pics", '');
+			
+			reportContainer = JSON.parse(localStorage.getItem(mKey));
+			if (reportContainer.reports) {
+				reportContainer.reports.push(reportData);
+			} else {
+				reportContainer.reports = [];
+				reportContainer.reports.push(reportData);
+			}
+			localStorage.setItem(mKey, JSON.stringify(reportContainer));
+			
+			resetForm();
+			getCurGeoData();
+		}  
+		
+		/**************************************************************
+			HOLE AKTUELLE GEO-KOORDINATEN
+		***************************************************************/
+		function getCurGeoData() {	
+			// holt die aktuellen Geokoordinaten	
+			//jQuery("#permaCheck").append('<span><b>Geo-Data</b></span>: start searching<br /><hr>');
+			if ( searchGeoData == false	) {
+				searchGeoData = true;
+				var options = { maximumAge: mMaximumAge, timeout: mTimeout, enableHighAccuracy: mEnableHighAccuracy };
+				rWatchId = navigator.geolocation.getCurrentPosition(saveGeoData, onGeoError, options);	
+			}	
+		}
+		
+		/**************************************************************
+			SPEICHERT DIE ERHALTENEN GEO-DATEN ZU DEN OFFENEN MELDUNGEN
+		***************************************************************/	
+		function saveGeoData(position) {	
+			//jQuery("#permaCheck").append('<span><b>Geo-Data</b></span>: Data found<br /><hr>');
+			
+			searchGeoData = false;
+			mTimeout = 10000;
+			setGeoDataErrCount = 0;
+			
+			reportContainer = JSON.parse(localStorage.getItem(mKey));
+			
+			for (i=0;i<reportContainer.reports.length;i++) {
+				if (reportContainer.reports[i].lat == "") {
+					reportContainer.reports[i].lat = position.coords.latitude;
+					reportContainer.reports[i].lng = position.coords.longitude;
+					reportContainer.reports[i].acc = position.coords.accuracy;		
+					reportContainer.reports[i].geoTimestamp = position.timestamp;
+				}
+			}
+			
+			localStorage.setItem(mKey, JSON.stringify(reportContainer)); 
+			
+			saveReportToServer();
+		}
+		
+		function onGeoError(error) {
+			//jQuery("#permaCheck").append('<span><b>Geo-Data</b></span>: NO Data found<br /><hr>');
+			
+			searchGeoData = false;	
+			setGeoDataErrCount++;
+			if (setGeoDataErrCount > 5) { mTimeout = 60000; }	
+			getCurGeoData()
+		}
+		
+		/**************************************************************
+			SPEICHERT ALLE MELDUNGEN AM SERVER
+		***************************************************************/		
+		function saveReportToServer() {
+    
+			//mString = mString.replace(/\n/g,"\\n");
+			
+			//reportContainer = {};
+			reportContainer = JSON.parse(localStorage.getItem(mKey));
+		
+			if (reportContainer && reportContainer.reports && reportContainer.reports[0]) {
+			
+				if  (reportContainer.reports[0].lat != "") {
+					url = "http://active-dev.mungos-services.at/index.php";
+					
+					data = {
+							'id': 79,
+							'no_cache': 1,
+							'type': 97,
+							'tx_mungosstoerung[report]': JSON.stringify(reportContainer.reports[0]),
+							'tx_mungosstoerung[feUser]': localStorage.getItem("fe_user")
+					};
+					//jQuery("#permaCheck").append('<span><b>Save</b></span>: save report to server<br /><hr>');
+		
+					$.jsonp({
+							url: url,
+							data: data,
+							callbackParameter: 'jsonp_callback',
+							success: function(json) { 
+								//consoleLog('debug', JSON.stringify(reportContainer.reports[0]));
+								reportContainer.reports.shift();
+								localStorage.setItem(mKey,JSON.stringify(reportContainer));
+								if (reportContainer.reports.length > 0) {
+									saveTimeout = setTimeout(function() {
+												saveReportToServer()
+										}, 1000); 
+								}
+									
+							},
+							error: function(){
+								saveTimeout = setTimeout(function() {
+											saveReportToServer()
+									}, 1000); 
+								
+							}
+					});
+				} else {
+					saveTimeout = setTimeout(function() {
+								saveReportToServer()
+						}, 1000);
+				}
+			}        
+    }	
 
 });
