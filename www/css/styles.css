@@ -127,26 +127,51 @@ input {
     width: 100%;
 }
 
-input[type=checkbox]
-{
-    /* Double-sized Checkboxes */
-    -ms-transform: scale(2); /* IE */
-    -moz-transform: scale(2); /* FF */
-    -webkit-transform: scale(2); /* Safari and Chrome */
-    -o-transform: scale(2); /* Opera */
-    width: auto;
-    margin-right: 5px;
+input[type="checkbox"] {
+    display:none;
 }
+input[type="checkbox"] + label span {
+    padding-left: 30px;
+}
+input[type="checkbox"] + label {
+    display:inline-block;
+    height:25px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(../img/checkbox_off.png) left top no-repeat;
+    cursor:pointer;
+}
+input[type="checkbox"]:checked + label {
+    background:url(../img/checkbox_on.png) left top no-repeat;
+}
+input[type="radio"] {
+    display:none;
+}
+input[type="radio"] + label span {
+    padding-left: 30px;
+}
+input[type="radio"] + label {
+    display:inline-block;
+    height:25px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(../img/radio_off.png) left top no-repeat;
+    cursor:pointer;
+}
+input[type="radio"]:checked + label {
+    background:url(../img/radio_on.png) left top no-repeat;
+}
+
 
 input[type=radio]
 {
     /* Double-sized Checkboxes */
-    -ms-transform: scale(2); /* IE */
-    -moz-transform: scale(2); /* FF */
-    -webkit-transform: scale(2); /* Safari and Chrome */
-    -o-transform: scale(2); /* Opera */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
     width: auto;
-    margin-right: 5px;
+    margin-right: 0.8em;
 		margin-left: 0.6em;
 }
 
@@ -396,16 +421,16 @@ div#login {
 /* rundgang box */
 
 .rundgangBox {
-    height: 250px;
-    width: 250px;
+    height: 220px;
+    width: 220px;
     margin: auto;
-    margin-top: 35px;
+    margin-top: 0px;
     position: relative;
 }
 
 .rundgangBox img#rundgangButtons {
-    height: 250px;
-    width: 250px;
+    height: 220px;
+    width: 220px;
 }
 
 .rundgangBox a#start {
@@ -448,7 +473,6 @@ a.mobilitaetButton {
     border-radius: 10px;
     background: rgb(255,255,255); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(241,241,241,1) 100%); /* FF3.6+ */
-
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(241,241,241,1))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 100%); /* Opera 11.10+ */
@@ -606,7 +630,9 @@ a.meldungButtonD.ui-link img {
 }
 
 p#pics {
-    padding: 0 2px;
+    padding: 0px 2px 0px 2px;
+		border-bottom: 1px solid #CBCBCB;
+		magin: 0px;
 }
 
 p#pics img {
@@ -621,6 +647,10 @@ p#pics img:nth-child(5n) {
     margin-right: 0;
 }
 
+#aufnahmebutton {
+	width: 100%;
+	text-align: center;
+}
 #aufnahmen {
     border-radius: 5px;
     box-shadow: 5px 5px 5px #C5C5C5;
@@ -640,9 +670,9 @@ p#pics img:nth-child(5n) {
 }
 
 .cameraButton {
-    width: 300px;
+    width: 160px;
     height: auto;
-    margin-bottom: 5px;
+    margin: 5px auto 5px auto;
     /*margin-left: -5px;*/
 }
 
@@ -695,12 +725,16 @@ p#pics img:nth-child(5n) {
     border: 0 none;
 }
 
-.uEinputWrap {
+.uLine {
     border-bottom: 1px solid #cbcbcb;
+}
+
+.uEinputWrap {
     padding-bottom: 20px;
 }
 
-input.zugnummer {
+
+/*input.zugnummer {
     background: url("../img/inputUeZn.png") 0 0 no-repeat transparent;
     height: 20px;
     line-height: 20px;
@@ -720,7 +754,8 @@ input.persons {
     border: 0;
     display: inline;
     margin-right: 5px;
-}
+}*/
+
 
 input.mLch {
     float: left;
@@ -817,7 +852,7 @@ textarea.mobilitaetDetailText {
 }
 
 .uEcheckWrap {
-    border-bottom: 1px solid #cbcbcb;
+    /*border-bottom: 1px solid #cbcbcb;*/
     padding: 20px 0 0;
     position: relative;
 }
@@ -862,13 +897,13 @@ textarea.mobilitaetDetailText {
 }
 
 .uEcheckWrap span {
-    line-height: 20px;
+    line-height: 25px;
 }
 
 input.meCheck {
     float: left;
     margin: 0;
-    margin-right: 5px;
+    margin-right: 0.8em;
     margin-left: 0.6em;
 }
 
@@ -1076,10 +1111,41 @@ span.navVertLineBright {
 
 .meForm .uEcheckWrap label {
     float: left;
-    margin-top: -8px;
+    margin-top: -3px;
 }
 
 .uEcheckWrap div {
     clear: both;
     padding-bottom: 15px;
+}
+
+/***********************************/
+/*           Brandschutz              */
+/***********************************/
+.brandschutz {
+	padding: 5px 20px !important;
+}
+label.ui-slider {
+	font-size: 1.0em !important;
+}
+.ui-btn-active {
+    background: linear-gradient(#FF0000, #990000) repeat scroll 0 0 #990000 !important;
+    border: 0px solid #2373A5 !important;
+    color: #FFFFFF !important;
+    cursor: pointer;
+    font-family: Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+   	text-shadow: 0 1px 0 #000 !important;
+}
+.ui-btn:focus {
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+div.ui-slider-switch.ui-mini {
+    width: 6em !important;
+}
+.ui-btn-corner-all {
+    border-radius: 1.2em !important;
 }

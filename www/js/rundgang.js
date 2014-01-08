@@ -2,8 +2,6 @@ jQuery(document).ready(function () {
 
 	var rKey, rWatchId, saveInterval, rInterval, saveTimeout, x, oRundgang;
 	
-	var url = "http://active.mungos-services.at/index.php"; 
-	
 	if (localStorage.getItem("fe_user")) {
 		// Set key for Rundgang
 		rKey = 'r_' + localStorage.getItem("fe_user");
@@ -19,6 +17,7 @@ jQuery(document).ready(function () {
 	var searchGeoData = false;
 	var setGeoDataErrCount = 0;
 	var setIntervalTimeout = 5000;
+	var fireProtection = 0;
 	
 	// Rundgang Object
   oRundgang = {};	
@@ -49,27 +48,27 @@ jQuery(document).ready(function () {
 					next();
 				});
 				
+				if (oRundgang.Wachdienst[rCount].fireProtection) {
+					jQuery('#fireprotection').val(1).slider("refresh");
+				} else {
+					jQuery('#fireprotection').val(0).slider("refresh");					
+				}
+				jQuery('#fireprotection').slider({ disabled: true });
+				
 				// Get Last Checkpoint
 				if (oRundgang.Wachdienst[rCount].checkString.length > 0) {
 					checkpointNr = oRundgang.Wachdienst[rCount].checkString.length - 1;
 				
-				
-					d = new Date(oRundgang.Wachdienst[rCount].checkString[checkpointNr].datetime);
-					m = d.getMonth() + 1;
-					span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
 					span_text = '<span><b>Rundgang wird fortgesetzt</b></span>';        
 					jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
-						jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
+						jQuery('<p class="control">' + span_text + '<br />' + getDateForOutput(oRundgang.Wachdienst[rCount].start) + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
 						jQuery(this).remove();
 					});
 				} else {
 					checkpointNr = 0;
-					d = new Date();
-					m = d.getMonth() + 1;
-					span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
 					span_text = '<span><b>Rundgang wird fortgesetzt</b></span>';        
 					jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
-						jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
+						jQuery('<p class="control">' + span_text + '<br />' + getDateForOutput('') + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
 						jQuery(this).remove();
 					});
 				}
@@ -98,10 +97,6 @@ jQuery(document).ready(function () {
 		}, 2000, 'linear', function () {
 				jQuery(".expand").removeAttr('style');
 		});
-
-		d = new Date();
-		m = d.getMonth() + 1;
-		span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ' Datum: ' + d.getDate() + '.' + m + '.' + d.getFullYear() + '</span>';
 		
 		if (rStarted == false) {	
 			// Aktiviere die permanente Geo-Datenerfassung
@@ -116,9 +111,11 @@ jQuery(document).ready(function () {
 				next();
 			});
 			
+			jQuery('#fireprotection').slider({ disabled: true });
+			
 			span_text = '<span><b>Rundgang wurde gestartet</b></span>';        
 			jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
-				jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
+				jQuery('<p class="control">' + span_text + '<br />' + getDateForOutput('') + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
 				jQuery(this).remove();
 			});
 			
@@ -134,11 +131,14 @@ jQuery(document).ready(function () {
 				next();
 			});
 			
+			jQuery('#fireprotection').slider({ disabled: false });
+			jQuery('#fireprotection').val(0).slider("refresh");
+			
 			stopGeoData();
 			
 			span_text = '<span><b>Rundgang wurde beendet</b></span>';
 			jQuery('.statusBox p:gt(0)').fadeOut(500, function () {
-				jQuery('<p class="control">' + span_text + '<br />' + span_date + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
+				jQuery('<p class="control">' + span_text + '<br />' + getDateForOutput('') + '<img src="img/mBoxEye.png" /></p>').hide().prependTo(".statusBox").delay(350).slideToggle("slow");
 				jQuery(this).remove();
 			});
 			
@@ -175,8 +175,8 @@ jQuery(document).ready(function () {
 		geoData.acc = position.coords.accuracy;		
 		geoData.timestamp = position.timestamp;
 		
-		var d = new Date(position.timestamp);
-    var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';
+		//var d = new Date(position.timestamp);
+    //var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>';
 		if (navigator.connection) { navCon = navigator.connection.type; }
 		else { navCon = "unavailable"; }
 		          
@@ -199,8 +199,8 @@ jQuery(document).ready(function () {
 		geoData.checkpoint = checkpointNr;
 		geoData.status = error.code;
 		
-		var d = new Date();
-    var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>'; 
+		//var d = new Date();
+    //var span_date = '<span>Zeit: ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +'</span>'; 
 		
 		if (navigator.connection) { navCon = navigator.connection.type; }
 		else { navCon = "unavailable"; }       
@@ -234,6 +234,7 @@ jQuery(document).ready(function () {
 				Rundgang.checkString = [];
 				Rundgang.checkString.push(geoDataElement);
 				Rundgang.start = new Date().getTime();
+				Rundgang.fireProtection = parseInt(jQuery('#fireprotection').val());
 				Rundgang.ende = 0;
 				Rundgang.complete = 0;
 				
@@ -294,8 +295,8 @@ jQuery(document).ready(function () {
 		
 		var rundgangContainer, checkpointContainer, checkpoint;
 		
-		/*consoleLog('debug', "updateRundgang gestartet");
-		jQuery("#permaCheck").append('<span><b>Datentransfer gestartet</b></span> <br><hr>');*/
+		//consoleLog('debug', "updateRundgang gestartet");
+		/*jQuery("#permaCheck").append('<span><b>Datentransfer gestartet</b></span> <br><hr>');*/
 		
 		rundgangContainer = {};
 		rundgangContainer = JSON.parse(localStorage.getItem(rKey));
@@ -322,21 +323,25 @@ jQuery(document).ready(function () {
 					endDatetime = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ' ' + d.getDate() + '-' + m + '-' + d.getFullYear();
 				} else {
 					endDatetime = 0;
-				}			
+				}	
+				
+				/*if (rundgangContainer.Wachdienst[0].fireProtection == 'On') fireProtection = 1; 
+				else fireProtection = 0; */
 		
 				if (rundgangContainer.Wachdienst[0].uid && (rundgangContainer.Wachdienst[0].uid > 0)) {
 					// bestehenden Rundgang speichern		
 					
 					data = {
-							'id': 77,
+							'id': rundgang_page_uid,
 							'no_cache': 1,
-							'type': 99,
+							'type': rundgang_page_type,
 							'tx_idsmungosrundgang[action]': "update",
 							'tx_idsmungosrundgang[uid]': rundgangContainer.Wachdienst[0].uid,
 							'tx_idsmungosrundgang[feUser]': localStorage.getItem("fe_user"),
 							'tx_idsmungosrundgang[startDatetime]': startDatetime,
 							'tx_idsmungosrundgang[endDatetime]': endDatetime,
 							'tx_idsmungosrundgang[checkpoint]': checkpoint,
+							'tx_idsmungosrundgang[fireProtection]': rundgangContainer.Wachdienst[0].fireProtection,
 							'tx_idsmungosrundgang[complete]': rundgangContainer.Wachdienst[0].complete							
 					};
 					//consoleLog('debug', "update Rundgang (" + rundgangContainer.Wachdienst[0].uid + "): "+JSON.stringify(data));
@@ -345,23 +350,25 @@ jQuery(document).ready(function () {
 					// Rundgang wurde bisher noch nicht gespeichert		
 					
 					data = {
-							'id': 77,
+							'id': rundgang_page_uid,
 							'no_cache': 1,
-							'type': 99,
+							'type': rundgang_page_type,
 							'tx_idsmungosrundgang[action]': "create",
 							'tx_idsmungosrundgang[uid]': 0,
 							'tx_idsmungosrundgang[feUser]': localStorage.getItem("fe_user"),
 							'tx_idsmungosrundgang[startDatetime]': startDatetime,
 							'tx_idsmungosrundgang[endDatetime]': endDatetime,
-							'tx_idsmungosrundgang[checkpoint]': checkpoint	,
-							'tx_idsmungosrundgang[complete]': rundgangContainer.Wachdienst[0].complete						
+							'tx_idsmungosrundgang[checkpoint]': checkpoint,
+							'tx_idsmungosrundgang[fireProtection]': rundgangContainer.Wachdienst[0].fireProtection,
+							'tx_idsmungosrundgang[complete]': rundgangContainer.Wachdienst[0].complete,
+							'tx_idsmungosrundgang[version]': version						
 					};
 					//consoleLog('debug', "neuer Rundgang: " + JSON.stringify(data));
 					
 				}
 						
 				$.jsonp({
-					url: url,
+					url: app_url,
 					data: data,
 					callbackParameter: 'jsonp_callback',
 					success: function(json) {
@@ -370,8 +377,8 @@ jQuery(document).ready(function () {
 							
 							/*jQuery("#permaCheck").append('<span><b>Daten gespeichert</b></span> (UID: '+ json.uid + ')<br>' + 
 									'Connectiontype: ' + navCon + '<br>' + 
-									'Data: ' + JSON.stringify(rundgangContainer.Wachdienst[0]) + '<br><hr>');
-							consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);*/
+									'Data: ' + JSON.stringify(rundgangContainer.Wachdienst[0]) + '<br><hr>');*/
+							//consoleLog('debug', "Aktualisierung erfolgreich - Request-UID: " + json.uid);
 							
 							if (rundgangContainer.Wachdienst[0].uid == 0) {
 								rundgangContainer.Wachdienst[0].uid = json.uid;
@@ -403,6 +410,8 @@ jQuery(document).ready(function () {
 				
 			}	else {
 				// keine Checkpoints
+				//consoleLog('debug', "else");
+				
 				if (rundgangContainer.Wachdienst[0].ende > 0) {
 					//Rundgang wurde beendet
 					
@@ -471,6 +480,30 @@ jQuery(document).ready(function () {
 			localStorage.removeItem(rKey)
 		}
 		
+	}
+	
+	/**************************************************************
+		DATUM UND ZEIT FÜR AUSGABE
+	***************************************************************/
+	
+	function getDateForOutput(dateTimeElement) {
+		if (dateTimeElement == '') {
+			d = new Date();
+		} else {
+			d = new Date(dateTimeElement);
+		}
+		
+		m = d.getMonth() + 1;
+		return '<span>Zeit: ' + pushZero(d.getHours()) + ':' + pushZero(d.getMinutes()) + ' Datum: ' + pushZero(d.getDate()) + '.' + pushZero(m) + '.' + d.getFullYear() + '</span>';
+		
+	}
+	
+	function pushZero(numVal) {
+		if (numVal < 10) {
+			return '0'+numVal;
+		} else {
+			return numVal;
+		}
 	}
 
 });
