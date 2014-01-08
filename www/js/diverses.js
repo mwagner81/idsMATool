@@ -32,7 +32,7 @@ var u_key, timer, debug;
 
 /* CONFIG VARS */
 var version = '1.2';
-var app_url = "http://active-dev.mungos-services.at/index.php";
+var app_url = "http://active.mungos-services.at/index.php";
 var rundgang_page_uid = 77;
 var rundgang_page_type = 99;
 var meldung_page_uid = 79;
