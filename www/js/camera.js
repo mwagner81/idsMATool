@@ -88,17 +88,17 @@ function uploadFile(mediaFile) {
     name = mediaFile.name;
 
     ft.upload(path,
-        "http://active.mungos-services.at/fileadmin/upload/upload.php",
-        function(result) {
-            console.log('Upload success: ' + result.responseCode);
-            console.log(result.bytesSent + ' bytes sent');
-        },
-        function(error) {
-            console.log('Error uploading file ' + path + ': ' + error.code);
-        },
-        {
-            fileName: name
-        });
+        			imgUpload_url,
+        			function(result) {
+            			console.log('Upload success: ' + result.responseCode);
+            			console.log(result.bytesSent + ' bytes sent');
+        			},
+							function(error) {
+									console.log('Error uploading file ' + path + ': ' + error.code);
+							},
+							{
+									fileName: name
+							});
 }
 
 function deleteImage(){
