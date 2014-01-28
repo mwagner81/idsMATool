@@ -61,9 +61,7 @@ function captureError(error) {
 	AKTUELLES BILD IM LOCAL-STORAGE SPEICHERN
 ***************************************************************/
 function savePic(picData) {
-		
-		jQuery("#permaCheck").append('<span><b>Foto:</b></span> ' + JSON.stringify(picData) + '<br /><hr>');
-		
+				
 		pKey = 'p_' + localStorage.getItem("fe_user");
 		
 		if (!localStorage.getItem(pKey)) {
@@ -85,17 +83,18 @@ function savePic(picData) {
 		} else {
 			// wenn bereits ein Eintrag vorhanden ist
 			
-			jQuery("#permaCheck").append('<span><b>Foto:</b></span> localStorage vorhanden<br /><hr>');
+			jQuery("#permaCheck").append('<span><b>localStorage: </b></span>'+localStorage.getItem(pKey)+'<br /><hr>');
 			
 			picContainer = JSON.parse(localStorage.getItem(pKey));
 			curI = -1;	
 			for (i = 0; i < picContainer.reports.length; i++) {
 				if (picContainer.reports[i].matchcode == currElement) {
 					curI = i;
+					jQuery("#permaCheck").append('<span><b>localStorage: </b></span>Index='+i+'<br /><hr>');
 				}
 			}
 			
-			if (curI > -1) {
+			if (curI >= 0) {
 				// letzten Report gefunden
 				picContainer.reports[i].pics.push(picData);
 			} else {
