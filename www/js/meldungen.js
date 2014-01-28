@@ -196,21 +196,22 @@ jQuery(document).ready(function () {
 				
 			} else {
 				picContainer = JSON.parse(localStorage.getItem(pKey));
-				curI = -1;	
+				curIdx = -1;	
 				for (i = 0; i < picContainer.reports.length; i++) {
-					if ((picContainer.reports[i].matchcode == matchcode) && (picContainer.reports[i].complete == 0)) {
-						jQuery("#permaCheck").append('<span><b>localStorage 1: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
-						curI = i;
+					if ((picContainer.reports[i].matchcode == matchcode) && (picContainer.reports[i].complete == 0)) {						
+						curIdx = i;
 					}
 				}
 				
-				if (curI >= 0) {
-					pics = picContainer.reports[curI].pics;
+				jQuery("#permaCheck").append('<span><b>curIdx: </b></span>'+curIdx+'<br><hr>');
+				
+				if (curIdx >= 0) {
+					pics = picContainer.reports[curIdx].pics;
 					picsStrg = '';
 					for (i=0;i<pics.length;i++) {
 						picsStrg = picsStrg + pics[i].name + ',';
 					}
-					picContainer.reports[curI].complete = 1;
+					picContainer.reports[curIdx].complete = 1;
 					localStorage.setItem(pKey, JSON.stringify(picContainer));
 
 					jQuery("p#"+matchcode+"_pics").html("");
