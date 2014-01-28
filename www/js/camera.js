@@ -84,7 +84,7 @@ function savePic(picData) {
 			picContainer = JSON.parse(localStorage.getItem(pKey));
 			curI = -1;	
 			for (i = 0; i < picContainer.reports.length; i++) {
-				if (picContainer.reports[i].matchcode == currElement) {
+				if ((picContainer.reports[i].matchcode == currElement) && (picContainer.reports[i].complete == 0)) {
 					curI = i;
 				}
 			}
@@ -119,6 +119,14 @@ function savePic(picData) {
 	BILDER AUF DEN SERVER LADEN
 ***************************************************************/	 
 function uploadFiles() {
+	
+		pKey = 'p_' + localStorage.getItem("fe_user");
+		if (!localStorage.getItem(pKey)) {
+			// no Files in Storage
+		} else {
+			picContainer = JSON.parse(localStorage.getItem(pKey));
+			jQuery("#permaCheck").append('<span><b>localStorage: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
+		}
 	
     /*var j, leng;
     pLs = localStorage.getItem("pics_"+captureElement);
