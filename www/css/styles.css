@@ -629,13 +629,13 @@ a.meldungButtonD.ui-link img {
     width: 28px;
 }
 
-p#pics {
+p.pics {
     padding: 0px 2px 0px 2px;
 		border-bottom: 1px solid #CBCBCB;
 		magin: 0px;
 }
 
-p#pics img {
+p.pics img {
     border: 1px solid #5c5c5c;
     width: 64px;
     height: 36px;
@@ -643,7 +643,7 @@ p#pics img {
     margin-right: 9px;
 }
 
-p#pics img:nth-child(5n) {
+p.pics img:nth-child(5n) {
     margin-right: 0;
 }
 

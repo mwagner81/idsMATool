@@ -211,10 +211,10 @@ jQuery(document).ready(function () {
 					}
 					picContainer.reports[curI].complete = 1;
 					localStorage.setItem(pKey, JSON.stringify(picContainer));
-					//picContainer.reports.splice(curI,1);
+
 					jQuery("p#"+matchcode+"_pics").html("");
 					
-					uploadFiles();
+					uploadFiles(curI);
 					
 					return picsStrg;
 					

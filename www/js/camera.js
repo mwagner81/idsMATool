@@ -118,49 +118,40 @@ function savePic(picData) {
 /**************************************************************
 	BILDER AUF DEN SERVER LADEN
 ***************************************************************/	 
-function uploadFiles() {
+function uploadFiles(lsIndex) {
 	
 		pKey = 'p_' + localStorage.getItem("fe_user");
-		if (!localStorage.getItem(pKey)) {
-			// no Files in Storage
-		} else {
-			picContainer = JSON.parse(localStorage.getItem(pKey));
-			jQuery("#permaCheck").append('<span><b>localStorage: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
-		}
-	
-    /*var j, leng;
-    pLs = localStorage.getItem("pics_"+captureElement);
+		picContainer = JSON.parse(localStorage.getItem(pKey));
 		
-    mesLen = pictureFiles.length;
- 
-    for (j = 0, leng = pictureFiles.length; j < leng; j += 1) {
-        uploadFile(pictureFiles[j]);
-        jQuery("p#pics img:first-child").remove();
-    }
-    pictureFiles = [];
-    
-    if(mesLen>0) {
-        setTimeout("alert(\"Es werden "+mesLen+" Bilder hochgeladen\")", 500);
-    }*/
+		pics = picContainer.reports[curI].pics;
+		picsStrg = '';
+		for (i=0;i<pics.length;i++) {			
+			jQuery("#permaCheck").append('<span><b>Upload: </b></span>'+pics[i].name+'<br><hr>');
+			uploadFile(pics[i].fullPath, pics[i].name);
+		}
+		
+		picContainer.reports.splice(curI,1);		
+		localStorage.setItem(pKey, JSON.stringify(picContainer));
+		
+		jQuery("#permaCheck").append('<span><b>localStorage: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
+		
 }
 // Upload files to server
-function uploadFile(mediaFile) {
+function uploadFile(fPath, fName) {
     
-    var ft = new FileTransfer(),
-    path = mediaFile.fullPath,
-    name = mediaFile.name;
+    var ft = new FileTransfer();
 
-    ft.upload(path,
+    ft.upload(fPath,
         			imgUpload_url,
         			function(result) {
             			console.log('Upload success: ' + result.responseCode);
             			console.log(result.bytesSent + ' bytes sent');
         			},
 							function(error) {
-									console.log('Error uploading file ' + path + ': ' + error.code);
+									console.log('Error uploading file ' + fPath + ': ' + error.code);
 							},
 							{
-									fileName: name
+									fileName: fName
 							});
 }
 
