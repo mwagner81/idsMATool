@@ -159,12 +159,14 @@ jQuery(document).ready(function () {
 		
 		jQuery(".mConfirm").on('click',function () {
 			// Daten abspeichern			
-			saveReportData(reportData);		
-			
+			saveReportData(reportData);	
+				
 			//
 			jQuery(".meForm").each(function(){
 					jQuery(this).slideUp("fast").siblings("a.meldungButtonD").find("img").attr('src', 'img/meldungButtonPlus.png');
-			});	      
+			});	   
+			
+			uploadFiles();   
 		});		
 	
 		jQuery(".mBreak").on('click', function () {
@@ -211,13 +213,12 @@ jQuery(document).ready(function () {
 					picsStrg = '';
 					for (j=0;j<pics.length;j++) {
 						picsStrg = picsStrg + pics[j].name + ',';
+						jQuery("#permaCheck").append('<span><b>picsStrg+: </b></span>'+pics[j].name+'<br><hr>');
 					}
 					picContainer.reports[curIdx].complete = 1;
 					localStorage.setItem(pKey, JSON.stringify(picContainer));
 
 					jQuery("p#"+matchcode+"_pics").html("");
-					
-					uploadFiles();
 					
 					return picsStrg;
 					
