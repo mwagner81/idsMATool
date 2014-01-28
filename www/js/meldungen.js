@@ -209,8 +209,8 @@ jQuery(document).ready(function () {
 					jQuery("#permaCheck").append('<span><b>pics: </b></span>'+JSON.stringify(pics)+'<br><hr>');
 					
 					picsStrg = '';
-					for (i=0;i<pics.length;i++) {
-						picsStrg = picsStrg + pics[i].name + ',';
+					for (j=0;j<pics.length;j++) {
+						picsStrg = picsStrg + pics[j].name + ',';
 					}
 					picContainer.reports[curIdx].complete = 1;
 					localStorage.setItem(pKey, JSON.stringify(picContainer));
