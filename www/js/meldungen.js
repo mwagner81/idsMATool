@@ -47,7 +47,6 @@ jQuery(document).ready(function () {
 				reportData.police = jQuery("#01_wachzimmer").val();
 				reportData.comment = jQuery("#01_comment").val();								
 				reportData.fotos = getPics('01');
-				uploadFiles('01');
 				
 			} else if(jQuery(this).hasClass("02_meldung")) {
 				// Lost & Found
@@ -101,7 +100,6 @@ jQuery(document).ready(function () {
 				reportData.security = jQuery("#06_konzernsicherheit").prop('checked') ? 1 : 0;	
 				reportData.comment = jQuery("#06_comment").val();	 
 				reportData.fotos = getPics('06');
-				uploadFiles('06');
 				             
 			} else if(jQuery(this).hasClass("07_meldung")) {
 				// Beschwerden/Anfragen
@@ -200,7 +198,7 @@ jQuery(document).ready(function () {
 				picContainer = JSON.parse(localStorage.getItem(pKey));
 				curI = -1;	
 				for (i = 0; i < picContainer.reports.length; i++) {
-					if (picContainer.reports[i].matchcode == matchcode) {
+					if ((picContainer.reports[i].matchcode == matchcode) && (picContainer.reports[i].complete == 0)) {
 						curI = i;
 					}
 				}
@@ -211,8 +209,12 @@ jQuery(document).ready(function () {
 					for (i=0;i<pics.length;i++) {
 						picsStrg = picsStrg + pics[i].name + ',';
 					}
+					picContainer.reports[curI].complete = 1;
+					localStorage.setItem(pKey, JSON.stringify(picContainer));
+					//picContainer.reports.splice(curI,1);
+					jQuery("p#"+matchcode+"_pics").html("");
 					
-					picContainer.reports.splice(curI,1);
+					uploadFiles();
 					
 					return picsStrg;
 					
@@ -229,7 +231,7 @@ jQuery(document).ready(function () {
 			MELDUNG ZURÜCKSETZEN
 		***************************************************************/		
 		function resetForm() {			
-			localStorage.removeItem("pics");   
+			//localStorage.removeItem("pics");   
 			jQuery("input[type=text], textarea").val("");
 			jQuery("input[type=checkbox]").attr('checked', false);
 			jQuery("select").attr('checked', false);
@@ -243,7 +245,7 @@ jQuery(document).ready(function () {
 		function saveReportData(reportData){
 			//jQuery("#permaCheck").append('<span><b>saveReportData</b></span><br /><hr>');
 			
-			localStorage.setItem("pics", '');
+			//localStorage.setItem("pics", '');
 			
 			reportContainer = JSON.parse(localStorage.getItem(mKey));
 			if (reportContainer.reports) {

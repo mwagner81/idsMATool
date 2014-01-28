@@ -118,7 +118,7 @@ function savePic(picData) {
 /**************************************************************
 	BILDER AUF DEN SERVER LADEN
 ***************************************************************/	 
-function uploadFiles(matchcode) {
+function uploadFiles() {
 	
     /*var j, leng;
     pLs = localStorage.getItem("pics_"+captureElement);
