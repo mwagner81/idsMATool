@@ -202,11 +202,12 @@ jQuery(document).ready(function () {
 						curIdx = i;
 					}
 				}
-				
-				jQuery("#permaCheck").append('<span><b>curIdx: </b></span>'+curIdx+'<br><hr>');
-				
-				if (curIdx >= 0) {
+								
+				if (curIdx >= 0) {					
 					pics = picContainer.reports[curIdx].pics;
+					
+					jQuery("#permaCheck").append('<span><b>pics: </b></span>'+JSON.stringify(pics)+'<br><hr>');
+					
 					picsStrg = '';
 					for (i=0;i<pics.length;i++) {
 						picsStrg = picsStrg + pics[i].name + ',';
@@ -221,6 +222,7 @@ jQuery(document).ready(function () {
 					return picsStrg;
 					
 				} else {
+					jQuery("#permaCheck").append('<span><b>picStrg: </b></span>empty<br><hr>');
 					return '';
 					
 				}
