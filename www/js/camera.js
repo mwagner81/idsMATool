@@ -29,13 +29,13 @@ function captureImage(matchcode) {
 ***************************************************************/		
 function captureSuccess(mediaFiles) {
 		
-		jQuery("#permaCheck").append('<span><b>Foto:</b></span> | Capture successful<br /><hr>');
+		jQuery("#permaCheck").append('<span><b>Foto:</b></span> Capture successful<br /><hr>');
 		
 		var picData = {};		
 		var lastDateID = 0;
 		var lastDate = 0;
 		
-		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+		for (i = 0; i < mediaFiles.length; i++) {
 				if (mediaFiles[i].lastModifiedDate > lastDate) {
 					lastDateID = i;
 					lastDate = mediaFiles[i].lastModifiedDate;
@@ -56,7 +56,7 @@ function captureSuccess(mediaFiles) {
 	FEHLER BEI DER BILDAUFNAHME
 ***************************************************************/		
 function captureError(error) {
-		jQuery("#permaCheck").append('<span><b>Foto:</b></span> | Capture error!<br /><hr>');
+		jQuery("#permaCheck").append('<span><b>Foto:</b></span> Capture error!<br /><hr>');
     var msg = 'Fehler bei der Aufnahme: ' + error.code;
     navigator.notification.alert(msg, null, 'Uh oh!');
 }
@@ -65,6 +65,8 @@ function captureError(error) {
 	AKTUELLES BILD IM LOCAL-STORAGE SPEICHERN
 ***************************************************************/
 function savePic(picData) {
+		
+		jQuery("#permaCheck").append('<span><b>Foto:</b></span> ' + JSON.stringify(picData) + '<br /><hr>');
 		
 		pKey = 'p_' + localStorage.getItem("fe_user");
 		
@@ -117,7 +119,7 @@ function savePic(picData) {
 		// "{"reports":[{"type":"Vandalismus","police":"sdvdv","comment":"yxcvyxcv","fotos":null,"timestamp":"2014-01-27T13:04:50.807Z","lat":"","lng":"","acc":"","geoTimestamp":"","complete":0}]}"
 		// "{"Wachdienst":[{"id":0,"uid":345,"checkString":[{"datetime":1390840881044,"checkpoint":1,"status":3},{"datetime":1390840908480,"checkpoint":1,"status":3}],"start":1390840816905,"fireProtection":0,"ende":1390840917694,"complete":0}]}"
     
-		jQuery("#permaCheck").append('<span><b>Foto:</b></span> | ' + JSON.stringify(picContainer)      + '<br /><hr>');
+		jQuery("#permaCheck").append('<span><b>localStorage:</b></span> ' + JSON.stringify(picContainer)      + '<br /><hr>');
 		
     jQuery("p#"+currElement+"_pics").prepend("<img src=\""+ picData.fullPath +"\" />");
         
