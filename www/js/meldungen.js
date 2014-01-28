@@ -42,20 +42,23 @@ jQuery(document).ready(function () {
 			
 			if(jQuery(this).hasClass("01_meldung")) {
 				// Vandalismus
+				reportData.matchcode = "01";
 				reportData.type = "Vandalismus";
 				reportData.police = jQuery("#01_wachzimmer").val();
 				reportData.comment = jQuery("#01_comment").val();				
 				reportData.fotos = localStorage.getItem("pics");
-				uploadFiles();
+				uploadFiles('01');
 				
 			} else if(jQuery(this).hasClass("02_meldung")) {
 				// Lost & Found
+				reportData.matchcode = "02";
 				reportData.type = "Lost & Found";
 				reportData.found = jQuery(".02_gefunden:checked").val();
 				reportData.comment = jQuery("#02_comment").val();		
 				
 			} else if(jQuery(this).hasClass("03_meldung")) {
 				//unangemeldete Ein- oder Ausstiegshilfe
+				reportData.matchcode = "03";
 				reportData.type = "Unangemeldete Ein-, Ausstieghilfe";   
 				reportData.trainNumber = jQuery("#03_zugnummer").val();
 				reportData.numOfPersons = jQuery("#03_persons").val();				
@@ -68,6 +71,7 @@ jQuery(document).ready(function () {
 				        
 			} else if(jQuery(this).hasClass("04_meldung")) {
 				// Aufzugsbefreiung
+				reportData.matchcode = "04";
 				reportData.type = "Aufzugsbefreiung"; 
 				if ((jQuery("#04_eingetroffen_std").val().length > 0) && (jQuery("#04_eingetroffen_min").val().length > 0)) {
 					reportData.arrivalTime = jQuery("#04_eingetroffen_std").val()+":"+jQuery("#04_eingetroffen_min").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
@@ -83,6 +87,7 @@ jQuery(document).ready(function () {
 			
 			} else if(jQuery(this).hasClass("05_meldung")) {
 				// Gewalt an Mitarbeiter
+				reportData.matchcode = "05";
 				reportData.type = "Gewalt an Mitarbeiter"; 
 				reportData.police = jQuery("#05_wachzimmer").val();
 				reportData.hospital = jQuery("#05_krankenhaus").val();
@@ -90,15 +95,17 @@ jQuery(document).ready(function () {
 				               
 			} else if(jQuery(this).hasClass("06_meldung")) {
 				// Einbruch / Diebstahl
+				reportData.matchcode = "06";
 				reportData.type = "Einbruch / Diebstahl";  
 				reportData.police = jQuery("#06_wachzimmer").val();
 				reportData.security = jQuery("#06_konzernsicherheit").prop('checked') ? 1 : 0;	
 				reportData.comment = jQuery("#06_comment").val();	 
 				reportData.fotos = localStorage.getItem("pics");
-				uploadFiles();
+				uploadFiles('06');
 				             
 			} else if(jQuery(this).hasClass("07_meldung")) {
 				// Beschwerden/Anfragen
+				reportData.matchcode = "07";
 				reportData.type = "Beschwerden / Anfragen"; 
 				reportData.name = jQuery("#07_name").val();
 				reportData.address = jQuery("#07_adresse").val();
@@ -107,20 +114,24 @@ jQuery(document).ready(function () {
 					              
 			} else if(jQuery(this).hasClass("08_meldung")) {
 				// Randgruppen
+				reportData.matchcode = "08";
 				reportData.type = "Randgruppen";  
 				reportData.comment = jQuery("#08_comment").val();  
 				
 			} else if(jQuery(this).hasClass("09_meldung")) {
 				// Raucherstrafen
+				reportData.matchcode = "09";
 				reportData.type = "Raucherstrafen";   
 				
 			} else if(jQuery(this).hasClass("10_meldung")) {
 				// Verweise/Belehrung
+				reportData.matchcode = "10";
 				reportData.type = "Verweise / Belehrung";
 				reportData.comment = jQuery("#10_comment").val();
 			
 			} else if(jQuery(this).hasClass("11_meldung")) {
 				//Einsatzkräfte
+				reportData.matchcode = "11";
 				reportData.type = "Einsatzkräfte";   			
 				reportData.firedept = jQuery("#11_feuerwehr").prop('checked') ? 1 : 0;
 				reportData.police = jQuery("#11_polizei").prop('checked') ? 1 : 0;
