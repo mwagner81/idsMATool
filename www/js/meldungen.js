@@ -45,8 +45,8 @@ jQuery(document).ready(function () {
 				reportData.matchcode = "01";
 				reportData.type = "Vandalismus";
 				reportData.police = jQuery("#01_wachzimmer").val();
-				reportData.comment = jQuery("#01_comment").val();				
-				reportData.fotos = localStorage.getItem("pics");
+				reportData.comment = jQuery("#01_comment").val();								
+				reportData.fotos = getPics('01');
 				uploadFiles('01');
 				
 			} else if(jQuery(this).hasClass("02_meldung")) {
@@ -100,7 +100,7 @@ jQuery(document).ready(function () {
 				reportData.police = jQuery("#06_wachzimmer").val();
 				reportData.security = jQuery("#06_konzernsicherheit").prop('checked') ? 1 : 0;	
 				reportData.comment = jQuery("#06_comment").val();	 
-				reportData.fotos = localStorage.getItem("pics");
+				reportData.fotos = getPics('06');
 				uploadFiles('06');
 				             
 			} else if(jQuery(this).hasClass("07_meldung")) {
@@ -186,7 +186,44 @@ jQuery(document).ready(function () {
 					jQuery(this).find("img.mbPlus").attr('src', 'img/meldungButtonMinus.png');
 					
 			}
-		});  
+		}); 
+		
+		/**************************************************************
+			HOLE FOTOS ZU MELDUNG
+		***************************************************************/		
+		function getPics(matchcode) {			
+			pKey = 'p_' + localStorage.getItem("fe_user");
+			if (!localStorage.getItem(pKey)) {
+				return '';
+				
+			} else {
+				picContainer = JSON.parse(localStorage.getItem(pKey));
+				curI = -1;	
+				for (i = 0; i < picContainer.reports.length; i++) {
+					if (picContainer.reports[i].matchcode == matchcode) {
+						curI = i;
+					}
+				}
+				
+				if (curI >= 0) {
+					pics = picContainer.reports[curI].pics;
+					picsStrg = '';
+					for (i=0;i<pics.length;i++) {
+						picsStrg = picsStrg + pics[i].name + ',';
+					}
+					
+					picContainer.reports.splice(curI,1);
+					
+					return picsStrg;
+					
+				} else {
+					return '';
+					
+				}
+				
+			}
+			
+		} 
 		
 		/**************************************************************
 			MELDUNG ZURÜCKSETZEN

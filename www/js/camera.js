@@ -66,9 +66,7 @@ function savePic(picData) {
 		
 		if (!localStorage.getItem(pKey)) {
 			// kein Report vorhanden - Basis eintrag machen
-			
-			jQuery("#permaCheck").append('<span><b>Foto:</b></span> No localStorage<br /><hr>');
-					
+								
 			picContainer.reports = [];		
 				
 			Report = {};
@@ -82,22 +80,18 @@ function savePic(picData) {
 				
 		} else {
 			// wenn bereits ein Eintrag vorhanden ist
-			
-			jQuery("#permaCheck").append('<span><b>localStorage: </b></span>'+localStorage.getItem(pKey)+'<br /><hr>');
-			
+						
 			picContainer = JSON.parse(localStorage.getItem(pKey));
 			curI = -1;	
 			for (i = 0; i < picContainer.reports.length; i++) {
 				if (picContainer.reports[i].matchcode == currElement) {
 					curI = i;
-					jQuery("#permaCheck").append('<span><b>localStorage: </b></span>Index='+i+'<br /><hr>');
 				}
 			}
 			
 			if (curI >= 0) {
 				// letzten Report gefunden
 				picContainer.reports[curI].pics.push(picData);
-				jQuery("#permaCheck").append('<span><b>localStorage NEU: </b></span>'+JSON.stringify(picContainer)+'<br /><hr>');
 			} else {
 				// keine entsprechende Report gefunden -> diesen Anlegen
 				Report = {};
@@ -116,8 +110,6 @@ function savePic(picData) {
 		
 		// "{"reports":[{"type":"Vandalismus","police":"sdvdv","comment":"yxcvyxcv","fotos":null,"timestamp":"2014-01-27T13:04:50.807Z","lat":"","lng":"","acc":"","geoTimestamp":"","complete":0}]}"
 		// "{"Wachdienst":[{"id":0,"uid":345,"checkString":[{"datetime":1390840881044,"checkpoint":1,"status":3},{"datetime":1390840908480,"checkpoint":1,"status":3}],"start":1390840816905,"fireProtection":0,"ende":1390840917694,"complete":0}]}"
-    
-		jQuery("#permaCheck").append('<span><b>localStorage:</b></span> ' + JSON.stringify(picContainer)      + '<br /><hr>');
 		
     jQuery("p#"+currElement+"_pics").prepend("<img src=\""+ picData.fullPath +"\" />");
         
@@ -190,26 +182,6 @@ function deleteImage(){
 function onPhotoURISuccess(imageURI) {
     jQuery("p#pics").prepend("<img src=\""+ imageURI +"\" />");
     pictureFiles.push(imageURI);
-}
-    
-function captureSuccess(mediaFiles) {
-    var i, len, pPath, pName, pLs;
-    
-    pLs = localStorage.getItem("pics_"+currCaptureElement);
-    
-    if (pLs == null) {
-        pLs = "";
-    }
-    
-    for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-        pPath = mediaFiles[i].fullPath;
-        pName = mediaFiles[i].name;
-
-        //pictureFiles.push(mediaFiles[i]);
-        jQuery("p#pics").prepend("<img src=\""+ pPath +"\" />");
-        
-        localStorage.setItem("pics_"+currCaptureElement, pLs+pName+",");
-    }
 }
 function onFail(message) {
   alert('Fehlgeschlagen: ' + message);
