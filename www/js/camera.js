@@ -28,7 +28,9 @@ function captureImage(matchcode) {
 	BILDAUFNAHME ERFOLGREICH
 ***************************************************************/		
 function captureSuccess(mediaFiles) {
-	
+		
+		jQuery("#permaCheck").append('<span><b>Foto:</b></span> | Capture successful<br /><hr>');
+		
 		var picData = {};		
 		var lastDateID = 0;
 		var lastDate = 0;
@@ -54,6 +56,7 @@ function captureSuccess(mediaFiles) {
 	FEHLER BEI DER BILDAUFNAHME
 ***************************************************************/		
 function captureError(error) {
+		jQuery("#permaCheck").append('<span><b>Foto:</b></span> | Capture error!<br /><hr>');
     var msg = 'Fehler bei der Aufnahme: ' + error.code;
     navigator.notification.alert(msg, null, 'Uh oh!');
 }
