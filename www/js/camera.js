@@ -96,7 +96,7 @@ function savePic(picData) {
 			
 			if (curI >= 0) {
 				// letzten Report gefunden
-				picContainer.reports[i].pics.push(picData);
+				picContainer.reports[curI].pics.push(picData);
 				jQuery("#permaCheck").append('<span><b>localStorage NEU: </b></span>'+JSON.stringify(picContainer)+'<br /><hr>');
 			} else {
 				// keine entsprechende Report gefunden -> diesen Anlegen
