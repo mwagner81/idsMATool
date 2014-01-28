@@ -199,6 +199,7 @@ jQuery(document).ready(function () {
 				curI = -1;	
 				for (i = 0; i < picContainer.reports.length; i++) {
 					if ((picContainer.reports[i].matchcode == matchcode) && (picContainer.reports[i].complete == 0)) {
+						jQuery("#permaCheck").append('<span><b>localStorage 1: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
 						curI = i;
 					}
 				}
