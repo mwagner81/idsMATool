@@ -118,43 +118,61 @@ function savePic(picData) {
 /**************************************************************
 	BILDER AUF DEN SERVER LADEN
 ***************************************************************/	 
-function uploadFiles(lsIndex) {
+function uploadFiles() {
 	
 		pKey = 'p_' + localStorage.getItem("fe_user");
 		picContainer = JSON.parse(localStorage.getItem(pKey));
-		
-		pics = picContainer.reports[curI].pics;
-		picsStrg = '';
-		for (i=0;i<pics.length;i++) {			
-			jQuery("#permaCheck").append('<span><b>Upload: </b></span>'+pics[i].name+'<br><hr>');
-			uploadFile(pics[i].fullPath, pics[i].name);
+		for (i = 0; i < picContainer.reports.length; i++) {
+			if (picContainer.reports[i].complete == 1){
+				pics = picContainer.reports[i].pics;
+				picsStrg = '';
+				for (j=0;j<pics.length;j++) {			
+					jQuery("#permaCheck").append('<span><b>Upload: </b></span>'+pics[j].name+'<br><hr>');
+					uploadFile(pics[j].fullPath, pics[j].name, 0);
+				}
+				
+				picContainer.reports.splice(i,1);
+			}
 		}
 		
-		picContainer.reports.splice(curI,1);		
+		if (picContainer.reports.length < 1) {
+			//navigator.camera.cleanup(cleanSuccess, cleanFail);
+		}
+
 		localStorage.setItem(pKey, JSON.stringify(picContainer));
 		
 		jQuery("#permaCheck").append('<span><b>localStorage: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
 		
 }
-// Upload files to server
-function uploadFile(fPath, fName) {
+// Upload a file to server
+function uploadFile(fPath, fName, tryUpload) {
     
     var ft = new FileTransfer();
 
     ft.upload(fPath,
         			imgUpload_url,
-        			function(result) {
-            			console.log('Upload success: ' + result.responseCode);
-            			console.log(result.bytesSent + ' bytes sent');
-        			},
-							function(error) {
-									console.log('Error uploading file ' + fPath + ': ' + error.code);
-							},
-							{
-									fileName: fName
-							});
+        			uploadSucess,
+							uploadFail,
+							{fileName: fName}
+						 );
 }
-
+function cleanSuccess() {
+    // Cleanup Success
+		console.log('Cleanup Success!');
+}
+function cleanFail(message) {
+		// cleanup failed
+    console.log('Cleanup Failed: ' + message);
+}
+function uploadSucess(result) {
+		// upload sucess
+		console.log('Upload Success: ' + result.responseCode);
+		console.log(result.bytesSent + ' bytes sent');
+}
+function uploadFail(error) {
+		// upload failed
+		console.log('Upload Failed: ' + error.message);
+}
 
 /**************************************************************
 	SONSTIGES

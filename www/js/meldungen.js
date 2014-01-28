@@ -214,7 +214,7 @@ jQuery(document).ready(function () {
 
 					jQuery("p#"+matchcode+"_pics").html("");
 					
-					uploadFiles(curI);
+					uploadFiles();
 					
 					return picsStrg;
 					
