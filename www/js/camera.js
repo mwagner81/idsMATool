@@ -27,10 +27,7 @@ function captureImage(matchcode) {
 /**************************************************************
 	BILDAUFNAHME ERFOLGREICH
 ***************************************************************/		
-function captureSuccess(mediaFiles) {
-		
-		jQuery("#permaCheck").append('<span><b>Foto:</b></span> Capture successful<br /><hr>');
-		
+function captureSuccess(mediaFiles) {				
 		var picData = {};		
 		var lastDateID = 0;
 		var lastDate = 0;
@@ -41,7 +38,7 @@ function captureSuccess(mediaFiles) {
 					lastDate = mediaFiles[i].lastModifiedDate;
 				}
 		}
-		jQuery("#permaCheck").append('<span><b>Foto:</b></span> ' + mediaFiles[lastDateID].fullPath + '<br /><hr>');
+		
 		picData.fullPath = mediaFiles[lastDateID].fullPath;
 		picData.name = mediaFiles[lastDateID].name;
 		picData.type = mediaFiles[lastDateID].type;
@@ -56,7 +53,6 @@ function captureSuccess(mediaFiles) {
 	FEHLER BEI DER BILDAUFNAHME
 ***************************************************************/		
 function captureError(error) {
-		jQuery("#permaCheck").append('<span><b>Foto:</b></span> Capture error!<br /><hr>');
     var msg = 'Fehler bei der Aufnahme: ' + error.code;
     navigator.notification.alert(msg, null, 'Uh oh!');
 }
@@ -73,8 +69,8 @@ function savePic(picData) {
 		if (!localStorage.getItem(pKey)) {
 			// kein Report vorhanden - Basis eintrag machen
 			
-			picElement = getLastPic(mediaFiles);		
-			
+			jQuery("#permaCheck").append('<span><b>Foto:</b></span> No localStorage<br /><hr>');
+					
 			picContainer.reports = [];		
 				
 			Report = {};
@@ -88,6 +84,8 @@ function savePic(picData) {
 				
 		} else {
 			// wenn bereits ein Eintrag vorhanden ist
+			
+			jQuery("#permaCheck").append('<span><b>Foto:</b></span> localStorage vorhanden<br /><hr>');
 			
 			picContainer = JSON.parse(localStorage.getItem(pKey));
 			curI = -1;	
