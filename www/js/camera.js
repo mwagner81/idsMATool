@@ -41,12 +41,12 @@ function captureSuccess(mediaFiles) {
 					lastDate = mediaFiles[i].lastModifiedDate;
 				}
 		}
-		
-		picData.fullPath = mediaFiles[i].fullPath;
-		picData.name = mediaFiles[i].name;
-		picData.type = mediaFiles[i].type;
-		picData.lastModified = mediaFiles[i].lastModifiedDate;
-		picData.size = mediaFiles[i].size;
+		jQuery("#permaCheck").append('<span><b>Foto:</b></span> ' + mediaFiles[lastDateID].fullPath + '<br /><hr>');
+		picData.fullPath = mediaFiles[lastDateID].fullPath;
+		picData.name = mediaFiles[lastDateID].name;
+		picData.type = mediaFiles[lastDateID].type;
+		picData.lastModified = mediaFiles[lastDateID].lastModifiedDate;
+		picData.size = mediaFiles[lastDateID].size;
 		
 		savePic(picData);
 
