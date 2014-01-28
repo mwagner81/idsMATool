@@ -122,6 +122,7 @@ function uploadFiles() {
 	
 		pKey = 'p_' + localStorage.getItem("fe_user");
 		picContainer = JSON.parse(localStorage.getItem(pKey));
+		jQuery("#permaCheck").append('<span><b>localStorage 2: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
 		for (i = 0; i < picContainer.reports.length; i++) {
 			if (picContainer.reports[i].complete == 1){
 				pics = picContainer.reports[i].pics;
@@ -141,7 +142,7 @@ function uploadFiles() {
 
 		localStorage.setItem(pKey, JSON.stringify(picContainer));
 		
-		jQuery("#permaCheck").append('<span><b>localStorage: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
+		jQuery("#permaCheck").append('<span><b>localStorage 3: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
 		
 }
 // Upload a file to server
