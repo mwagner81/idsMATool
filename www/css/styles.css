@@ -65,7 +65,7 @@ fieldset.ui-controlgroup:last-child {
 }
 
 .ui-field-contain {
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .ui-body-c, .ui-overlay-c {
@@ -822,7 +822,16 @@ textarea.mobilitaetDetailText {
 /*************************************/
 /*           meldungForm             */
 /*************************************/
-
+.ui-field-contain input.ui-input-text, .ui-field-contain textarea.ui-input-text, .ui-field-contain .ui-input-search, .ui-field-contain div.ui-input-text {
+    display: inline-block;
+    width: 100% !important;
+}
+.ui-field-contain label.ui-input-text {
+    display:block;
+    margin: 0 2% 0 0;
+    vertical-align: top;
+    width: auto;
+}
 .meForm {
     display: none;
     background: rgb(255,255,255); /* Old browsers */
@@ -906,6 +915,23 @@ input.meCheck {
     margin-right: 0.8em;
     margin-left: 0.6em;
 }
+
+/*************************************/
+/*    meldungsform validation        */
+/*************************************/
+label.error {
+		color: red;
+		font-size: 16px;
+		font-weight: normal;
+		line-height: 1.4;
+		margin-top: 0.5em;
+		width: 100%;
+		float: none;
+}
+
+label.error { margin-left: 0; display: none; }
+
+em { color: red; font-weight: bold; padding-right: .25em; }
 
 
 /*************************************/

@@ -9,6 +9,8 @@ jQuery(document).ready(function () {
 		var mEnableHighAccuracy = true;
 		var searchGeoData = false;
 		var setGeoDataErrCount = 0;
+		
+		var form;
 				
     if (localStorage.getItem("fe_user")) {
         // Set key for Meldung
@@ -32,7 +34,11 @@ jQuery(document).ready(function () {
 						saveReportToServer()
 				}, 5000);
 				
-		}
+		}	
+		jQuery.validator.setDefaults({
+			debug: true,
+			success: "valid"
+		});
 		
 		jQuery(".saveMeldung").on('click', function () {
 			
@@ -40,102 +46,157 @@ jQuery(document).ready(function () {
 			d = new Date();
 			m = d.getMonth() + 1; 
 			
-			if(jQuery(this).hasClass("01_meldung")) {
+			if(jQuery(this).hasClass("meldung_01")) {
 				// Vandalismus
+				form = $( "#meform_01" );
+				form.validate({
+					rules: {
+						wachzimmer_01: {
+							required: true
+						}
+					},
+					messages: {
+						wachzimmer_01: "Bitte Wachzimmer angeben!"
+					}
+				});
 				reportData.matchcode = "01";
 				reportData.type = "Vandalismus";
-				reportData.police = jQuery("#01_wachzimmer").val();
-				reportData.comment = jQuery("#01_comment").val();								
+				reportData.police = jQuery("#wachzimmer_01").val();
+				reportData.comment = jQuery("#comment_01").val();								
 				reportData.fotos = getPics('01');
 				
-			} else if(jQuery(this).hasClass("02_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_02")) {
 				// Lost & Found
 				reportData.matchcode = "02";
 				reportData.type = "Lost & Found";
-				reportData.found = jQuery(".02_gefunden:checked").val();
-				reportData.comment = jQuery("#02_comment").val();		
+				reportData.found = jQuery(".gefunden_02:checked").val();
+				reportData.comment = jQuery("#comment_02").val();		
 				
-			} else if(jQuery(this).hasClass("03_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_03")) {
 				//unangemeldete Ein- oder Ausstiegshilfe
 				reportData.matchcode = "03";
-				reportData.type = "Unangemeldete Ein-, Ausstieghilfe";   
-				reportData.trainNumber = jQuery("#03_zugnummer").val();
-				reportData.numOfPersons = jQuery("#03_persons").val();				
-				reportData.lift = jQuery("#03_hebelift").prop('checked') ? 1 : 0;
-				reportData.wheelchair = jQuery("#03_bahnrollstuhl").prop('checked') ? 1 : 0;
-				reportData.escort = jQuery("#03_begleitung").prop('checked') ? 1 : 0;
-				reportData.stationOfArrival = jQuery("#03_ankunftsbhf").val();	
-				reportData.departureContacted = jQuery("#03_austieg_kontakt").prop('checked') ? 1 : 0;	
-				reportData.comment = jQuery("#03_comment").val();		
+				reportData.type = "Unangemeldete Ein-, Ausstieghilfe"; 
+				form = $( "#meform_03" );
+				form.validate({
+					rules: {
+						zugnummer_03: {
+							required: true
+						}
+					},
+					messages: {
+						zugnummer_03: "Bitte eine Zugnummer angeben!"
+					}
+				});  
+				reportData.trainNumber = jQuery("#zugnummer_03").val();
+				reportData.numOfPersons = jQuery("#persons_03").val();				
+				reportData.lift = jQuery("#hebelift_03").prop('checked') ? 1 : 0;
+				reportData.wheelchair = jQuery("#bahnrollstuhl_03").prop('checked') ? 1 : 0;
+				reportData.escort = jQuery("#begleitung_03").prop('checked') ? 1 : 0;
+				reportData.stationOfArrival = jQuery("#ankunftsbhf_03").val();	
+				reportData.departureContacted = jQuery("#austieg_kontakt_03").prop('checked') ? 1 : 0;	
+				reportData.comment = jQuery("#comment_03").val();		
 				        
 			} else if(jQuery(this).hasClass("04_meldung")) {
 				// Aufzugsbefreiung
 				reportData.matchcode = "04";
 				reportData.type = "Aufzugsbefreiung"; 
-				if ((jQuery("#04_eingetroffen_std").val().length > 0) && (jQuery("#04_eingetroffen_min").val().length > 0)) {
-					reportData.arrivalTime = jQuery("#04_eingetroffen_std").val()+":"+jQuery("#04_eingetroffen_min").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
+				if ((jQuery("#eingetroffen_std_04").val().length > 0) && (jQuery("#eingetroffen_min_04").val().length > 0)) {
+					reportData.arrivalTime = jQuery("#eingetroffen_std_04").val()+":"+jQuery("#eingetroffen_min_04").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
 				} else {
 					reportData.arrivalTime =  '00:00:'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
 				}
-				if ((jQuery("#04_beendet_std").val().length > 0) && (jQuery("#04_beendet_min").val().length > 0)) {
-					reportData.endTime = jQuery("#04_beendet_std").val()+":"+jQuery("#04_beendet_min").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
+				if ((jQuery("#beendet_std_04").val().length > 0) && (jQuery("#beendet_min_04").val().length > 0)) {
+					reportData.endTime = jQuery("#beendet_std_04").val()+":"+jQuery("#beendet_min_04").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
 				} else {
 					reportData.endTime = '00:00:'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
 				}
-				reportData.comment = jQuery("#04_comment").val();				
+				reportData.comment = jQuery("#comment_04").val();				
 			
-			} else if(jQuery(this).hasClass("05_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_05")) {
 				// Gewalt an Mitarbeiter
 				reportData.matchcode = "05";
 				reportData.type = "Gewalt an Mitarbeiter"; 
-				reportData.police = jQuery("#05_wachzimmer").val();
-				reportData.hospital = jQuery("#05_krankenhaus").val();
-				reportData.comment = jQuery("#05_comment").val();	
+				form = $( "#meform_05" );
+				form.validate({
+					rules: {
+						wachzimmer_05: {
+							required: true
+						}
+					},
+					messages: {
+						wachzimmer_05: "Bitte Wachzimmer angeben!"
+					}
+				});  
+				reportData.police = jQuery("#wachzimmer_05").val();
+				reportData.hospital = jQuery("#krankenhaus_05").val();
+				reportData.comment = jQuery("#comment_05").val();	
 				               
-			} else if(jQuery(this).hasClass("06_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_06")) {
 				// Einbruch / Diebstahl
 				reportData.matchcode = "06";
 				reportData.type = "Einbruch / Diebstahl";  
-				reportData.police = jQuery("#06_wachzimmer").val();
-				reportData.security = jQuery("#06_konzernsicherheit").prop('checked') ? 1 : 0;	
-				reportData.comment = jQuery("#06_comment").val();	 
+				form = $( "#meform_06" );
+				form.validate({
+					rules: {
+						wachzimmer_06: {
+							required: true
+						}
+					},
+					messages: {
+						wachzimmer_06: "Bitte Wachzimmer angeben!"
+					}
+				});  
+				reportData.police = jQuery("#wachzimmer_06").val();
+				reportData.security = jQuery("#konzernsicherheit_06").prop('checked') ? 1 : 0;	
+				reportData.comment = jQuery("#comment_06").val();	 
 				reportData.fotos = getPics('06');
 				             
-			} else if(jQuery(this).hasClass("07_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_07")) {
 				// Beschwerden/Anfragen
 				reportData.matchcode = "07";
 				reportData.type = "Beschwerden / Anfragen"; 
-				reportData.name = jQuery("#07_name").val();
-				reportData.address = jQuery("#07_adresse").val();
-				reportData.contact = jQuery("#07_kontakt").val();
-				reportData.comment = jQuery("#07_comment").val();
+				reportData.name = jQuery("#name_07").val();
+				reportData.address = jQuery("#adresse_07").val();
+				reportData.contact = jQuery("#kontakt_07").val();
+				reportData.comment = jQuery("#comment_07").val();
 					              
-			} else if(jQuery(this).hasClass("08_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_08")) {
 				// Randgruppen
 				reportData.matchcode = "08";
 				reportData.type = "Randgruppen";  
-				reportData.comment = jQuery("#08_comment").val();  
+				reportData.comment = jQuery("#comment_08").val();  
 				
-			} else if(jQuery(this).hasClass("09_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_09")) {
 				// Raucherstrafen
 				reportData.matchcode = "09";
 				reportData.type = "Raucherstrafen";   
 				
-			} else if(jQuery(this).hasClass("10_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_10")) {
 				// Verweise/Belehrung
 				reportData.matchcode = "10";
 				reportData.type = "Verweise / Belehrung";
-				reportData.comment = jQuery("#10_comment").val();
+				reportData.comment = jQuery("#comment_10").val();
 			
-			} else if(jQuery(this).hasClass("11_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_11")) {
 				//Einsatzkräfte
 				reportData.matchcode = "11";
-				reportData.type = "Einsatzkräfte";   			
-				reportData.firedept = jQuery("#11_feuerwehr").prop('checked') ? 1 : 0;
-				reportData.police = jQuery("#11_polizei").prop('checked') ? 1 : 0;
-				reportData.ambulance = jQuery("#11_rettung").prop('checked') ? 1 : 0;
-				reportData.dataOfForces = jQuery("#11_data_of_forces").val();		
-				reportData.comment = jQuery("#11_comment").val();		
+				reportData.type = "Einsatzkräfte"; 
+				/*form = $( "#meform_11" );
+				form.validate({
+					rules: {
+						forces: {
+							required: true
+						}
+					},
+					messages: {
+						forces: "Bitte mind. eine Einsatzkraft auswählen!"
+					}
+				});*/		
+				reportData.firedept = jQuery("#feuerwehr_11").prop('checked') ? 1 : 0;
+				reportData.police = jQuery("#polizei_11").prop('checked') ? 1 : 0;
+				reportData.ambulance = jQuery("#rettung_11").prop('checked') ? 1 : 0;
+				reportData.dataOfForces = jQuery("#data_of_forces_11").val();		
+				reportData.comment = jQuery("#comment_11").val();		
 					
 			}
 		
@@ -147,13 +208,15 @@ jQuery(document).ready(function () {
 			reportData.complete = 0;	
 		 
 			// opens the confirm dialog
-			jQuery.mobile.changePage("#confirmDialog", {
-					transition: "slidedown", 
-					changeHash: false
-			});
+			if (form.valid()) {
+				jQuery.mobile.changePage("#confirmDialog", {
+						transition: "slidedown", 
+						changeHash: false
+				});
 					
-			// writes the text of the current meldung in the confirm box
-			jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+reportData.type+"\" abschicken?");     
+				// writes the text of the current meldung in the confirm box
+				jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+reportData.type+"\" abschicken?");    
+			}
 			
     });
 		

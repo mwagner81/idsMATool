@@ -27,7 +27,9 @@
         <link rel="stylesheet" type="text/css" href="css/styles.css" />
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/jquery.mobile-1.3.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery.jsonp.js"></script>                      
+        <script type="text/javascript" src="js/jquery.jsonp.js"></script>     
+        <script type="text/javascript" src="js/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="js/additional-methods.min.js"></script>                     
         <title>Mungos Actives App</title>
     </head>
     <body>
@@ -167,22 +169,24 @@
                     <a id="vandalism" class="meldungButtonD showMeForm">
                     	<span class="meldung">Vandalismus</span><img src="img/meldungButtonPlus.png" class="mbPlus" id="vPlus" />
                     </a> 
-                    <div class="meForm" style="display:none" id="01_form">
+                    <div class="meForm" style="display:none" id="form_01">
+                    	<form id="meform_01">
                     		<div id="aufnahmebutton">
 	                        <img src="img/takePicButton2.png" class="cameraButton" onclick="captureImage('01');" />
                         </div>
                         <p id="01_pics" class="pics"></p>
-                        <div class="uEinputWrap">
-                            <label for="01_wachzimmer"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
-                            <input type="text" id="01_wachzimmer" name="01_wachzimmer" />
+                        <div class="uEinputWrap"  data-role="fieldcontain">
+                            <label for="wachzimmer_01"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
+                            <input type="text" id="wachzimmer_01" name="wachzimmer_01" required />
                         </div>
-                        <div class="uEinputWrap uLine">
+                        <div class="uEinputWrap uLine"  data-role="fieldcontain">
                             <br />
-                            <label for="01_comment"><span>Bemerkung</span></label>
-                            <textarea id="01_comment" name="01_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_01"><span>Bemerkung</span></label>
+                            <textarea id="comment_01" name="comment_01" cols="50" rows="5"></textarea>
                         </div>
                          <br />
-                         <a class="reportButton meldungButtonPic 01_meldung saveMeldung" href="#" data-role="none"></a>
+                         <a class=" meldung_01 reportButton meldungButtonPic saveMeldung" href="#" data-role="none"></a>
+                       </form>
                     </div>  
                 </div>
                 
@@ -191,27 +195,29 @@
                     <a id="meLf" class="meldungButtonD showMeForm">
                     	<span class="meldung">Lost & Found</span><img src="img/meldungButtonPlus.png" class="mbPlus" id="vPlus2" />
                     </a> 
-                    <div class="meForm" style="display:none" id="02_form">
+                    <div class="meForm" style="display:none" id="form_02">
+                    	<form id="meform_02">
                         <p>
                             <b>Fundgegenst&auml;nde</b>
                         </p>
                         <div class="radioWrap">
                             <div>
-                                <input type="radio" class="02_gefunden" name="02_gefunden" data-role="none" value="1" id="Intern" checked />
+                                <input type="radio" class="gefunden_02" name="gefunden_02" data-role="none" value="1" id="Intern" checked />
                                 <label for="Intern"><span>&Ouml;BB Intern</span></label>
                             </div>
                             <div>
-                                <input type="radio" class="02_gefunden" name="02_gefunden" data-role="none" value="2" id="Extern" />
+                                <input type="radio" class="gefunden_02" name="gefunden_02" data-role="none" value="2" id="Extern" />
                                 <label for="Extern"><span>&Ouml;BB Extern</span></label>
                             </div>
                         </div>
                         <div class="uEinputWrap">
                             <br>
-                            <label for="02_comment"><span>Bemerkung</span></label>
-                            <textarea id="02_comment" name="02_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_02"><span>Bemerkung</span></label>
+                            <textarea id="comment_02" name="comment_02" cols="50" rows="5"></textarea>
                         </div>
                         <br />
-                        <a class="reportButton lF 02_meldung saveMeldung" href="#" data-role="none"></a>
+                        <a class="meldung_02 reportButton lF saveMeldung" href="#" data-role="none"></a>
+                      </form>
                     </div>
                 </div>
                 
@@ -220,30 +226,32 @@
                     <a id="meLf" class="meldungButtonD showMeForm">
                     	<span class="meldung">Einsatzkr&auml;fte</span><img src="img/meldungButtonPlus.png" class="mbPlus" id="vPlus2" />
                     </a> 
-                    <div class="meForm" style="display:none" id="11_form">
-                    	<div class="uEcheckWrap">
-                          <div>
-                              <input type="checkbox" class="meCheck" data-role="none" value="Feuerwehr" id="11_feuerwehr" /> <label for="11_feuerwehr"><span>Feuerwehr</span></label>
-                          </div>
-                          <div>
-                              <input type="checkbox" class="meCheck" data-role="none" value="Polizei" id="11_polizei" /> <label for="11_polizei"><span>Polizei</span></label>
-                          </div>
-                          <div>
-                              <input type="checkbox" class="meCheck" data-role="none" value="Rettung" id="11_rettung" /> <label for="11_rettung"><span>Rettung</span></label>
-                          </div>
-                      </div>
-                       <div class="uEinputWrap uLine">
-                          <br />                          
-                          <label for="11_data_of_forces"><span>Daten Einsatzkr&auml;fte</span></label>
-                          <textarea id="11_data_of_forces" name="11_data_of_forces" cols="50" rows="5"></textarea>
-                      </div>
-                       <div class="uEinputWrap">
-                          <br />
-                          <label for="11_comment"><span>Bemerkung</span></label>
-                          <textarea id="11_comment" name="11_comment" cols="50" rows="5"></textarea>
-                      </div>
-                      <br />
-                    	<a class="reportButton lF 11_meldung saveMeldung" href="#" data-role="none"></a>
+                    <div class="meForm" style="display:none" id="form_11">
+                    	<form id="meform_11">
+                        <div class="uEcheckWrap">
+                            <div>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Feuerwehr" id="feuerwehr_11" name="forces" required /> <label for="feuerwehr_11"><span>Feuerwehr</span></label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Polizei" id="polizei_11" name="forces" /> <label for="polizei_11"><span>Polizei</span></label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Rettung" id="rettung_11" name="forces" /> <label for="rettung_11"><span>Rettung</span></label>
+                            </div>
+                        </div>
+                         <div class="uEinputWrap uLine">
+                            <br />                          
+                            <label for="data_of_forces_11"><span>Daten Einsatzkr&auml;fte</span></label>
+                            <textarea id="data_of_forces_11" name="data_of_forces_11" cols="50" rows="5"></textarea>
+                        </div>
+                         <div class="uEinputWrap">
+                            <br />
+                            <label for="comment_11"><span>Bemerkung</span></label>
+                            <textarea id="comment_11" name="comment_11" cols="50" rows="5"></textarea>
+                        </div>
+                        <br />
+                        <a class="meldung_11 reportButton lF saveMeldung" href="#" data-role="none"></a>
+                      </form>
                     </div>
                 </div>
                 
@@ -252,41 +260,93 @@
                     <a id="meUe" class="meldungButtonD showMeForm meldungLink">
                         <span class="meldung">Unangemeldete Ein-, Ausstieghilfe</span><img src="img/meldungButtonPlus.png" class="mbPlus" id="vPlus3" />
                     </a>
-                    <div class="meForm" style="display:none" id="03_form">
-                        <div class="uEinputWrap uLine" style="padding-bottom: 30px;">
-                            <b>Zugnummer</b><br />
-                            <input type="text" id="03_zugnummer" class="zugnummer" placeholder="Hier bitte die Zugnummer eingeben"  />
-                            <div style="float:left;width:60px;"><input id="03_persons" class="persons" type="text" ></div>
-                            <div style="padding: 15px 0px 0px 70px;">Anzahl Personen</div>
+                    <div class="meForm" style="display:none" id="form_03">
+                    	<form id="meform_03">
+                        <div class="uEinputWrap uLine" style="padding-bottom: 15px;">
+                            <div data-role="fieldcontain">
+                              <label for="zugnummer_03"><strong>Zugnummer</strong></label>                           
+                            	<input type="text" id="zugnummer_03" name="zugnummer_03" class="zugnummer" placeholder="Hier bitte die Zugnummer eingeben" required />
+                            </div>
+                            <div data-role="fieldcontain">
+                              <div style="float:left;width:60px;"><input id="persons_03" class="persons" type="text" ></div>
+                              <div style="padding: 13px 0px 0px 70px; font-size: 12px;">Anzahl Personen</div>
+                            </div>
                         </div>
                         <div class="uEcheckWrap uLine">
                             <div>
-                                <input type="checkbox" class="meCheck" data-role="none" value="Hebelift" id="03_hebelift" /> <label for="03_hebelift"><span>Hebelift</span></label>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Hebelift" id="hebelift_03" /> <label for="hebelift_03"><span>Hebelift</span></label>
                             </div>
                             <div>
-                                <input type="checkbox" class="meCheck" data-role="none" value="Bahnrollstuhl" id="03_bahnrollstuhl" /> <label for="03_bahnrollstuhl"><span>Bahnrollstuhl</span></label>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Bahnrollstuhl" id="bahnrollstuhl_03" /> <label for="bahnrollstuhl_03"><span>Bahnrollstuhl</span></label>
                             </div>
                             <div>
-                                <input type="checkbox" class="meCheck" data-role="none" value="Begleitung" id="03_begleitung" /> <label for="03_begleitung"><span>Begleitung</span></label>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Begleitung" id="begleitung_03" /> <label for="begleitung_03"><span>Begleitung</span></label>
                             </div>
                         </div>
                         <div class="uEinputWrap uLine">
                             <br />
                             <b>Ankunftsbahnhof</b> (optional)<br />
-                            <input type="text" id="03_ankunftsbhf"  class="03_ankunftsbhf" placeholder="Ankunftsbahnhof" />
+                            <select id="ankunftsbhf_03" class="ankunftsbhf_03">
+                              <option value="">Ankunftsbahnhof</option>
+                              <option value="Amstetten (25)">Amstetten</option>
+                              <option value="Attnang-Puchheim (41)">Attnang-Puchheim</option>
+                              <option value="Bischofshofen (85)">Bischofshofen</option>
+                              <option value="Bludenz (89)">Bludenz</option>
+                              <option value="Bregenz (99)">Bregenz</option>
+                              <option value="Bruck a.d.Leitha (114)">Bruck a.d.Leitha</option>
+                              <option value="Bruck a.d.Mur (115)">Bruck a.d.Mur</option>
+                              <option value="Feldkirch (195)">Feldkirch</option>
+                              <option value="Floridsdorf (211)">Floridsdorf</option>
+                              <option value="Gänserndorf (241)">Gänserndorf</option>
+                              <option value="Graz Hbf (292)">Graz Hbf</option>
+                              <option value="Innsbruck Hbf (428)">Innsbruck Hbf</option>
+                              <option value="Jenbach (436)">Jenbach</option>
+                              <option value="Klagenfurt Hbf (487)">Klagenfurt Hbf</option>
+                              <option value="Knittelfeld (505)">Knittelfeld</option>
+                              <option value="Korneuburg (512)">Korneuburg</option>
+                              <option value="Krems a.d.Donau (521)">Krems a.d.Donau</option>
+                              <option value="Kufstein (537)">Kufstein</option>
+                              <option value="Landeck-Zams (555)">Landeck-Zams</option>
+                              <option value="Leoben Hbf (591)">Leoben Hbf</option>
+                              <option value="Lienz (605)">Lienz</option>
+                              <option value="Linz Hbf (615)">Linz Hbf</option>
+                              <option value="Pörtschach am Wörthersee (865)">Pörtschach am Wörthersee</option>
+                              <option value="Saalfelden (953)">Saalfelden</option>
+                              <option value="Salzburg Hbf (959)">Salzburg Hbf</option>
+                              <option value="Schwarzach-St.Veit (1013)">Schwarzach-St.Veit</option>
+                              <option value="Schwaz (1017)">Schwaz</option>
+                              <option value="Spittal-Millstättersee (1053)">Spittal-Millstättersee</option>
+                              <option value="St.Johann im Pongau (1072)">St.Johann im Pongau</option>
+                              <option value="St.Pölten Hbf (1093)">St.Pölten Hbf</option>
+                              <option value="St.Valentin (1100)">St.Valentin</option>
+                              <option value="Tullnerfeld (1210)">Tullnerfeld</option>
+                              <option value="Unzmarkt (1230)">Unzmarkt</option>
+                              <option value="Velden am Wörthersee (1234)">Velden am Wörthersee</option>
+                              <option value="Villach Hbf (1240)">Villach Hbf</option>
+                              <option value="Vöcklabruck (1249)">Vöcklabruck</option>
+                              <option value="Wels Hbf (1293)">Wels Hbf</option>
+                              <option value="Wien Franz-Josefs-Bf (1315)">Wien Franz-Josefs-Bf</option>
+                              <option value="Wien Hauptbahnhof (1318)">Wien Hauptbahnhof</option>
+                              <option value="Wien Meidling (1326)">Wien Meidling</option>
+                              <option value="Wien Praterstern (1331)">Wien Praterstern</option>
+                              <option value="Wien Westbf (1339)">Wien Westbf</option>
+                              <option value="Wiener Neustadt Hbf (1343)">Wiener Neustadt Hbf</option>
+                              <option value="Wörgl Hbf (1378)">Wörgl Hbf</option>
+														</select>
                         </div>
                         <div class="uEcheckWrap uLine">
                             <div>
-                                <input type="checkbox" class="meCheck" data-role="none" value="maTel" id="03_austieg_kontakt" /> <label for="03_austieg_kontakt"><span>MA für Ausstiegshilfe tel. informiert</span></label>
+                                <input type="checkbox" class="meCheck" data-role="none" value="maTel" id="austieg_kontakt_03" /> <label for="austieg_kontakt_03"><span>MA für Ausstiegshilfe tel. informiert</span></label>
                             </div>
                         </div>
                         <div class="uEinputWrap">
                             <br />
-                            <label for="03_comment"><span>Bemerkung</span></label>
-                            <textarea id="03_comment" name="03_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_03"><span>Bemerkung</span></label>
+                            <textarea id="comment_03" name="comment_03" cols="50" rows="5"></textarea>
                         </div>
                         <br />
-                        <a class="reportButton uE  03_meldung saveMeldung" href="#" data-role="none"></a>
+                        <a class="meldung_03 reportButton uE saveMeldung" href="#" data-role="none"></a>
+                      </form>
                     </div>  
                 </div>
                 
@@ -295,19 +355,20 @@
                     <a id="meAB" class="meldungButtonD showMeForm" href="#">
                         <span class="meldung">Aufzugsbefreiung</span><img src="img/meldungButtonPlus.png" class="mbPlus" />
                     </a>   
-                    <div class="meForm" style="display:none" id="04_form">
+                    <div class="meForm" style="display:none" id="form_04">
+                    	<form id="meform_04">
     										<div>
                           <div class="selectLabel">
                               <label><span>Eingetroffen</span></label>
                           </div>
                           <div class="selectLeft">
-                              <select id="04_eingetroffen_std">
+                              <select id="eingetroffen_std_04">
                                   <option value="">Stunde</option>
                                   <option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option>
                               </select>
                           </div>
                           <div class="selectRight">
-                              <select id="04_eingetroffen_min">
+                              <select id="eingetroffen_min_04">
                                   <option value="">Minute</option>
                                   <option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option>
                                   <option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option>                            
@@ -317,13 +378,13 @@
                               <label><span>Beendet</span></label>
                           </div>
                           <div class="selectLeft">
-                              <select id="04_beendet_std">
+                              <select id="beendet_std_04">
                                   <option value="">Stunde</option>
                                   <option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option>
                               </select>
                           </div>
                           <div class="selectRight">
-                              <select id="04_beendet_min">
+                              <select id="beendet_min_04">
                                   <option value="">Minute</option>
                                   <option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option>
                                   <option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option> 
@@ -334,11 +395,12 @@
                         <div class="uEinputWrap"></div> 
                         <div class="uEinputWrap">
 	                        	<br/>
-                            <label for="04_comment"><span>Bemerkung</span></label>                        
-                            <textarea id="04_comment" name="04_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_04"><span>Bemerkung</span></label>                        
+                            <textarea id="comment_04" name="comment_04" cols="50" rows="5"></textarea>
                         </div>
                         <br />
-                        <a class="reportButton 04_meldung saveMeldung" href="#" data-role="none"></a>
+                        <a class="meldung_04 reportButton saveMeldung" href="#" data-role="none"></a>
+                      </form>
                     </div>
                 </div>
                 
@@ -347,23 +409,25 @@
                     <a id="meGM" class="meldungButtonD showMeForm" href="#">
                         <span class="meldung">Gewalt an Mitarbeiter</span><img src="img/meldungButtonPlus.png" class="mbPlus" />
                     </a>   
-                    <div class="meForm" style="display:none" id="05_form">
+                    <div class="meForm" style="display:none" id="form_05">
+                    	<form id="meform_05">
                         <div class="uEinputWrap">
-                            <label for="05_wachzimmer"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
-                            <input type="text" id="05_wachzimmer" name="05_wachzimmer" />
+                            <label for="wachzimmer_05"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
+                            <input type="text" id="wachzimmer_05" name="wachzimmer_05" class="required" />
                         </div>
                         <div class="uEinputWrap">
                             <br>
-                            <label for="05_krankenhaus"><span>Krankenhaus des Rettungseinsatzes</span></label>
-                            <input type="text" id="05_krankenhaus" name="05_krankenhaus" />
+                            <label for="krankenhaus_05"><span>Krankenhaus des Rettungseinsatzes</span></label>
+                            <input type="text" id="krankenhaus_05" name="krankenhaus_05" />
                         </div>
                         <div class="uEinputWrap">
                             <br />
-                            <label for="05_comment"><span>Bemerkung</span></label>
-                            <textarea id="05_comment" name="05_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_05"><span>Bemerkung</span></label>
+                            <textarea id="comment_05" name="comment_05" cols="50" rows="5"></textarea>
                         </div>
                         <br />
-                        <a class="reportButton 05_meldung saveMeldung" href="#" data-role="none"></a>
+                        <a class="meldung_05 reportButton saveMeldung" href="#" data-role="none"></a>
+                      </form>
                     </div>
                 </div>
                 
@@ -372,27 +436,29 @@
                     <a id="meED" class="meldungButtonD showMeForm" href="#">
                         <span class="meldung">Einbruch / Diebstahl</span><img src="img/meldungButtonPlus.png" class="mbPlus" />
                     </a>   
-                    <div class="meForm" style="display:none" id="06_form">
+                    <div class="meForm" style="display:none" id="form_06">
+                    	<form id="meform_06">
     										<div id="aufnahmebutton">
 	                        <img src="img/takePicButton2.png" class="cameraButton" onclick="captureImage('06');" />
                         </div>
                         <p id="06_pics" class="pics"></p>
                         <div class="uEinputWrap uLine">
-                            <label for="06_wachzimmer"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
-                            <input type="text" id="06_wachzimmer" name="06_wachzimmer" />
+                            <label for="wachzimmer_06"><span>Wachzimmers bzw. Dienstnummer der Polizei</span></label>
+                            <input type="text" id="wachzimmer_06" name="wachzimmer_06" class="required" />
                         </div>   
                         <div class="uEcheckWrap uLine">
                             <div>
-                                <input type="checkbox" class="meCheck" data-role="none" value="Konzernsicherheit" id="06_konzernsicherheit" /> <label for="06_konzernsicherheit"><span>Konzernsicherheit wurde verständigt</span></label>
+                                <input type="checkbox" class="meCheck" data-role="none" value="Konzernsicherheit" id="konzernsicherheit_06" /> <label for="konzernsicherheit_06"><span>Konzernsicherheit wurde verständigt</span></label>
                             </div>
                         </div> 
                         <div class="uEinputWrap">
                             <br />
-                            <label for="06_comment"><span>Bemerkung</span></label>
-                            <textarea id="06_comment" name="06_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_06"><span>Bemerkung</span></label>
+                            <textarea id="comment_06" name="comment_06" cols="50" rows="5"></textarea>
                         </div>
                         <br />
-                        <a class="reportButton 06_meldung saveMeldung" href="#" data-role="none"></a>           
+                        <a class="meldung_06 reportButton saveMeldung" href="#" data-role="none"></a>           
+                      </form>
                     </div>
                 </div>
 								
@@ -401,25 +467,27 @@
                     <a id="meBA" class="meldungButtonD showMeForm" href="#">
                         <span class="meldung">Beschwerden / Anfragen</span><img src="img/meldungButtonPlus.png" class="mbPlus" />
                     </a>   
-                    <div class="meForm" style="display:none" id="07_form">
+                    <div class="meForm" style="display:none" id="form_07">
+                   		<form id="meform_07">
                         <div class="uEinputWrap">
-                            <label for="07_name"><span>Name des Beschwerdef&uuml;rers</span></label>
-                            <input type="text" id="07_name" name="07_name" />
+                            <label for="name_07"><span>Name des Beschwerdef&uuml;rers</span></label>
+                            <input type="text" id="name_07" name="name_07" />
                         </div>
                         <div class="uEinputWrap uLine">
                             <br>
-                            <label for="07_adresse"><span>Adresse des Beschwerdef&uuml;rers</span></label>
-                            <input type="text" id="07_adresse" name="07_adresse" /><br>
-                            <label for="07_kontakt"><span>Kontakt des Beschwerdef&uuml;rers</span></label>
-                            <input type="text" id="07_kontakt" name="07_kontakt" />
+                            <label for="adresse_07"><span>Adresse des Beschwerdef&uuml;rers</span></label>
+                            <input type="text" id="adresse_07" name="adresse_07" /><br>
+                            <label for="kontakt_07"><span>Kontakt des Beschwerdef&uuml;rers</span></label>
+                            <input type="text" id="kontakt_07" name="kontakt_07" />
                         </div>
                         <div class="uEinputWrap">
                             <br />
-                            <label for="07_comment"><span>Bemerkung</span></label>
-                            <textarea id="07_comment" name="07_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_07"><span>Bemerkung</span></label>
+                            <textarea id="comment_07" name="comment_07" cols="50" rows="5"></textarea>
                         </div>
                         <br />
-                        <a class="reportButton 07_meldung saveMeldung" href="#" data-role="none"></a> 
+                        <a class="meldung_07 reportButton saveMeldung" href="#" data-role="none"></a>
+                      </form>
                     </div>
                 </div>
                 
@@ -428,13 +496,15 @@
                     <a id="meBA" class="meldungButtonD showMeForm" href="#">
                         <span class="meldung">Randgruppen</span><img src="img/meldungButtonPlus.png" class="mbPlus" />
                     </a>   
-                    <div class="meForm" style="display:none" id="08_form">
+                    <div class="meForm" style="display:none" id="form_08">
+                    	<form id="meform_08">
                         <div class="uEinputWrap">
-                            <label for="08_comment"><span>Bemerkung</span></label>
-                            <textarea id="08_comment" name="08_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_08"><span>Bemerkung</span></label>
+                            <textarea id="comment_08" name="comment_08" cols="50" rows="5"></textarea>
                         </div>
                         <br />
-                        <a class="reportButton 08_meldung saveMeldung" href="#" data-role="none"></a> 
+                        <a class="meldung_08 reportButton saveMeldung" href="#" data-role="none"></a> 
+                      </form>
                     </div>
                     <!--<a id="meRG" class="meldungButton meldung08 saveMeldung" href="#"><span class="meldung">Randgruppen</span><img src="img/meldungButtonRight.png" /></a>   -->
                 </div>
@@ -447,13 +517,15 @@
                     <a id="meBA" class="meldungButtonD showMeForm" href="#">
                         <span class="meldung">Verweise / Belehrung</span><img src="img/meldungButtonPlus.png" class="mbPlus" />
                     </a>   
-                    <div class="meForm" style="display:none" id="10_form">
+                    <div class="meForm" style="display:none" id="form_10">
+                    	<form id="meform_10">
                         <div class="uEinputWrap">
-                            <label for="10_comment"><span>Bemerkung</span></label>
-                            <textarea id="10_comment" name="10_comment" cols="50" rows="5"></textarea>
+                            <label for="comment_10"><span>Bemerkung</span></label>
+                            <textarea id="comment_10" name="comment_10" cols="50" rows="5"></textarea>
                         </div>
                         <br />
-                        <a class="reportButton 10_meldung saveMeldung" href="#" data-role="none"></a> 
+                        <a class="meldung_10 reportButton saveMeldung" href="#" data-role="none"></a> 
+                      </form>
                     </div>
                     <!--<a id="meVB" class="meldungButton meldung10 saveMeldung" href="#"><span class="meldung">Verweise / Belehrung</span><img src="img/meldungButtonRight.png" /></a>-->
                 </div>
