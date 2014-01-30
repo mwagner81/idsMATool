@@ -21,7 +21,7 @@ function onDeviceReady() {
 				pics = picContainer.reports[i].pics;
 				picsStrg = '';
 				for (j=0;j<pics.length;j++) {
-					jQuery("p#pics_"+picContainer.reports.matchcode).prepend("<img src=\""+ pics[j].fullPath +"\" />");
+					jQuery("p#pics_"+picContainer.reports.matchcode).prepend('<img id="mPic" name="' + pics[j].name + '" src="'+ pics[j].fullPath +'" />');
 				}				
 			}
 		}
@@ -124,9 +124,16 @@ function savePic(picData) {
 		// "{"reports":[{"type":"Vandalismus","police":"sdvdv","comment":"yxcvyxcv","fotos":null,"timestamp":"2014-01-27T13:04:50.807Z","lat":"","lng":"","acc":"","geoTimestamp":"","complete":0}]}"
 		// "{"Wachdienst":[{"id":0,"uid":345,"checkString":[{"datetime":1390840881044,"checkpoint":1,"status":3},{"datetime":1390840908480,"checkpoint":1,"status":3}],"start":1390840816905,"fireProtection":0,"ende":1390840917694,"complete":0}]}"
 		
-    jQuery("p#pics_"+currElement).prepend("<img src=\""+ picData.fullPath +"\" />");
+    jQuery("p#pics_"+currElement).prepend('<img id="mPic" name="' + picData.name + '" src="'+ picData.fullPath +'" />');
         
 }
+
+/**************************************************************
+	SELEKTIERTES BILD LÖSCHEN
+***************************************************************/
+jQuery("#mPic").on('click', function () {
+	jQuery("#permaCheck").append('<span><b>Bild: </b></span>'+jQuery(this).attr('name')+'<br><hr>');
+});
 
 /**************************************************************
 	BILDER AUF DEN SERVER LADEN
