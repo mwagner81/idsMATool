@@ -131,7 +131,7 @@ function savePic(picData) {
 /**************************************************************
 	SELEKTIERTES BILD LÖSCHEN
 ***************************************************************/
-jQuery("#mPic").on('click', function () {
+jQuery(".mPic").on('click', function () {
 	jQuery("#permaCheck").append('<span><b>Bild: </b></span> geklickt<br><hr>');
 });
 
