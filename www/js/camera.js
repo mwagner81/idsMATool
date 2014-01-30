@@ -14,7 +14,7 @@ function onDeviceReady() {
     destinationType=navigator.camera.DestinationType;
 		
 		// noch nicht abgeschickte Bilder wieder zuordnen
-		pKey = 'p_' + localStorage.getItem("fe_user");
+		/*pKey = 'p_' + localStorage.getItem("fe_user");
 		picContainer = JSON.parse(localStorage.getItem(pKey));
 		for (i = 0; i < picContainer.reports.length; i++) {
 			if (picContainer.reports[i].complete == 1){
@@ -24,7 +24,7 @@ function onDeviceReady() {
 					jQuery("p#pics_"+picContainer.reports.matchcode).prepend('<img id="mPic" name="' + pics[j].name + '" src="'+ pics[j].fullPath +'" />');
 				}				
 			}
-		}
+		}*/
 }
 
 /**************************************************************
