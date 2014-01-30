@@ -110,5 +110,6 @@
     
 	<!-- 3rd Party Plugins -->
 		<!--<gap:plugin name="com.chariotsolutions.nfc.plugin" />-->
+		<plugin name="TelephoneNumber" value="com.simonmacdonald.cordova.plugins.TelephoneNumber"/>
 		
 </widget>

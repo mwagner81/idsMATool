@@ -11,6 +11,7 @@ jQuery(document).ready(function () {
 		var setGeoDataErrCount = 0;
 		
 		var form;
+		var formValidation = false;
 				
     if (localStorage.getItem("fe_user")) {
         // Set key for Meldung
@@ -47,7 +48,10 @@ jQuery(document).ready(function () {
 			m = d.getMonth() + 1; 
 			
 			if(jQuery(this).hasClass("meldung_01")) {
-				// Vandalismus
+				// Vandalismus				
+				reportData.matchcode = "01";
+				reportData.type = "Vandalismus";
+				formValidation = true;
 				form = $( "#meform_01" );
 				form.validate({
 					rules: {
@@ -59,8 +63,6 @@ jQuery(document).ready(function () {
 						wachzimmer_01: "Bitte Wachzimmer angeben!"
 					}
 				});
-				reportData.matchcode = "01";
-				reportData.type = "Vandalismus";
 				reportData.police = jQuery("#wachzimmer_01").val();
 				reportData.comment = jQuery("#comment_01").val();								
 				reportData.fotos = getPics('01');
@@ -69,6 +71,7 @@ jQuery(document).ready(function () {
 				// Lost & Found
 				reportData.matchcode = "02";
 				reportData.type = "Lost & Found";
+				formValidation = false;
 				reportData.found = jQuery(".gefunden_02:checked").val();
 				reportData.comment = jQuery("#comment_02").val();		
 				
@@ -76,6 +79,7 @@ jQuery(document).ready(function () {
 				//unangemeldete Ein- oder Ausstiegshilfe
 				reportData.matchcode = "03";
 				reportData.type = "Unangemeldete Ein-, Ausstieghilfe"; 
+				formValidation = true;
 				form = $( "#meform_03" );
 				form.validate({
 					rules: {
@@ -100,6 +104,7 @@ jQuery(document).ready(function () {
 				// Aufzugsbefreiung
 				reportData.matchcode = "04";
 				reportData.type = "Aufzugsbefreiung"; 
+				formValidation = false;
 				if ((jQuery("#eingetroffen_std_04").val().length > 0) && (jQuery("#eingetroffen_min_04").val().length > 0)) {
 					reportData.arrivalTime = jQuery("#eingetroffen_std_04").val()+":"+jQuery("#eingetroffen_min_04").val()+':'+d.getSeconds()+' '+d.getDate()+'-'+m+'-'+d.getFullYear();
 				} else {
@@ -116,6 +121,7 @@ jQuery(document).ready(function () {
 				// Gewalt an Mitarbeiter
 				reportData.matchcode = "05";
 				reportData.type = "Gewalt an Mitarbeiter"; 
+				formValidation = true;
 				form = $( "#meform_05" );
 				form.validate({
 					rules: {
@@ -135,6 +141,7 @@ jQuery(document).ready(function () {
 				// Einbruch / Diebstahl
 				reportData.matchcode = "06";
 				reportData.type = "Einbruch / Diebstahl";  
+				formValidation = true;
 				form = $( "#meform_06" );
 				form.validate({
 					rules: {
@@ -155,6 +162,7 @@ jQuery(document).ready(function () {
 				// Beschwerden/Anfragen
 				reportData.matchcode = "07";
 				reportData.type = "Beschwerden / Anfragen"; 
+				formValidation = false;
 				reportData.name = jQuery("#name_07").val();
 				reportData.address = jQuery("#adresse_07").val();
 				reportData.contact = jQuery("#kontakt_07").val();
@@ -164,23 +172,27 @@ jQuery(document).ready(function () {
 				// Randgruppen
 				reportData.matchcode = "08";
 				reportData.type = "Randgruppen";  
+				formValidation = false;
 				reportData.comment = jQuery("#comment_08").val();  
 				
 			} else if(jQuery(this).hasClass("meldung_09")) {
 				// Raucherstrafen
 				reportData.matchcode = "09";
 				reportData.type = "Raucherstrafen";   
+				formValidation = false;
 				
 			} else if(jQuery(this).hasClass("meldung_10")) {
 				// Verweise/Belehrung
 				reportData.matchcode = "10";
 				reportData.type = "Verweise / Belehrung";
 				reportData.comment = jQuery("#comment_10").val();
+				formValidation = false;
 			
 			} else if(jQuery(this).hasClass("meldung_11")) {
 				//Einsatzkräfte
 				reportData.matchcode = "11";
 				reportData.type = "Einsatzkräfte"; 
+				formValidation = false;
 				/*form = $( "#meform_11" );
 				form.validate({
 					rules: {
@@ -208,14 +220,27 @@ jQuery(document).ready(function () {
 			reportData.complete = 0;	
 		 
 			// opens the confirm dialog
-			if (form.valid()) {
+			if (formValidation == false) {
 				jQuery.mobile.changePage("#confirmDialog", {
 						transition: "slidedown", 
 						changeHash: false
-				});
-					
+				});					
 				// writes the text of the current meldung in the confirm box
 				jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+reportData.type+"\" abschicken?");    
+			} else {
+				if (form.valid()) {
+					jQuery.mobile.changePage("#confirmDialog", {
+							transition: "slidedown", 
+							changeHash: false
+					});					
+					// writes the text of the current meldung in the confirm box
+					jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+reportData.type+"\" abschicken?");    
+				} else {
+					/*jQuery.mobile.changePage("#errorDialog", {
+							transition: "slidedown",
+							role: "dialog"
+					});*/
+				}
 			}
 			
     });
@@ -235,6 +260,11 @@ jQuery(document).ready(function () {
 		jQuery(".mBreak").on('click', function () {
 			// Formular zurücksetzen
 			resetForm();				
+		});		
+		
+		jQuery(".eBreak").on('click', function () {
+			//scroll to Meldung
+			//jQuery(this).next(".meForm").scrollIntoView();
 		});		
 	
 		jQuery(".showMeForm").on('click', function () {
