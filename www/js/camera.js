@@ -16,7 +16,7 @@ function onDeviceReady() {
 		jQuery("#permaCheck").append('<span><b>Foto gestartet</b></span><br><hr>');
 		
 		// noch nicht abgeschickte Bilder wieder zuordnen
-		pKey = 'p_' + localStorage.getItem("fe_user");
+		/*pKey = 'p_' + localStorage.getItem("fe_user");
 		picContainer = JSON.parse(localStorage.getItem(pKey));
 		for (i = 0; i < picContainer.reports.length; i++) {
 			if (picContainer.reports[i].complete == 1){
@@ -26,7 +26,7 @@ function onDeviceReady() {
 					jQuery("p#pics_"+picContainer.reports.matchcode).prepend('<a id="'+pics[j].name+'" class="mPic"><img src="'+ pics[j].fullPath +'" /></a>');
 				}				
 			}
-		}
+		}*/
 }
 
 /**************************************************************
@@ -133,11 +133,11 @@ function savePic(picData) {
 /**************************************************************
 	SELEKTIERTES BILD LÖSCHEN
 ***************************************************************/
-jQuery(document).ready(function () {
+/*jQuery(document).ready(function () {
 	jQuery(".mPic").on('click', function () {
 		jQuery("#permaCheck").append('<span><b>Bild: </b></span> geklickt<br><hr>');
 	});
-});
+});*/
 
 /**************************************************************
 	BILDER AUF DEN SERVER LADEN
