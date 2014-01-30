@@ -13,12 +13,12 @@ jQuery(document).ready(function () {
 		var form;
 		var formValidation = false;
 		
-		var telephoneNumber = cordova.require("cordova/plugin/telephonenumber");
+		/*var telephoneNumber = cordova.require("cordova/plugin/telephonenumber");
 		telephoneNumber.get(function(result) {
 						jQuery("#permaCheck").append('<span><b>Phone-Number: </b></span>'+result+'<br><hr>');
 				}, function() {
 						jQuery("#permaCheck").append('<span><b>Phone-Number: </b></span>'+error+'<br><hr>');
-				});
+				});*/
 				
     if (localStorage.getItem("fe_user")) {
         // Set key for Meldung
