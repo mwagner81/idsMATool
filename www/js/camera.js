@@ -12,6 +12,19 @@ document.addEventListener("deviceready",onDeviceReady,false);
 function onDeviceReady() {
     pictureSource=navigator.camera.PictureSourceType;
     destinationType=navigator.camera.DestinationType;
+		
+		// noch nicht abgeschickte Bilder wieder zuordnen
+		pKey = 'p_' + localStorage.getItem("fe_user");
+		picContainer = JSON.parse(localStorage.getItem(pKey));
+		for (i = 0; i < picContainer.reports.length; i++) {
+			if (picContainer.reports[i].complete == 1){
+				pics = picContainer.reports[i].pics;
+				picsStrg = '';
+				for (j=0;j<pics.length;j++) {
+					jQuery("p#pics_"+picContainer.reports.matchcode).prepend("<img src=\""+ pics[j].fullPath +"\" />");
+				}				
+			}
+		}
 }
 
 /**************************************************************
@@ -111,7 +124,7 @@ function savePic(picData) {
 		// "{"reports":[{"type":"Vandalismus","police":"sdvdv","comment":"yxcvyxcv","fotos":null,"timestamp":"2014-01-27T13:04:50.807Z","lat":"","lng":"","acc":"","geoTimestamp":"","complete":0}]}"
 		// "{"Wachdienst":[{"id":0,"uid":345,"checkString":[{"datetime":1390840881044,"checkpoint":1,"status":3},{"datetime":1390840908480,"checkpoint":1,"status":3}],"start":1390840816905,"fireProtection":0,"ende":1390840917694,"complete":0}]}"
 		
-    jQuery("p#"+currElement+"_pics").prepend("<img src=\""+ picData.fullPath +"\" />");
+    jQuery("p#pics_"+currElement).prepend("<img src=\""+ picData.fullPath +"\" />");
         
 }
 
@@ -122,13 +135,11 @@ function uploadFiles() {
 	
 		pKey = 'p_' + localStorage.getItem("fe_user");
 		picContainer = JSON.parse(localStorage.getItem(pKey));
-		jQuery("#permaCheck").append('<span><b>localStorage 2: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
 		for (i = 0; i < picContainer.reports.length; i++) {
 			if (picContainer.reports[i].complete == 1){
 				pics = picContainer.reports[i].pics;
 				picsStrg = '';
 				for (j=0;j<pics.length;j++) {			
-					jQuery("#permaCheck").append('<span><b>Upload: </b></span>'+pics[j].name+'<br><hr>');
 					uploadFile(pics[j].fullPath, pics[j].name, 0);
 				}
 				
@@ -140,9 +151,8 @@ function uploadFiles() {
 			//navigator.camera.cleanup(cleanSuccess, cleanFail);
 		}
 
-		localStorage.setItem(pKey, JSON.stringify(picContainer));
-		
-		jQuery("#permaCheck").append('<span><b>localStorage 3: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
+		localStorage.setItem(pKey, JSON.stringify(picContainer));		
+		//jQuery("#permaCheck").append('<span><b>localStorage 3: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
 		
 }
 // Upload a file to server
