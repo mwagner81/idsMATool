@@ -17,7 +17,7 @@ jQuery(document).ready(function () {
 		telephoneNumber.get(function(result) {
 						jQuery("#permaCheck").append('<span><b>Phone-Number: </b></span>'+result+'<br><hr>');
 				}, function() {
-						console.log("error while getting the phone number");
+						jQuery("#permaCheck").append('<span><b>Phone-Number: </b></span>'+error+'<br><hr>');
 				});
 				
     if (localStorage.getItem("fe_user")) {
