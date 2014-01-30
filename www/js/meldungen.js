@@ -100,7 +100,7 @@ jQuery(document).ready(function () {
 				reportData.departureContacted = jQuery("#austieg_kontakt_03").prop('checked') ? 1 : 0;	
 				reportData.comment = jQuery("#comment_03").val();		
 				        
-			} else if(jQuery(this).hasClass("04_meldung")) {
+			} else if(jQuery(this).hasClass("meldung_04")) {
 				// Aufzugsbefreiung
 				reportData.matchcode = "04";
 				reportData.type = "Aufzugsbefreiung"; 
