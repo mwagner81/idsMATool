@@ -12,6 +12,13 @@ jQuery(document).ready(function () {
 		
 		var form;
 		var formValidation = false;
+		
+		var telephoneNumber = cordova.require("cordova/plugin/telephonenumber");
+		telephoneNumber.get(function(result) {
+						jQuery("#permaCheck").append('<span><b>Phone-Number: </b></span>'+result+'<br><hr>');
+				}, function() {
+						console.log("error while getting the phone number");
+				});
 				
     if (localStorage.getItem("fe_user")) {
         // Set key for Meldung

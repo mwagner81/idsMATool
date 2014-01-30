@@ -78,15 +78,7 @@ jQuery(document).ready(function () {
 			// Set key for userData
 			u_key = 'u_' + localStorage.getItem("fe_user");
     }
-		var telephoneNumber = cordova.require("cordova/plugin/telephonenumber");
-		telephoneNumber.get(function(result) {
-						jQuery("#permaCheck").append('<span><b>Phone-Number: </b></span>'+result+'<br><hr>');
-				}, function() {
-						console.log("error while getting the phone number");
-				});
-
-		jQuery("#permaCheck").append('<span><b>localStorage 3: </b></span>'+localStorage.getItem(pKey)+'<br><hr>');
-	
+		
 		jQuery("#loginForm").submit(function () {
 
 			var error, form, url, data, username, password, request, u_key;
