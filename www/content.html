@@ -164,7 +164,25 @@
         <!-- Start of Meldung page -->
         <div id="meldungList" data-role="page" data-title="Meldung">    
             <div style="padding: 5px;" data-role="content">
-					
+				
+         <!-- Notfalltaste -->
+                <div class="meldungLink">
+                    <a id="notfall" class="meldungButtonD showMeForm">
+                    	<span class="meldung">Notfalltaste</span><img src="img/meldungButtonPlus.png" class="mbPlus" id="vPlus" />
+                    </a> 
+                    <div class="meForm notfall" style="display:none" id="form_99">
+                    	<form id="meform_99">
+                    		<p>Beim Betätigen der Taste wird sofort Hilfe angefordert.</p>
+                        <p>!! Nur im Notfall benutzen !!</p>
+                        <div id="notfallBox">
+                            <img id="notfallButton" src="img/alarm.png" border="0" alt="Notfallbutton" />
+                            <a id="start" class="meldung_99 saveMeldung" href="#" data-role="none"></a>
+                        </div>
+                       </form>
+                    </div>  
+                </div>
+        
+        
           <!-- Vandalismus -->
                 <div class="meldungLink">
                     <a id="vandalism" class="meldungButtonD showMeForm">

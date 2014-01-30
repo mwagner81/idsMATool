@@ -210,6 +210,11 @@ jQuery(document).ready(function () {
 				reportData.dataOfForces = jQuery("#data_of_forces_11").val();		
 				reportData.comment = jQuery("#comment_11").val();		
 					
+			} else if(jQuery(this).hasClass("meldung_99")) {
+				//Einsatzkräfte
+				reportData.matchcode = "99";
+				reportData.type = "Notfall"; 
+				formValidation = false;					
 			}
 		
 			reportData.timestamp = new Date();
@@ -221,12 +226,17 @@ jQuery(document).ready(function () {
 		 
 			// opens the confirm dialog
 			if (formValidation == false) {
-				jQuery.mobile.changePage("#confirmDialog", {
-						transition: "slidedown", 
-						changeHash: false
-				});					
-				// writes the text of the current meldung in the confirm box
-				jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+reportData.type+"\" abschicken?");    
+				if (reportData.matchcode != 99) {
+					jQuery.mobile.changePage("#confirmDialog", {
+							transition: "slidedown", 
+							changeHash: false
+					});					
+					// writes the text of the current meldung in the confirm box
+					jQuery(".confContent").find("h1").text("Möchten Sie die Meldung \""+reportData.type+"\" abschicken?");  
+				} else {
+					// NOTFALL
+					saveReportData(reportData);	
+				}
 			} else {
 				if (form.valid()) {
 					jQuery.mobile.changePage("#confirmDialog", {

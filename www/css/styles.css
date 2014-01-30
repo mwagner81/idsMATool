@@ -629,6 +629,34 @@ a.meldungButtonD.ui-link img {
     width: 28px;
 }
 
+/* NOTFALL */
+
+a#notfall span {
+    color: #FF0000;
+}
+div.notfall {
+	text-align: center;
+}
+div.notfall #notfallBox {
+    height: 220px;
+    margin: 0 auto auto;
+    position: relative;
+    width: 220px;
+}
+div.notfall #notfallBox #notfallButton {
+	width: 220px;
+	height: 220px;
+}
+div.notfall #notfallBox a#start {
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
 p.pics {
     padding: 0px 2px 0px 2px;
 		border-bottom: 1px solid #CBCBCB;
