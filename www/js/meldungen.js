@@ -311,22 +311,22 @@ jQuery(document).ready(function () {
 				if (curIdx >= 0) {					
 					pics = picContainer.reports[curIdx].pics;
 					
-					jQuery("#permaCheck").append('<span><b>pics: </b></span>'+JSON.stringify(pics)+'<br><hr>');
+					//jQuery("#permaCheck").append('<span><b>pics: </b></span>'+JSON.stringify(pics)+'<br><hr>');
 					
 					picsStrg = '';
 					for (j=0;j<pics.length;j++) {
 						picsStrg = picsStrg + pics[j].name + ',';
-						jQuery("#permaCheck").append('<span><b>picsStrg+: </b></span>'+pics[j].name+'<br><hr>');
+						//jQuery("#permaCheck").append('<span><b>picsStrg+: </b></span>'+pics[j].name+'<br><hr>');
 					}
 					picContainer.reports[curIdx].complete = 1;
 					localStorage.setItem(pKey, JSON.stringify(picContainer));
 
-					jQuery("p#"+matchcode+"_pics").html("");
+					jQuery("p#pics_"+matchcode).html("");
 					
 					return picsStrg;
 					
 				} else {
-					jQuery("#permaCheck").append('<span><b>picStrg: </b></span>empty<br><hr>');
+					//jQuery("#permaCheck").append('<span><b>picStrg: </b></span>empty<br><hr>');
 					return '';
 					
 				}
