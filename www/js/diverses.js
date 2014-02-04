@@ -81,12 +81,11 @@ jQuery(document).ready(function () {
 		
 		jQuery("#loginForm").submit(function () {
 
-			var error, form, url, data, username, password, request, u_key;
+			var error, form, data, username, password, request, u_key;
 			
 			jQuery("#loginError").html('');
 			
 			error = false;
-			url = "http://active-dev.mungos-services.at/index.php";
 			
 			/* get some values from elements on the page: */
 			form = jQuery(this);
@@ -117,7 +116,7 @@ jQuery(document).ready(function () {
 	
 			request = jQuery.ajax({
 					type: 'POST',
-					url: url,
+					url: domain,
 					data: data,
 					dataType: 'jsonp',
 					jsonp: 'jsonp_callback'
@@ -179,10 +178,9 @@ jQuery(document).ready(function () {
 
 	jQuery("#userLogout").on('click', function () {
 			
-			var error, url, data, username, password, request, uData;
+			var error, data, username, password, request, uData;
 			
 			error = false;
-			url = "http://active-dev.mungos-services.at/index.php";
 			
 			// Load userData
 			uData = {};
@@ -201,7 +199,7 @@ jQuery(document).ready(function () {
 			
 			request = jQuery.ajax({
 					type: 'POST',
-					url: url,
+					url: domain,
 					data: data,
 					dataType: 'jsonp',
 					jsonp: 'jsonp_callback'
