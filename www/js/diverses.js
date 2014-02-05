@@ -130,7 +130,13 @@ jQuery(document).ready(function () {
 					}
 						
 					if (result.logged_in == false) {
-							jQuery('#loginError').append("<p>Benutzername u.o. Passwort ist falsch</p>");
+							if (result.login_err == 1) {
+								jQuery('#loginError').append("<p>Benutzername u/o Passwort ist falsch</p>");
+							} else if (result.login_err == 2) {
+								jQuery('#loginError').append("<p>Der Benutzer existiert nicht</p>");
+							} else {
+								jQuery('#loginError').append("<p>Unbekannter Fehler beim Login</p>");
+							}
 					} else {
 							//$('#loginError').append("<p>Sie sind angemeldet!</p>");
 							
