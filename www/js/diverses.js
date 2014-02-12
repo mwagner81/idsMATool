@@ -183,9 +183,6 @@ jQuery(document).ready(function () {
 	});
 
 	jQuery("#userLogout").on('click', function () {
-		
-			beendeAlleRundgaenge();
-			window.location.replace('index.html');
 			
 			/*var error, data, username, password, request, uData;
 			
@@ -234,6 +231,16 @@ jQuery(document).ready(function () {
 			request.fail(function (jqXHR, textStatus) {
 					jQuery('#loginError').append("<p>Request failed: " + textStatus + "</p>");
 			});*/
+			
+			uData = {};
+			uData = JSON.parse(localStorage.getItem(u_key));
+			uData.logged_in = false;
+							
+			beendeAlleRundgaenge();
+			
+			// Set userData
+			localStorage.setItem(u_key, JSON.stringify(uData));
+			window.location.replace('index.html');
 	
 			return false;
 	});
