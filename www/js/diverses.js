@@ -183,8 +183,11 @@ jQuery(document).ready(function () {
 	});
 
 	jQuery("#userLogout").on('click', function () {
+		
+			beendeAlleRundgaenge();
+			window.location.replace('index.html');
 			
-			var error, data, username, password, request, uData;
+			/*var error, data, username, password, request, uData;
 			
 			error = false;
 			
@@ -230,7 +233,7 @@ jQuery(document).ready(function () {
 
 			request.fail(function (jqXHR, textStatus) {
 					jQuery('#loginError').append("<p>Request failed: " + textStatus + "</p>");
-			});
+			});*/
 	
 			return false;
 	});
