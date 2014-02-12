@@ -17,6 +17,7 @@ jQuery(document).ready(function () {
         // Set key for Meldung
         mKey = 'm_' + localStorage.getItem("fe_user");
     }
+		
 		if (!localStorage.getItem(mKey)) {
 			// Basiseintrag in Localstorage
 			reportContainer.reports = [];		
