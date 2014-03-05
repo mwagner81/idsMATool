@@ -18,6 +18,13 @@ document.addEventListener("deviceready", function(){
     'Device Version: '  + device.version  + '<br />';   */ 
 }, false);
 
+
+document.addEventListener("backbutton", callbackFunction, false);
+function callbackFunction() {	
+	
+}
+
+
 function getLogTime() {
     
     var d, time;
@@ -258,14 +265,14 @@ jQuery(document).ready(function () {
 		
 		rundgangContainer = {};
 		rundgangContainer = JSON.parse(localStorage.getItem(rKey));
-		if (rundgangContainer.Wachdienst.length > 0) {
+		if (rundgangContainer && (rundgangContainer.Wachdienst.length > 0)) {
 			// Rundgänge vorhanden
 			for (i=0;i<rundgangContainer.Wachdienst.length;i++) {
 				if (rundgangContainer.Wachdienst[i].ende == 0) {
-					rundgangContainer.Wachdienst[i].ende = new Date().getTime();
-					localStorage.setItem(rKey, JSON.stringify(rundgangContainer));
+					rundgangContainer.Wachdienst[i].ende = new Date().getTime();					
 				}
 			}	
+			localStorage.setItem(rKey, JSON.stringify(rundgangContainer));
 		}
 	}
 		
