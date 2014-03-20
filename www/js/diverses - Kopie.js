@@ -1,0 +1,279 @@
+document.addEventListener("online",  function(){
+    //document.getElementById('onlineTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>Online</span>";
+}, false);
+
+document.addEventListener("offline",  function(){
+    //document.getElementById('onlineTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:red'>Offline</span>";
+}, false);
+
+document.addEventListener("deviceready", function(){
+    //document.getElementById('readyTest').innerHTML = "<br /><br /><span style='font-weight:bold;color:green'>deviceready</span>";
+
+    /*var element = document.getElementById('deviceTest');
+    element.innerHTML = 'Device Name: '     + device.name     + '<br />' +
+    'Device Cordova: '  + device.cordova  + '<br />' +
+    'Device Platform: ' + device.platform + '<br />' +
+    'Device UUID: '     + device.uuid     + '<br />' +
+    'Device Model: '    + device.model    + '<br />' +
+    'Device Version: '  + device.version  + '<br />';   */ 
+}, false);
+
+
+document.addEventListener("backbutton", callbackFunction, false);
+function callbackFunction() {	
+	
+}
+
+
+function getLogTime() {
+    
+    var d, time;
+    d = new Date();
+    time = d.getHours() + ':' + d.getMinutes() + ':' +  d.getSeconds() + ':' + d.getMilliseconds();
+    
+    return time;
+}
+
+/* GLOBAL VARS */
+var u_key, timer, debug;
+
+/* CONFIG VARS */
+var version = '1.2.1';
+var domain = "http://active.mungos-services.at";
+var app_url = domain + "/index.php";
+var imgUpload_url = domain + "/fileadmin/upload/upload.php";
+var rundgang_page_uid = 77;
+var rundgang_page_type = 99;
+var meldung_page_uid = 79;
+var meldung_page_type = 97;
+			
+function consoleLog(type, output) {
+	
+	if (debug) {
+			
+			switch (type) {
+					case "debug":
+							console.debug(output);
+							break;
+					case "info":
+							console.info(output);
+							break;
+					case "warn":
+							console.warn(output);
+							break;
+					case "error":
+							console.error(output);
+							break;
+					default:
+							console.log(output);
+							break;
+			}
+	}
+}
+
+// debug = true for console output
+if (typeof (console) != 'undefined') {
+		debug = true;
+} else {
+	debug = false;
+}
+
+
+jQuery(document).ready(function () {
+
+		if (localStorage.getItem("fe_user")) {
+			// Set key for userData
+			u_key = 'u_' + localStorage.getItem("fe_user");
+    }
+		
+		jQuery("#loginForm").submit(function () {
+
+			var error, form, data, username, password, request, u_key;
+			
+			jQuery("#loginError").html('');
+			
+			error = false;
+			
+			/* get some values from elements on the page: */
+			form = jQuery(this);
+			username = form.find('input[name="username"]').val();
+			password = form.find('input[name="password"]').val();
+
+			data = {
+					'id': 76,
+					'no_cache': 1,
+					'type': 98,
+					'tx_idsapplogin_pi1[username]': username,
+					'tx_idsapplogin_pi1[password]': password,
+					'tx_idsapplogin_pi1[logintype]': "login"
+			};
+			
+			if (username == '') {
+					error = true;
+					jQuery('#loginError').append("<p>Benutzername ist leer</p>");
+			}
+			if (password == '') {
+					error = true;
+					jQuery('#loginError').append("<p>Passwort ist leer</p>");
+			}
+	
+			if (error) {
+					return false;
+			}
+	
+			request = jQuery.ajax({
+					type: 'POST',
+					url: domain,
+					data: data,
+					dataType: 'jsonp',
+					jsonp: 'jsonp_callback'
+			});
+	
+			request.done(function (result) {
+
+					if (result.logged_in == undefined) {
+							jQuery('#loginError').append("<p>Request failed</p>");
+							return false;
+					}
+						
+					if (result.logged_in == false) {
+							if (result.login_err == 1) {
+								jQuery('#loginError').append("<p>Benutzername u/o Passwort ist falsch</p>");
+							} else if (result.login_err == 2) {
+								jQuery('#loginError').append("<p>Der Benutzer existiert nicht</p>");
+							} else {
+								jQuery('#loginError').append("<p>Unbekannter Fehler beim Login</p>");
+							}
+					} else {
+							//$('#loginError').append("<p>Sie sind angemeldet!</p>");
+							
+							localStorage.setItem('fe_user', result.user_uid);
+							
+							// Set key for userData
+							u_key = 'u_' + result.user_uid;
+							
+							var uData = {};
+							uData.username = username;
+							uData.password = password;
+							uData.logged_in = result.logged_in;
+							uData.user_uid = result.user_uid;
+							uData.user_name = result.user_name;
+							//consoleLog('debug', uData);
+						 
+							if (localStorage.getItem(u_key)) {
+									consoleLog('debug', "localStorage " + u_key + " already exists");
+							} else {
+									consoleLog('debug', "localStorage " + u_key + " does not exist");
+							}
+							
+							// Set userData
+							localStorage.setItem(u_key, JSON.stringify(uData));
+							
+							//beendeAlleRundgaenge();
+							
+							//consoleLog('debug', JSON.parse(localStorage.getItem(u_key)));
+							//consoleLog('debug', localStorage);
+							window.location.replace('content.html');
+					}
+
+			});
+
+			// The error callback is executed if the ajax call can't be completed - 
+			// i.e. if the url is on a different domain (or if you are running it from a local file), 
+			// if the request timeouts, 
+			// or if the server responds with an error code.
+			request.fail(function (jqXHR, textStatus) {
+					jQuery('#loginError').append("<p>Request failed: " + textStatus + "</p>");
+			});
+	
+			return false;
+	});
+
+	jQuery("#userLogout").on('click', function () {
+			
+			/*var error, data, username, password, request, uData;
+			
+			error = false;
+			
+			// Load userData
+			uData = {};
+			uData = JSON.parse(localStorage.getItem(u_key));
+			//consoleLog('debug', uData);
+			
+			data = {
+					'id': 76,
+					'no_cache': 1,
+					'type': 98,
+					'tx_idsapplogin_pi1[username]': uData.username,
+					'tx_idsapplogin_pi1[password]': uData.password,
+					'tx_idsapplogin_pi1[logintype]': "logout"
+			};
+			//consoleLog('debug', data);
+			
+			request = jQuery.ajax({
+					type: 'POST',
+					url: domain,
+					data: data,
+					dataType: 'jsonp',
+					jsonp: 'jsonp_callback'
+			});
+
+			request.done(function (result) {
+
+					if (result.logged_in == undefined) {
+							return false;
+					}
+				
+					if (result.logged_in == false) {
+							uData.logged_in = result.logged_in;
+							
+							beendeAlleRundgaenge();
+							
+							// Set userData
+							localStorage.setItem(u_key, JSON.stringify(uData));
+							window.location.replace('index.html');
+					}
+			});
+
+			request.fail(function (jqXHR, textStatus) {
+					jQuery('#loginError').append("<p>Request failed: " + textStatus + "</p>");
+			});*/
+			
+			uData = {};
+			uData = JSON.parse(localStorage.getItem(u_key));
+			uData.logged_in = false;
+							
+			beendeAlleRundgaenge();
+			
+			// Set userData
+			localStorage.setItem(u_key, JSON.stringify(uData));
+			window.location.replace('index.html');
+	
+			return false;
+	});
+	
+	/**************************************************************
+		RUNDGANG-DATEN SÄUBERN
+	***************************************************************/
+	
+	function beendeAlleRundgaenge() {
+		var rundgangContainer, cleanLocalStorage;
+		
+		var rKey = 'r_' + localStorage.getItem("fe_user");
+		
+		cleanLocalStorage = true;
+		
+		rundgangContainer = {};
+		rundgangContainer = JSON.parse(localStorage.getItem(rKey));
+		if (rundgangContainer && (rundgangContainer.Wachdienst.length > 0)) {
+			// Rundgänge vorhanden
+			for (i=0;i<rundgangContainer.Wachdienst.length;i++) {
+				if (rundgangContainer.Wachdienst[i].ende == 0) {
+					rundgangContainer.Wachdienst[i].ende = new Date().getTime();					
+				}
+			}	
+			localStorage.setItem(rKey, JSON.stringify(rundgangContainer));
+		}
+	}
+		
+});
