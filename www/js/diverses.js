@@ -39,7 +39,7 @@ var u_key, timer, debug;
 
 /* CONFIG VARS */
 var version = '1.2.1';
-var domain = "http://active-dev.mungos-services.at";
+var domain = "http://active.mungos-services.at";
 var app_url = domain + "/index.php";
 var imgUpload_url = domain + "/fileadmin/upload/upload.php";
 var rundgang_page_uid = 77;
